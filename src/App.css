@@ -1,0 +1,12 @@
+body {
+ margin:0;
+  font-family: 'Inter', sans-serif;
+  background: #e5e7eb; /* Light gray background */
+
+}
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
