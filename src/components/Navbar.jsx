@@ -1,40 +1,30 @@
-import React from "react";
+import { Link } from "react-router-dom";
+import "./Navbar.css";
 
-const Navbar = () => {
-
-  const styles = {
-    navbar: {
-      backgroundColor: "#1d4ed8",
-      color: "white",
-      height: "60px",
-      padding: "0 30px",
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-    },
-    logo: {
-      margin: 0,
-    },
-    linkContainer: {
-      display: "flex",
-      gap: "20px",
-    },
-    link: {
-      color: "white",
-      textDecoration: "none",
-      fontWeight: "500",
-    }
-  };
-
+function Navbar() {
   return (
-    <nav style={styles.navbar}>
-      <h2 style={styles.logo}>StudyNep</h2>
-      <div style={styles.linkContainer}>
-        <a href="#" style={styles.link}>Profile</a>
-        <a href="#" style={styles.link}>Logout</a>
+    <nav className="navbar">
+      <div className="nav-container">
+        <div className="logo">
+          <Link to="/">
+            <h1>Study<span>Nep</span> 🇳🇵</h1>
+          </Link>
+        </div>
+
+        <ul className="nav-menu">
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/resources">Resources</Link></li>
+          <li><Link to="/planner">Planner</Link></li>
+          <li><Link to="/dashboard">Dashboard</Link></li>
+        </ul>
+
+        <div className="nav-buttons">
+          <Link to="/login" className="btn-login">Login</Link>
+          <Link to="/register" className="btn-register">Register</Link>
+        </div>
       </div>
     </nav>
   );
-};
+}
 
 export default Navbar;

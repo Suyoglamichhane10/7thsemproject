@@ -1,18 +1,27 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Dashboard from "./pages/dashboard/Dashboard";
-import "./App.css";
+import Dashboard from "./pages/Dashboard";
+import StudyPlanner from "./pages/Studyplanner";  // Note: matches your file name
+import Schedule from "./pages/Schedule";
+import Resources from "./pages/Resources";
+import Progress from "./pages/Progress";
+import FocusTimer from "./pages/FocusTimer";
 
 function App() {
   return (
-    <div style={{width: '100%', backgroundColor: ''}}>
-      <Router>
+    <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/planner" element={<StudyPlanner />} />
+        <Route path="/schedule" element={<Schedule />} />
+        <Route path="/resources" element={<Resources />} />
+        <Route path="/progress" element={<Progress />} />
+        <Route path="/focus" element={<FocusTimer />} />
       </Routes>
     </Router>
-    </div>
   );
 }
 
