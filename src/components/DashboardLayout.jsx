@@ -1,12 +1,11 @@
 import Sidebar from "./Sidebar";
-// IMPORTANT: No Navbar here!
+import "./DashboardLayout.css";
 
 function DashboardLayout({ children }) {
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-layout">
       <Sidebar />
-      <div className="dashboard-main">
-        {/* No Navbar component here */}
+      <div className="dashboard-content-area">
         {children}
       </div>
     </div>

@@ -6,69 +6,79 @@
   position: fixed;
   left: 0;
   top: 0;
-  padding: 2rem 1rem;
-  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  padding: 2rem 0;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
+  z-index: 1000;
 }
 
-.sidebar h2 {
-  font-size: 1.8rem;
+.sidebar-header {
+  padding: 0 1.5rem;
   margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid rgba(255,255,255,0.2);
-  text-align: center;
 }
 
-.sidebar h2 span {
+.sidebar-header h2 {
+  font-size: 1.8rem;
+  margin: 0;
+  color: white;
+}
+
+.sidebar-header span {
   color: #facc15;
 }
 
-.sidebar ul {
+.sidebar-header p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.sidebar-menu {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
-.sidebar li {
-  margin: 0.5rem 0;
+.sidebar-menu li {
+  margin: 0.25rem 0;
 }
 
-.sidebar a {
-  color: white;
+.sidebar-menu a {
+  color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   font-size: 1rem;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 15px;
-  border-radius: 8px;
+  padding: 0.85rem 1.5rem;
   transition: all 0.3s;
+  border-left: 4px solid transparent;
 }
 
-.sidebar a:hover {
-  background: rgba(255,255,255,0.1);
-  transform: translateX(5px);
+.sidebar-menu a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-left-color: #facc15;
 }
 
-.sidebar a.active {
-  background: #dc2626;
+.sidebar-menu a.active {
+  background: rgba(220, 38, 38, 0.2);
+  color: white;
+  border-left-color: #dc2626;
 }
 
-.sidebar-icon {
+.menu-icon {
   font-size: 1.2rem;
   width: 24px;
   text-align: center;
 }
-
-/* Scrollbar styling */
-.sidebar::-webkit-scrollbar {
-  width: 5px;
-}
-
-.sidebar::-webkit-scrollbar-track {
-  background: rgba(255,255,255,0.1);
-}
-
-.sidebar::-webkit-scrollbar-thumb {
-  background: #facc15;
-  border-radius: 5px;
+/* Add to Sidebar.css */
+.sidebar-section {
+  color: #facc15;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 1rem 1.5rem 0.3rem;
+  margin-top: 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
 }

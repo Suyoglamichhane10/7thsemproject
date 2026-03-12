@@ -1,51 +1,323 @@
-.planner-form {
-  max-width: 500px;
-  margin: 2rem;
-  background: white;
+.studyplanner-page {
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-  border: 1px solid #e5e7eb;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.planner-form h2 {
+.studyplanner-page h1 {
   color: #1e3a8a;
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
 }
 
-.planner-form input,
-.planner-form select {
-  width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
+/* Summary Cards */
+.planner-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.summary-card h3 {
+  color: #6b7280;
   font-size: 1rem;
-  transition: all 0.3s;
+  margin-bottom: 0.5rem;
 }
 
-.planner-form input:focus,
-.planner-form select:focus {
-  outline: none;
-  border-color: #1e3a8a;
-  box-shadow: 0 0 0 3px rgba(30,58,138,0.1);
+.summary-card p {
+  color: #1e3a8a;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
 }
 
-.planner-form button {
+.summary-card small {
+  color: #9ca3af;
+  font-size: 0.8rem;
+}
+
+/* Today's Focus */
+.today-focus {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  border-left: 4px solid #f59e0b;
+}
+
+.today-focus h2 {
+  color: #92400e;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.focus-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.focus-item {
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  font-weight: 500;
+}
+
+.focus-item.priority-high {
+  border-left: 4px solid #dc2626;
+}
+.focus-item.priority-medium {
+  border-left: 4px solid #f59e0b;
+}
+.focus-item.priority-low {
+  border-left: 4px solid #10b981;
+}
+
+.subject-name {
+  color: #333;
+}
+
+.subject-hours {
+  background: #1e3a8a;
+  color: white;
+  padding: 0.2rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+}
+
+.urgent-badge {
+  background: #dc2626;
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+/* Add Subject Button */
+.add-subject-btn {
   background: #1e3a8a;
   color: white;
   border: none;
-  padding: 0.75rem;
-  border-radius: 6px;
+  padding: 0.8rem 2rem;
+  border-radius: 30px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
+  margin-bottom: 2rem;
   transition: all 0.3s;
-  width: 100%;
 }
 
-.planner-form button:hover {
+.add-subject-btn:hover {
   background: #2563eb;
   transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(30,58,138,0.3);
+}
+
+/* Subject Form */
+.subject-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+  max-width: 500px;
+}
+
+.subject-form h3 {
+  color: #1e3a8a;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.submit-btn {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.3s;
+}
+
+.submit-btn:hover {
+  background: #b91c1c;
+}
+
+/* Subject List */
+.subject-list h2 {
+  color: #1e3a8a;
+  margin-bottom: 1.5rem;
+}
+
+.no-data {
+  text-align: center;
+  color: #9ca3af;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+}
+
+.subject-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.subject-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+  border-left: 4px solid transparent;
+}
+
+.subject-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.subject-card.completed {
+  opacity: 0.7;
+  background: #f3f4f6;
+  border-left-color: #10b981;
+}
+
+.subject-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.subject-header h3 {
+  color: #1e3a8a;
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+.priority-badge {
+  padding: 0.2rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.priority-badge.high {
+  background: #fee2e2;
+  color: #dc2626;
+}
+.priority-badge.medium {
+  background: #fef3c7;
+  color: #f59e0b;
+}
+.priority-badge.low {
+  background: #d1fae5;
+  color: #10b981;
+}
+
+.subject-details p {
+  color: #4b5563;
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+}
+
+.progress-bar {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  margin: 0.8rem 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #10b981;
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.subject-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.complete-btn {
+  background: #1e3a8a;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  flex: 1;
+}
+
+.complete-btn:hover {
+  background: #2563eb;
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  flex: 1;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .studyplanner-page {
+    padding: 1rem;
+  }
+  
+  .focus-items {
+    flex-direction: column;
+  }
+  
+  .subject-card {
+    padding: 1rem;
+  }
 }

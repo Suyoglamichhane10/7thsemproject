@@ -12,34 +12,27 @@ function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // For demo, just navigate to dashboard
-    // In real app, you'd validate credentials here
+    // For demo, navigate to dashboard
     navigate("/dashboard");
   };
 
   const handleGoogleLogin = () => {
-    // Handle Google login
-    console.log("Google login clicked");
-    // For demo, navigate to dashboard
     navigate("/dashboard");
   };
 
   const handleFacebookLogin = () => {
-    // Handle Facebook login
-    console.log("Facebook login clicked");
-    // For demo, navigate to dashboard
     navigate("/dashboard");
   };
 
   return (
     <div className="login-page">
-      <div className="login-container">
+      <div className="login-card">
         <div className="login-header">
           <Link to="/" className="login-logo">
             <h1>Study<span>Nep</span> 🇳🇵</h1>
           </Link>
           <h2>Welcome Back!</h2>
-          <p>Login to continue your study journey</p>
+          <p>Log in to continue your study journey</p>
         </div>
 
         <form onSubmit={handleLogin} className="login-form">
@@ -82,36 +75,26 @@ function Login() {
             </Link>
           </div>
 
-          <button type="submit" className="login-btn">
-            Login
-          </button>
+          <button type="submit" className="login-btn">Log In</button>
         </form>
 
         <div className="social-login">
           <p className="or-divider">Or continue with</p>
-          
           <div className="social-buttons">
-            <button 
-              onClick={handleGoogleLogin} 
-              className="social-btn google-btn"
-            >
+            <button onClick={handleGoogleLogin} className="social-btn google-btn">
               <FcGoogle className="social-icon" />
               Google
             </button>
-            
-            <button 
-              onClick={handleFacebookLogin} 
-              className="social-btn facebook-btn"
-            >
+            <button onClick={handleFacebookLogin} className="social-btn facebook-btn">
               <FaFacebook className="social-icon" />
               Facebook
             </button>
           </div>
         </div>
 
-        <div className="register-link">
+        <div className="signup-prompt">
           <p>
-            Don't have an account? <Link to="/register">Sign up now</Link>
+            Don't have an account? <Link to="/register">Sign up</Link>
           </p>
         </div>
       </div>

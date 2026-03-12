@@ -1,48 +1,186 @@
-.resources-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  padding: 1.5rem 2rem;
+.resources-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
-.resource-card {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-  border: 1px solid #e5e7eb;
+.resources-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.resources-header h1 {
+  font-size: 2.5rem;
+  color: #1e3a8a;
+  margin-bottom: 0.5rem;
+}
+
+.resources-header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Tabs */
+.resources-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.tab {
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #f3f4f6;
+  color: #666;
   transition: all 0.3s;
 }
 
-.resource-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-  border-color: #1e3a8a;
-}
-
-.resource-card h3 {
-  color: #1e3a8a;
-  margin-bottom: 0.5rem;
-  font-size: 1.3rem;
-}
-
-.resource-card p {
-  color: #6b7280;
-  margin-bottom: 1rem;
-  line-height: 1.5;
-}
-
-.resource-card button {
-  background: #1d24d8;
+.tab.active {
+  background: #1e3a8a;
   color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s;
-  width: 100%;
+  box-shadow: 0 4px 8px rgba(30, 58, 138, 0.3);
 }
 
-.resource-card button:hover {
-  background: #3cbb4b;
+.tab:hover {
+  transform: translateY(-2px);
+}
+
+/* Tab Content */
+.tab-content h2 {
+  color: #dc2626;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+/* Subject Grid for +2 */
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.subject-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.subject-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.subject-card h3 {
+  color: #1e3a8a;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  border-bottom: 2px solid #facc15;
+  padding-bottom: 0.5rem;
+}
+
+.resource-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.resource-link {
+  text-decoration: none;
+  padding: 0.5rem;
+  border-radius: 6px;
+  text-align: center;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.resource-link.notes {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+.resource-link.questions {
+  background: #fef3c7;
+  color: #92400e;
+}
+.resource-link.materials {
+  background: #e0e7ff;
+  color: #1e3a8a;
+}
+
+.resource-link:hover {
+  filter: brightness(0.95);
+  transform: scale(1.02);
+}
+
+/* Semester Grid for Bachelor */
+.semester-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.semester-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.semester-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  border-left: 4px solid #dc2626;
+}
+
+.semester-card h3 {
+  color: #1e3a8a;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  border-bottom: 2px solid #facc15;
+  padding-bottom: 0.5rem;
+}
+
+.semester-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.semester-card li {
+  margin-bottom: 0.5rem;
+}
+
+.semester-card a {
+  color: #666;
+  text-decoration: none;
+  transition: color 0.3s;
+  display: block;
+  padding: 0.3rem 0;
+}
+
+.semester-card a:hover {
+  color: #dc2626;
+  padding-left: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .resources-page {
+    padding: 1rem;
+  }
+  
+  .resources-header h1 {
+    font-size: 2rem;
+  }
+  
+  .tab {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
 }
