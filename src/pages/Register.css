@@ -3,14 +3,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-  padding: 1rem;
+  background: linear-gradient(135deg, #d1d5df, #c3c8d0);
+  padding: 2rem;
 }
 
-.register-container {
+.register-card {
   background: white;
   border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
   width: 100%;
   max-width: 500px;
   padding: 2.5rem;
@@ -39,7 +39,13 @@
 
 .register-header h2 {
   color: #333;
+  font-size: 1.8rem;
   margin-bottom: 0.5rem;
+}
+
+.register-header p {
+  color: #6b7280;
+  font-size: 1rem;
 }
 
 .register-form .form-group {
@@ -49,18 +55,113 @@
 .register-form label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #333;
+  color: #374151;
   font-weight: 500;
+  font-size: 0.95rem;
 }
 
 .register-form input,
 .register-form select {
   width: 100%;
-  padding: 0.75rem;
-  border: 2px solid #e5e7eb;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
   border-radius: 8px;
   font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background: white;
   box-sizing: border-box;
+}
+
+.register-form input:focus,
+.register-form select:focus {
+  outline: none;
+  border-color: #1e3a8a;
+  box-shadow: 0 0 0 3px rgba(30,58,138,0.1);
+}
+
+.register-form input.error,
+.register-form select.error {
+  border-color: #dc2626;
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+  display: block;
+}
+
+.checkbox-group {
+  margin: 1.5rem 0;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #4b5563;
+  font-size: 0.95rem;
+  cursor: pointer;
+  position: relative;
+  padding-left: 24px;
+}
+
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  background-color: #fff;
+  border: 2px solid #d1d5db;
+  border-radius: 4px;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+  border-color: #1e3a8a;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background-color: #1e3a8a;
+  border-color: #1e3a8a;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox-container .checkmark:after {
+  left: 5px;
+  top: 1px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checkbox-container a {
+  color: #1e3a8a;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.checkbox-container a:hover {
+  text-decoration: underline;
+  color: #dc2626;
 }
 
 .register-btn {
@@ -73,22 +174,122 @@
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  margin-top: 1rem;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.register-btn:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(30,58,138,0.3);
 }
 
 .social-register {
   margin-top: 2rem;
 }
 
-.login-link {
+.or-divider {
   text-align: center;
-  margin-top: 1.5rem;
+  position: relative;
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.or-divider::before,
+.or-divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 45%;
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.or-divider::before {
+  left: 0;
+}
+
+.or-divider::after {
+  right: 0;
+}
+
+.social-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.social-icon {
+  font-size: 1.2rem;
+}
+
+.google-btn {
+  color: #333;
+}
+.google-btn:hover {
+  border-color: #4285f4;
+  background: #f8f9fa;
+  transform: translateY(-2px);
+}
+
+.facebook-btn {
+  color: #333;
+}
+.facebook-btn:hover {
+  border-color: #1877f2;
+  background: #f0f2f5;
+  transform: translateY(-2px);
+}
+
+.login-prompt {
+  text-align: center;
+  margin-top: 2rem;
   padding-top: 1.5rem;
   border-top: 1px solid #e5e7eb;
 }
 
-.login-link a {
+.login-prompt p {
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.login-prompt a {
   color: #1e3a8a;
   text-decoration: none;
   font-weight: 600;
+}
+
+.login-prompt a:hover {
+  color: #dc2626;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .register-card {
+    padding: 1.5rem;
+  }
+
+  .register-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .social-buttons {
+    flex-direction: column;
+  }
 }

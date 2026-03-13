@@ -38,7 +38,7 @@ function Footer() {
           <h4>Contact</h4>
           <p>📧 info@studynep.com</p>
           <p>📱 +977-98xxxxxxxx</p>
-          <p>📍 Kathmandu, Nepal</p>
+          <p>📍 Chitwan, Nepal</p>
         </div>
 
         {/* QR Code Section - Using free API */}
@@ -57,7 +57,7 @@ function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <p>© 2024 StudyNep. All rights reserved. 🇳🇵</p>
+        <p>© 2026 StudyNep. All rights reserved. 🇳🇵</p>
       </div>
     </footer>
   );
