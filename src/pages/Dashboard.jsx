@@ -1,103 +1,68 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import "./Dashboard.css";
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { getSubjects } from '../services/subjectService';
+import './Dashboard.css';
 
 function Dashboard() {
-  // Mock user data
-  const user = {
-    name: "Ram Sharma",
-    level: "Bachelor CSIT 5th Sem",
-    avatar: null, // will use icon
-  };
-
-  // Mock stats
-  const stats = {
-    totalHours: 24,
-    completedTopics: 12,
-    upcomingExams: 3,
+  const { user } = useAuth();
+  const [subjects, setSubjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [stats, setStats] = useState({
+    totalHours: 0,
+    completedTopics: 0,
+    upcomingExams: 0,
     streak: 7,
-  };
-
-  // Today's focus tasks (from planner)
-  const todayFocus = [
-    { subject: "Mathematics", task: "Chapter 5: Calculus", duration: "2h", priority: "high" },
-    { subject: "Physics", task: "Chapter 3: Thermodynamics", duration: "1.5h", priority: "medium" },
-    { subject: "CSIT", task: "Data Structures: Trees", duration: "2h", priority: "high" },
-  ];
-
-  // Upcoming deadlines
-  const deadlines = [
-    { subject: "Mathematics", exam: "Mid Term", date: "2025-05-15", daysLeft: 5 },
-    { subject: "Physics", exam: "Quiz", date: "2025-05-12", daysLeft: 2 },
-    { subject: "CSIT", exam: "Assignment", date: "2025-05-10", daysLeft: 0 },
-  ];
-
-  // Recent activities
-  const activities = [
-    { id: 1, description: "Completed Mathematics Chapter 5", time: "Today, 10:30 AM" },
-    { id: 2, description: "Scored 85% in Physics Quiz", time: "Yesterday" },
-    { id: 3, description: "Started Data Structures module", time: "2 days ago" },
-  ];
-
-  // Subject progress
-  const subjectsProgress = [
-    { name: "Mathematics", completed: 75, total: 100, color: "#1e3a8a" },
-    { name: "Physics", completed: 45, total: 80, color: "#dc2626" },
-    { name: "CSIT", completed: 30, total: 60, color: "#facc15" },
-    { name: "English", completed: 20, total: 50, color: "#10b981" },
-  ];
-
-  // Weekly study hours (simple bar chart using CSS)
-  const weeklyHours = [
-    { day: "Mon", hours: 2.5 },
-    { day: "Tue", hours: 3 },
-    { day: "Wed", hours: 1.5 },
-    { day: "Thu", hours: 2 },
-    { day: "Fri", hours: 2.5 },
-    { day: "Sat", hours: 4 },
-    { day: "Sun", hours: 3.5 },
-  ];
-
-  // Get current date
-  const currentDate = new Date().toLocaleDateString('en-US', { 
-    weekday: 'long', 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getSubjects();
+        const subjectsData = res.data;
+        setSubjects(subjectsData);
+        const totalHours = subjectsData.reduce((acc, sub) => acc + (sub.hoursPerDay || 0), 0);
+        const completed = subjectsData.filter(s => s.completed).length;
+        const upcoming = subjectsData.filter(s => !s.completed && new Date(s.examDate) > new Date()).length;
+        setStats({ totalHours, completedTopics: completed, upcomingExams: upcoming, streak: 7 });
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) return <div className="loading">Loading dashboard...</div>;
+  if (error) return <div className="error-alert">Error: {error}</div>;
+
+  const activities = [
+    { id: 1, description: 'Completed Mathematics Chapter 5', time: 'Today' },
+    { id: 2, description: 'Scored 85% in Physics Quiz', time: 'Yesterday' },
+  ];
 
   return (
     <div className="dashboard-page">
-      {/* Welcome Header */}
       <div className="welcome-header">
         <div className="user-info">
-          <div className="user-avatar">
-            {user.avatar ? (
-              <img src={user.avatar} alt={user.name} />
-            ) : (
-              <span className="avatar-placeholder">👤</span>
-            )}
-          </div>
+          <div className="user-avatar">👤</div>
           <div>
             <h2>Welcome back, {user.name}!</h2>
             <p className="user-level">{user.level}</p>
-            <p className="current-date">{currentDate}</p>
+            <p className="current-date">{new Date().toLocaleDateString()}</p>
           </div>
         </div>
-        <div className="quote">
-          <p>"The secret of getting ahead is getting started."</p>
-          <span>– Mark Twain</span>
-        </div>
+        <div className="quote">“The secret of getting ahead is getting started.”</div>
       </div>
 
-      {/* Stats Cards */}
       <div className="stats-grid">
         <div className="stat-card">
           <span className="stat-icon">⏱️</span>
           <div>
             <h3>Total Hours</h3>
             <p className="stat-value">{stats.totalHours} <small>hrs</small></p>
-            <small>This week</small>
           </div>
         </div>
         <div className="stat-card">
@@ -105,7 +70,6 @@ function Dashboard() {
           <div>
             <h3>Completed</h3>
             <p className="stat-value">{stats.completedTopics} <small>topics</small></p>
-            <small>Out of 20</small>
           </div>
         </div>
         <div className="stat-card">
@@ -113,7 +77,6 @@ function Dashboard() {
           <div>
             <h3>Upcoming Exams</h3>
             <p className="stat-value">{stats.upcomingExams}</p>
-            <small>Next in 5 days</small>
           </div>
         </div>
         <div className="stat-card">
@@ -121,107 +84,65 @@ function Dashboard() {
           <div>
             <h3>Study Streak</h3>
             <p className="stat-value">{stats.streak} <small>days</small></p>
-            <small>Keep it up!</small>
           </div>
         </div>
       </div>
 
-      {/* Two Column Layout */}
       <div className="dashboard-grid">
-        {/* Left Column */}
         <div className="left-col">
-          {/* Today's Focus */}
           <div className="card">
             <h3 className="card-title">🎯 Today's Focus</h3>
             <div className="focus-list">
-              {todayFocus.map((item, idx) => (
-                <div key={idx} className={`focus-item priority-${item.priority}`}>
-                  <div>
-                    <span className="focus-subject">{item.subject}</span>
-                    <span className="focus-task">{item.task}</span>
-                  </div>
-                  <span className="focus-duration">{item.duration}</span>
+              {subjects.filter(s => !s.completed).slice(0, 3).map(sub => (
+                <div key={sub._id} className={`focus-item priority-${sub.priority?.toLowerCase()}`}>
+                  <span className="focus-subject">{sub.name}</span>
+                  <span className="focus-duration">{sub.hoursPerDay}h</span>
                 </div>
               ))}
             </div>
             <Link to="/planner" className="card-link">View full planner →</Link>
           </div>
-
-          {/* Upcoming Deadlines */}
           <div className="card">
             <h3 className="card-title">⏰ Upcoming Deadlines</h3>
             <div className="deadline-list">
-              {deadlines.map((item, idx) => (
-                <div key={idx} className="deadline-item">
-                  <div>
-                    <span className="deadline-subject">{item.subject}</span>
-                    <span className="deadline-exam">{item.exam}</span>
+              {subjects.filter(s => !s.completed && s.examDate).slice(0, 3).map(sub => {
+                const daysLeft = Math.ceil((new Date(sub.examDate) - new Date()) / (1000*60*60*24));
+                return (
+                  <div key={sub._id} className="deadline-item">
+                    <span className="deadline-subject">{sub.name}</span>
+                    <div className="deadline-info">
+                      <span className="deadline-date">{new Date(sub.examDate).toLocaleDateString()}</span>
+                      <span className={`days-left ${daysLeft <= 1 ? 'urgent' : ''}`}>
+                        {daysLeft <= 0 ? 'Today!' : `${daysLeft} days left`}
+                      </span>
+                    </div>
                   </div>
-                  <div className="deadline-info">
-                    <span className="deadline-date">{item.date}</span>
-                    <span className={`days-left ${item.daysLeft === 0 ? 'urgent' : ''}`}>
-                      {item.daysLeft === 0 ? 'Today!' : `${item.daysLeft} days left`}
-                    </span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
-
-        {/* Right Column */}
         <div className="right-col">
-          {/* Weekly Study Hours */}
-          <div className="card">
-            <h3 className="card-title">📊 Weekly Study Hours</h3>
-            <div className="weekly-hours">
-              {weeklyHours.map((item, idx) => (
-                <div key={idx} className="bar-item">
-                  <span className="bar-label">{item.day}</span>
-                  <div className="bar-container">
-                    <div 
-                      className="bar-fill" 
-                      style={{ width: `${(item.hours / 5) * 100}%` }}
-                    ></div>
-                  </div>
-                  <span className="bar-value">{item.hours}h</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Subject Progress */}
           <div className="card">
             <h3 className="card-title">📚 Subject Progress</h3>
             <div className="subject-progress">
-              {subjectsProgress.map((subj, idx) => (
-                <div key={idx} className="subject-item">
+              {subjects.map(sub => (
+                <div key={sub._id} className="subject-item">
                   <div className="subject-header">
-                    <span style={{ color: subj.color }}>●</span>
-                    <span className="subject-name">{subj.name}</span>
-                    <span className="subject-percent">
-                      {Math.round((subj.completed / subj.total) * 100)}%
-                    </span>
+                    <span className="subject-name">{sub.name}</span>
+                    <span className="subject-percent">{sub.completed ? 100 : 0}%</span>
                   </div>
                   <div className="progress-bg">
-                    <div 
-                      className="progress-fill" 
-                      style={{ 
-                        width: `${(subj.completed / subj.total) * 100}%`,
-                        backgroundColor: subj.color 
-                      }}
-                    ></div>
+                    <div className="progress-fill" style={{ width: sub.completed ? '100%' : '0%' }}></div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-
-          {/* Recent Activity */}
           <div className="card">
             <h3 className="card-title">🕒 Recent Activity</h3>
             <div className="activity-list">
-              {activities.map((act) => (
+              {activities.map(act => (
                 <div key={act.id} className="activity-item">
                   <span className="activity-time">{act.time}</span>
                   <span className="activity-desc">{act.description}</span>

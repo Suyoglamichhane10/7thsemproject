@@ -1,5 +1,5 @@
-import Sidebar from "./Sidebar";
-import "./DashboardLayout.css";
+import Sidebar from './Sidebar';
+import './DashboardLayout.css';
 
 function DashboardLayout({ children }) {
   return (

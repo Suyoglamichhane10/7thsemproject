@@ -1,6 +1,6 @@
-import Navbar from "./Navbar";
-import Footer from "./Footer";
-import "./PublicLayout.css";
+import Navbar from './Navbar';
+import Footer from './Footer';
+import './PublicLayout.css';
 
 function PublicLayout({ children }) {
   return (
