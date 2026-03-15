@@ -14,6 +14,9 @@ import FocusTimer from './pages/FocusTimer';
 import TeacherDashboard from './pages/TeacherDashboard';
 import TeacherMaterials from './pages/TeacherMaterials';
 import TeacherStudents from './pages/TeacherStudents';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminUsers from './pages/AdminUsers';
+import AdminReports from './pages/AdminReports';
 
 function App() {
   return (
@@ -69,6 +72,21 @@ function App() {
           </ProtectedRoute>
         } />
       </Routes>
+      <Routes path="/admin/dashboard" element={
+  <ProtectedRoute allowedRoles={['admin']}>
+    <DashboardLayout><AdminDashboard /></DashboardLayout>
+  </ProtectedRoute>
+} />
+<Routes path="/admin/users" element={
+  <ProtectedRoute allowedRoles={['admin']}>
+    <DashboardLayout><AdminUsers /></DashboardLayout>
+  </ProtectedRoute>
+} />
+<Routes path="/admin/reports" element={
+  <ProtectedRoute allowedRoles={['admin']}>
+    <DashboardLayout><AdminReports /></DashboardLayout>
+  </ProtectedRoute>
+} />
     </Router>
   );
 }

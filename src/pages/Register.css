@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #d1d5df, #c3c8d0);
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
   padding: 2rem;
 }
 
@@ -46,6 +46,15 @@
 .register-header p {
   color: #6b7280;
   font-size: 1rem;
+}
+
+.error-alert {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
 .register-form .form-group {
@@ -91,77 +100,34 @@
   display: block;
 }
 
-.checkbox-group {
-  margin: 1.5rem 0;
-}
-
-.checkbox-container {
+/* Password toggle wrapper */
+.password-input-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #4b5563;
-  font-size: 0.95rem;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
   cursor: pointer;
-  position: relative;
-  padding-left: 24px;
+  color: #6b7280;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
 
-.checkbox-container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-.checkmark {
-  position: absolute;
-  left: 0;
-  height: 18px;
-  width: 18px;
-  background-color: #fff;
-  border: 2px solid #d1d5db;
-  border-radius: 4px;
-}
-
-.checkbox-container:hover input ~ .checkmark {
-  border-color: #1e3a8a;
-}
-
-.checkbox-container input:checked ~ .checkmark {
-  background-color: #1e3a8a;
-  border-color: #1e3a8a;
-}
-
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-.checkbox-container input:checked ~ .checkmark:after {
-  display: block;
-}
-
-.checkbox-container .checkmark:after {
-  left: 5px;
-  top: 1px;
-  width: 4px;
-  height: 8px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-.checkbox-container a {
+.password-toggle:hover {
   color: #1e3a8a;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.checkbox-container a:hover {
-  text-decoration: underline;
-  color: #dc2626;
 }
 
 .register-btn {

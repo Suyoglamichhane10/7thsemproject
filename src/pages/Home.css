@@ -1,6 +1,6 @@
 /* Hero Section */
 .hero {
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, #3256b1 0%, #2a68cc 100%);
   color: white;
   padding: 5rem 2rem;
   text-align: center;
@@ -9,6 +9,7 @@
 .hero-content {
   max-width: 800px;
   margin: 0 auto;
+
 }
 
 .hero h1 {

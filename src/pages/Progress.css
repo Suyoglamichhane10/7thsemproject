@@ -188,3 +188,15 @@
     min-width: auto;
   }
 }
+
+.chart-note {
+  color: #9ca3af;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+.no-activity {
+  color: #9ca3af;
+  text-align: center;
+  padding: 1rem;
+}
