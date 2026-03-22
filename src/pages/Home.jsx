@@ -80,6 +80,53 @@ function Home() {
         </div>
       </section>
 
+      {/* Quick Stats Section - NEW */}
+      <section className="quick-stats">
+        <div className="stats-container">
+          <div className="stat-item">
+            <h3>5000+</h3>
+            <p>Active Students</p>
+          </div>
+          <div className="stat-item">
+            <h3>1000+</h3>
+            <p>Study Resources</p>
+          </div>
+          <div className="stat-item">
+            <h3>50+</h3>
+            <p>Expert Teachers</p>
+          </div>
+          <div className="stat-item">
+            <h3>10+</h3>
+            <p>Subjects Covered</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Popular Resources Preview - NEW */}
+      <section className="popular-resources">
+        <h2>Popular Resources</h2>
+        <div className="resource-previews">
+          <div className="resource-preview">
+            <span className="resource-badge">🔥</span>
+            <h4>+2 Science Notes</h4>
+            <p>Physics, Chemistry, Biology</p>
+            <Link to="/resources" className="resource-link">Browse →</Link>
+          </div>
+          <div className="resource-preview">
+            <span className="resource-badge">📘</span>
+            <h4>CSIT Materials</h4>
+            <p>All semester notes</p>
+            <Link to="/resources" className="resource-link">Browse →</Link>
+          </div>
+          <div className="resource-preview">
+            <span className="resource-badge">📝</span>
+            <h4>Past Questions</h4>
+            <p>Previous year papers</p>
+            <Link to="/resources" className="resource-link">Browse →</Link>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials Section */}
       <section className="testimonials">
         <h2>What Students Say</h2>
@@ -99,7 +146,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Call-to-Action Section */}
+      {/* CTA Section */}
       <section className="cta-section">
         <div className="cta-content">
           <h2>Ready to start your smart study journey?</h2>

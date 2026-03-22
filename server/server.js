@@ -36,7 +36,8 @@ app.use('/api/materials', materialRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/teacher', teacherRoutes);
 // ... other route imports
-
+const progressRoutes = require('./routes/progressRoutes');
+app.use('/api/progress', progressRoutes);
 app.use('/api/admin', adminRoutes);
 // Root route
 app.get('/', (req, res) => {

@@ -82,4 +82,31 @@ const getMe = async (req, res) => {
   res.status(200).json(req.user);
 };
 
-module.exports = { register, login, getMe };
+// @desc    Logout user
+// @route   POST /api/auth/logout
+// @access  Private
+const logout = async (req, res) => {
+  try {
+    // Since we're using JWT, logout is primarily client-side
+    // The token is stored in localStorage on client side
+    // On server, we can optionally:
+    // 1. Add token to a blacklist (if you have a token blacklist mechanism)
+    // 2. Simply send a success response
+    
+    // For now, we just send a success message
+    // The client will remove the token from localStorage
+    res.status(200).json({ 
+      message: 'Logged out successfully',
+      success: true 
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { 
+  register, 
+  login, 
+  getMe,
+  logout 
+};

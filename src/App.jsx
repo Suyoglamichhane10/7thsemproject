@@ -71,22 +71,24 @@ function App() {
             <DashboardLayout><TeacherStudents /></DashboardLayout>
           </ProtectedRoute>
         } />
+
+        {/* Protected Admin Routes */}
+        <Route path="/admin/dashboard" element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <DashboardLayout><AdminDashboard /></DashboardLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/users" element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <DashboardLayout><AdminUsers /></DashboardLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/reports" element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <DashboardLayout><AdminReports /></DashboardLayout>
+          </ProtectedRoute>
+        } />
       </Routes>
-      <Routes path="/admin/dashboard" element={
-  <ProtectedRoute allowedRoles={['admin']}>
-    <DashboardLayout><AdminDashboard /></DashboardLayout>
-  </ProtectedRoute>
-} />
-<Routes path="/admin/users" element={
-  <ProtectedRoute allowedRoles={['admin']}>
-    <DashboardLayout><AdminUsers /></DashboardLayout>
-  </ProtectedRoute>
-} />
-<Routes path="/admin/reports" element={
-  <ProtectedRoute allowedRoles={['admin']}>
-    <DashboardLayout><AdminReports /></DashboardLayout>
-  </ProtectedRoute>
-} />
     </Router>
   );
 }

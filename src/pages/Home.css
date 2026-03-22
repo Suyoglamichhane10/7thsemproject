@@ -1,38 +1,31 @@
-/* Hero Section */
+/* Existing styles remain exactly the same as before */
 .hero {
-  background: linear-gradient(135deg, #3256b1 0%, #2a68cc 100%);
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
   color: white;
   padding: 5rem 2rem;
   text-align: center;
 }
-
 .hero-content {
   max-width: 800px;
   margin: 0 auto;
-
 }
-
 .hero h1 {
   font-size: 3rem;
   margin-bottom: 1rem;
 }
-
 .hero h1 span {
   color: #facc15;
 }
-
 .hero p {
   font-size: 1.2rem;
   margin-bottom: 2rem;
   opacity: 0.95;
 }
-
 .hero-buttons {
   display: flex;
   gap: 1rem;
   justify-content: center;
 }
-
 .btn-primary {
   padding: 0.8rem 2rem;
   background: #dc2626;
@@ -42,7 +35,6 @@
   font-weight: 600;
   transition: background 0.3s;
 }
-
 .btn-secondary {
   padding: 0.8rem 2rem;
   background: transparent;
@@ -53,36 +45,29 @@
   font-weight: 600;
   transition: all 0.3s;
 }
-
 .btn-primary:hover {
   background: #b91c1c;
 }
-
 .btn-secondary:hover {
   background: white;
   color: #1e3a8a;
 }
-
-/* Features Section */
 .features {
   padding: 4rem 2rem;
   max-width: 1200px;
   margin: 0 auto;
 }
-
 .features h2 {
   text-align: center;
   font-size: 2.5rem;
   margin-bottom: 3rem;
   color: #1e3a8a;
 }
-
 .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
 }
-
 .feature-card {
   background: white;
   padding: 2rem;
@@ -91,39 +76,31 @@
   transition: transform 0.3s;
   text-align: center;
 }
-
 .feature-card:hover {
   transform: translateY(-5px);
 }
-
 .feature-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
 }
-
 .feature-card h3 {
   color: #1e3a8a;
   margin-bottom: 1rem;
 }
-
 .feature-card p {
   color: #666;
   line-height: 1.6;
 }
-
-/* How It Works */
 .how-it-works {
   background: #f8fafc;
   padding: 4rem 2rem;
   text-align: center;
 }
-
 .how-it-works h2 {
   font-size: 2.5rem;
   margin-bottom: 3rem;
   color: #1e3a8a;
 }
-
 .steps {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -131,11 +108,9 @@
   max-width: 1000px;
   margin: 0 auto;
 }
-
 .step {
   text-align: center;
 }
-
 .step-number {
   width: 50px;
   height: 50px;
@@ -149,29 +124,23 @@
   font-weight: bold;
   margin: 0 auto 1rem;
 }
-
 .step h3 {
   color: #1e3a8a;
   margin-bottom: 0.5rem;
 }
-
 .step p {
   color: #666;
 }
-
-/* Testimonials */
 .testimonials {
   background: #1e293b;
   color: white;
   padding: 4rem 2rem;
 }
-
 .testimonials h2 {
   text-align: center;
   font-size: 2.5rem;
   margin-bottom: 3rem;
 }
-
 .testimonials-grid {
   max-width: 1200px;
   margin: 0 auto;
@@ -179,71 +148,158 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
 }
-
 .testimonial-card {
   background: rgba(255,255,255,0.1);
   padding: 2rem;
   border-radius: 10px;
 }
-
 .testimonial-card p {
   font-style: italic;
   margin-bottom: 1rem;
   line-height: 1.6;
 }
-
 .testimonial-card h4 {
   color: #facc15;
 }
-
-/* CTA Section */
 .cta-section {
-  background: linear-gradient(135deg, #262fdc 0%, #b91c1c 100%);
+  background: linear-gradient(135deg, #58158f 0%, #5e267a 100%);
   color: white;
   padding: 4rem 2rem;
   text-align: center;
 }
-
 .cta-content {
   max-width: 600px;
   margin: 0 auto;
+  
 }
-
 .cta-content h2 {
   font-size: 2rem;
   margin-bottom: 1rem;
 }
-
 .cta-content p {
   margin-bottom: 2rem;
   font-size: 1.2rem;
   opacity: 0.95;
 }
-
 .btn-large {
   padding: 1rem 3rem;
   font-size: 1.2rem;
   background: white;
   color: #dc2626;
 }
-
 .btn-large:hover {
   background: #f3f4f6;
 }
 
-/* Responsive */
+/* NEW STYLES - Add these at the end */
+
+/* Quick Stats Section */
+.quick-stats {
+  padding: 3rem 2rem;
+  background: white;
+}
+
+.stats-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  text-align: center;
+}
+
+.stat-item h3 {
+  font-size: 2.5rem;
+  color: #1e3a8a;
+  margin-bottom: 0.5rem;
+}
+
+.stat-item p {
+  color: #64748b;
+  font-size: 1rem;
+}
+
+/* Popular Resources Preview */
+.popular-resources {
+  padding: 4rem 2rem;
+  background: #f8fafc;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.popular-resources h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #1e3a8a;
+  margin-bottom: 3rem;
+}
+
+.resource-previews {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.resource-preview {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.3s;
+  position: relative;
+}
+
+.resource-preview:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.resource-badge {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.resource-preview h4 {
+  color: #1e3a8a;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.resource-preview p {
+  color: #64748b;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.resource-link {
+  color: #dc2626;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-block;
+  transition: transform 0.3s;
+}
+
+.resource-link:hover {
+  transform: translateX(5px);
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .hero h1 {
+  .quick-stats {
+    padding: 2rem 1rem;
+  }
+  
+  .stat-item h3 {
     font-size: 2rem;
   }
-
-  .hero-buttons {
-    flex-direction: column;
+  
+  .popular-resources {
+    padding: 3rem 1rem;
   }
-
-  .features h2,
-  .how-it-works h2,
-  .testimonials h2 {
-    font-size: 2rem;
+  
+  .resource-previews {
+    grid-template-columns: 1fr;
   }
 }

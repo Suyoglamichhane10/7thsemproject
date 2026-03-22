@@ -42,9 +42,10 @@ function Resources() {
 
   return (
     <div className="resources-page">
+      {/* Header */}
       <div className="resources-header">
         <h1>Study Resources 📚</h1>
-        <p>Access notes, past questions, and study materials for +2 and Bachelor levels</p>
+        <p className="subtitle">Access notes, past questions, and study materials for +2 and Bachelor levels</p>
       </div>
 
       {/* Tabs */}
@@ -66,70 +67,98 @@ function Resources() {
       {/* +2 Content */}
       {activeTab === "plus2" && (
         <div className="tab-content">
-          <h2>+2 Science</h2>
-          <div className="subject-grid">
-            {plus2Resources.science.map((subject, idx) => (
-              <div key={idx} className="subject-card">
-                <h3>{subject.name}</h3>
-                <div className="resource-links">
-                  <a href={subject.notes} className="resource-link notes">📘 Notes</a>
-                  <a href={subject.questions} className="resource-link questions">📝 Past Questions</a>
-                  <a href={subject.materials} className="resource-link materials">📚 Materials</a>
+          <section className="category-section">
+            <h2 className="section-title">
+              <span className="title-underline">+2 Science</span>
+            </h2>
+            <div className="subject-grid">
+              {plus2Resources.science.map((subject, idx) => (
+                <div key={idx} className="subject-card">
+                  <h3>{subject.name}</h3>
+                  <div className="resource-links">
+                    <a href={subject.notes} className="resource-link notes">
+                      <span className="link-icon">📘</span> Notes
+                    </a>
+                    <a href={subject.questions} className="resource-link questions">
+                      <span className="link-icon">📝</span> Past Questions
+                    </a>
+                    <a href={subject.materials} className="resource-link materials">
+                      <span className="link-icon">📚</span> Materials
+                    </a>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </section>
 
-          <h2 style={{ marginTop: "2rem" }}>+2 Management</h2>
-          <div className="subject-grid">
-            {plus2Resources.management.map((subject, idx) => (
-              <div key={idx} className="subject-card">
-                <h3>{subject.name}</h3>
-                <div className="resource-links">
-                  <a href={subject.notes} className="resource-link notes">📘 Notes</a>
-                  <a href={subject.questions} className="resource-link questions">📝 Past Questions</a>
-                  <a href={subject.materials} className="resource-link materials">📚 Materials</a>
+          <section className="category-section">
+            <h2 className="section-title">
+              <span className="title-underline">+2 Management</span>
+            </h2>
+            <div className="subject-grid">
+              {plus2Resources.management.map((subject, idx) => (
+                <div key={idx} className="subject-card">
+                  <h3>{subject.name}</h3>
+                  <div className="resource-links">
+                    <a href={subject.notes} className="resource-link notes">
+                      <span className="link-icon">📘</span> Notes
+                    </a>
+                    <a href={subject.questions} className="resource-link questions">
+                      <span className="link-icon">📝</span> Past Questions
+                    </a>
+                    <a href={subject.materials} className="resource-link materials">
+                      <span className="link-icon">📚</span> Materials
+                    </a>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </section>
         </div>
       )}
 
       {/* Bachelor Content */}
       {activeTab === "bachelor" && (
         <div className="tab-content">
-          <h2>Bachelor CSIT</h2>
-          <div className="semester-grid">
-            {bachelorResources.csit.map((sem, idx) => (
-              <div key={idx} className="semester-card">
-                <h3>{sem.semester}</h3>
-                <ul>
-                  {sem.subjects.map((subject, subIdx) => (
-                    <li key={subIdx}>
-                      <a href="#">{subject}</a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+          <section className="category-section">
+            <h2 className="section-title">
+              <span className="title-underline">Bachelor CSIT</span>
+            </h2>
+            <div className="semester-grid">
+              {bachelorResources.csit.map((sem, idx) => (
+                <div key={idx} className="semester-card">
+                  <h3>{sem.semester}</h3>
+                  <ul className="subject-list">
+                    {sem.subjects.map((subject, subIdx) => (
+                      <li key={subIdx}>
+                        <a href="#">{subject}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </section>
 
-          <h2 style={{ marginTop: "2rem" }}>Bachelor Engineering</h2>
-          <div className="semester-grid">
-            {bachelorResources.engineering.map((sem, idx) => (
-              <div key={idx} className="semester-card">
-                <h3>{sem.semester}</h3>
-                <ul>
-                  {sem.subjects.map((subject, subIdx) => (
-                    <li key={subIdx}>
-                      <a href="#">{subject}</a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+          <section className="category-section">
+            <h2 className="section-title">
+              <span className="title-underline">Bachelor Engineering</span>
+            </h2>
+            <div className="semester-grid">
+              {bachelorResources.engineering.map((sem, idx) => (
+                <div key={idx} className="semester-card">
+                  <h3>{sem.semester}</h3>
+                  <ul className="subject-list">
+                    {sem.subjects.map((subject, subIdx) => (
+                      <li key={subIdx}>
+                        <a href="#">{subject}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </section>
         </div>
       )}
     </div>

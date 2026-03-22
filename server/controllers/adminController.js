@@ -132,7 +132,118 @@ const getReports = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+// Add these to your existing adminController.js
 
+// @desc    Get all feedback
+// @route   GET /api/admin/feedback
+// @access  Private/Admin
+const getAllFeedback = async (req, res) => {
+  try {
+    // You need a Feedback model - create one if you don't have it
+    const Feedback = require('../models/Feedback');
+    const feedback = await Feedback.find()
+      .populate('user', 'name email')
+      .sort('-createdAt');
+    res.json(feedback);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @desc    Get single feedback by ID
+// @route   GET /api/admin/feedback/:id
+// @access  Private/Admin
+const getFeedbackById = async (req, res) => {
+  try {
+    const Feedback = require('../models/Feedback');
+    const feedback = await Feedback.findById(req.params.id)
+      .populate('user', 'name email');
+    
+    if (!feedback) {
+      return res.status(404).json({ message: 'Feedback not found' });
+    }
+    
+    res.json(feedback);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @desc    Delete feedback
+// @route   DELETE /api/admin/feedback/:id
+// @access  Private/Admin
+const deleteFeedback = async (req, res) => {
+  try {
+    const Feedback = require('../models/Feedback');
+    const feedback = await Feedback.findById(req.params.id);
+    
+    if (!feedback) {
+      return res.status(404).json({ message: 'Feedback not found' });
+    }
+    
+    await feedback.deleteOne();
+    res.json({ message: 'Feedback deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @desc    Mark feedback as read
+// @route   PATCH /api/admin/feedback/:id/read
+// @access  Private/Admin
+const markFeedbackAsRead = async (req, res) => {
+  try {
+    const Feedback = require('../models/Feedback');
+    const feedback = await Feedback.findById(req.params.id);
+    
+    if (!feedback) {
+      return res.status(404).json({ message: 'Feedback not found' });
+    }
+    
+    feedback.isRead = true;
+    await feedback.save();
+    
+    res.json({ message: 'Feedback marked as read', feedback });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @desc    Reply to feedback
+// @route   POST /api/admin/feedback/:id/reply
+// @access  Private/Admin
+const replyToFeedback = async (req, res) => {
+  try {
+    const { reply } = req.body;
+    
+    if (!reply) {
+      return res.status(400).json({ message: 'Reply message is required' });
+    }
+    
+    const Feedback = require('../models/Feedback');
+    const feedback = await Feedback.findById(req.params.id);
+    
+    if (!feedback) {
+      return res.status(404).json({ message: 'Feedback not found' });
+    }
+    
+    // Add reply to feedback (you might want to store replies)
+    feedback.reply = {
+      message: reply,
+      repliedBy: req.user._id,
+      repliedAt: new Date()
+    };
+    
+    feedback.isRead = true;
+    await feedback.save();
+    
+    res.json({ message: 'Reply sent successfully', feedback });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Make sure to export all functions
 module.exports = {
   getAdminStats,
   getAllUsers,
@@ -140,4 +251,9 @@ module.exports = {
   updateUser,
   deleteUser,
   getReports,
+  getAllFeedback,
+  getFeedbackById,
+  deleteFeedback,
+  markFeedbackAsRead,
+  replyToFeedback
 };

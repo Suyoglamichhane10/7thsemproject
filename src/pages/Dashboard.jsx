@@ -102,25 +102,40 @@ function Dashboard() {
             </div>
             <Link to="/planner" className="card-link">View full planner →</Link>
           </div>
-          <div className="card">
-            <h3 className="card-title">⏰ Upcoming Deadlines</h3>
-            <div className="deadline-list">
-              {subjects.filter(s => !s.completed && s.examDate).slice(0, 3).map(sub => {
-                const daysLeft = Math.ceil((new Date(sub.examDate) - new Date()) / (1000*60*60*24));
-                return (
-                  <div key={sub._id} className="deadline-item">
-                    <span className="deadline-subject">{sub.name}</span>
-                    <div className="deadline-info">
-                      <span className="deadline-date">{new Date(sub.examDate).toLocaleDateString()}</span>
-                      <span className={`days-left ${daysLeft <= 1 ? 'urgent' : ''}`}>
-                        {daysLeft <= 0 ? 'Today!' : `${daysLeft} days left`}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
+        {/* Upcoming Deadlines */}
+<div className="card">
+  <h3 className="card-title">⏰ Upcoming Deadlines</h3>
+  <div className="deadline-list">
+    {subjects
+      // Only include future or today's exams
+      .filter(s => !s.completed && s.examDate && new Date(s.examDate) >= new Date().setHours(0,0,0,0))
+      // Sort by nearest date
+      .sort((a, b) => new Date(a.examDate) - new Date(b.examDate))
+      // Take first 3
+      .slice(0, 3)
+      .map(sub => {
+        // Compare dates without time
+        const today = new Date().setHours(0,0,0,0);
+        const exam = new Date(sub.examDate).setHours(0,0,0,0);
+        const daysLeft = Math.round((exam - today) / (1000 * 60 * 60 * 24));
+        return (
+          <div key={sub._id} className="deadline-item">
+            <span className="deadline-subject">{sub.name}</span>
+            <div className="deadline-info">
+              <span className="deadline-date">{new Date(sub.examDate).toLocaleDateString()}</span>
+              <span className={`days-left ${daysLeft <= 1 ? 'urgent' : ''}`}>
+                {daysLeft === 0 ? 'Today!' : daysLeft === 1 ? 'Tomorrow' : `${daysLeft} days left`}
+              </span>
             </div>
           </div>
+        );
+      })}
+    {/* Show a message if no deadlines */}
+    {subjects.filter(s => !s.completed && s.examDate && new Date(s.examDate) >= new Date().setHours(0,0,0,0)).length === 0 && (
+      <p className="no-deadlines">No upcoming deadlines</p>
+    )}
+  </div>
+</div>
         </div>
         <div className="right-col">
           <div className="card">

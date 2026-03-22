@@ -1,12 +1,19 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaHome, FaBook, FaCalendarAlt, FaChartBar, FaClock, FaSignOutAlt, FaChalkboardTeacher, FaUsers, FaUpload, FaCog, FaUserCog } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import './Sidebar.css';
 
 function Sidebar() {
   const location = useLocation();
-  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const isActive = (path) => location.pathname === path ? 'active' : '';
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    await logout();
+    navigate('/');
+  };
 
   if (!user) {
     return (
@@ -60,13 +67,17 @@ function Sidebar() {
             <li><Link to="/admin/dashboard" className={isActive('/admin/dashboard')}><FaCog className="menu-icon" /><span>Admin Dashboard</span></Link></li>
             <li><Link to="/admin/users" className={isActive('/admin/users')}><FaUserCog className="menu-icon" /><span>Manage Users</span></Link></li>
             <li><Link to="/admin/reports" className={isActive('/admin/reports')}><FaChartBar className="menu-icon" /><span>Reports</span></Link></li>
-            {/* Add more admin links as needed */}
           </>
         )}
 
         {/* Common Account Section */}
         <li className="sidebar-section">⚙️ Account</li>
-        <li><Link to="/" className={isActive('/')}><FaSignOutAlt className="menu-icon" /><span>Logout</span></Link></li>
+        <li>
+          <a href="#" onClick={handleLogout} className={isActive('/')}>
+            <FaSignOutAlt className="menu-icon" />
+            <span>Logout</span>
+          </a>
+        </li>
       </ul>
     </div>
   );

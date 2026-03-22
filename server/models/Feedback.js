@@ -1,24 +1,39 @@
 const mongoose = require('mongoose');
 
 const FeedbackSchema = new mongoose.Schema({
-  student: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
-  },
-  teacher: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
+    required: true
   },
   message: {
     type: String,
-    required: true,
+    required: true
+  },
+  rating: {
+    type: Number,
+    min: 1,
+    max: 5
+  },
+  subject: {
+    type: String
+  },
+  isRead: {
+    type: Boolean,
+    default: false
+  },
+  reply: {
+    message: String,
+    repliedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    repliedAt: Date
   },
   createdAt: {
     type: Date,
-    default: Date.now,
-  },
+    default: Date.now
+  }
 });
 
 module.exports = mongoose.model('Feedback', FeedbackSchema);
