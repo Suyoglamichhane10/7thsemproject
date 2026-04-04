@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FcGoogle } from 'react-icons/fc';
-import { FaFacebook, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import './Login.css';
 
@@ -13,19 +12,41 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  // Load saved email if remember me was checked
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('rememberedEmail');
+    const savedRemember = localStorage.getItem('rememberMe');
+    if (savedRemember === 'true' && savedEmail) {
+      setEmail(savedEmail);
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
+    
     try {
       await login({ email, password });
+      
+      // Handle remember me
+      if (rememberMe) {
+        localStorage.setItem('rememberedEmail', email);
+        localStorage.setItem('rememberMe', 'true');
+      } else {
+        localStorage.removeItem('rememberedEmail');
+        localStorage.removeItem('rememberMe');
+      }
+      
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err.response?.data?.message || 'Invalid email or password');
+    } finally {
+      setLoading(false);
     }
-  };
-
-  const handleSocialLogin = (provider) => {
-    alert(`${provider} login not implemented in demo`);
   };
 
   return (
@@ -33,7 +54,7 @@ function Login() {
       <div className="login-card">
         <div className="login-header">
           <Link to="/" className="login-logo">
-            <h1>Study<span>Nep</span> 🇳🇵</h1>
+            <h1>Study<span>Nep</span></h1>
           </Link>
           <h2>Welcome Back!</h2>
           <p>Log in to continue your study journey</p>
@@ -41,69 +62,56 @@ function Login() {
 
         {error && <div className="error-alert">{error}</div>}
 
-        <form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="email">Email Address</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              required
+            <input 
+              type="email" 
+              placeholder="Email Address" 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+              required 
+              disabled={loading}
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <div className="password-input-wrapper">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
-                required
-              />
-              <button
-                type="button"
-                className="password-toggle"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </button>
-            </div>
+          <div className="form-group password-group">
+            <input 
+              type={showPassword ? 'text' : 'password'} 
+              placeholder="Password" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              required 
+              disabled={loading}
+            />
+            <button 
+              type="button" 
+              className="password-toggle"
+              onClick={() => setShowPassword(!showPassword)}
+              disabled={loading}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
           </div>
 
           <div className="form-options">
-            <label className="checkbox-container">
-              <input
-                type="checkbox"
-                checked={rememberMe}
+            <label className="checkbox-label">
+              <input 
+                type="checkbox" 
+                checked={rememberMe} 
                 onChange={(e) => setRememberMe(e.target.checked)}
+                disabled={loading}
               />
-              <span className="checkmark"></span>
-              Remember me
+              <span className="checkbox-text">Remember me</span>
             </label>
             <Link to="/forgot-password" className="forgot-link">
               Forgot Password?
             </Link>
           </div>
 
-          <button type="submit" className="login-btn">Log In</button>
+          <button type="submit" className="login-btn" disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
         </form>
-
-        <div className="social-login">
-          <p className="or-divider">Or continue with</p>
-          <div className="social-buttons">
-            <button onClick={() => handleSocialLogin('Google')} className="social-btn google-btn">
-              <FcGoogle className="social-icon" /> Google
-            </button>
-            <button onClick={() => handleSocialLogin('Facebook')} className="social-btn facebook-btn">
-              <FaFacebook className="social-icon" /> Facebook
-            </button>
-          </div>
-        </div>
 
         <div className="signup-prompt">
           <p>

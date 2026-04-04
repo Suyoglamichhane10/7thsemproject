@@ -11,6 +11,11 @@ import Studyplanner from './pages/Studyplanner';
 import Schedule from './pages/Schedule';
 import Progress from './pages/Progress';
 import FocusTimer from './pages/FocusTimer';
+import Flashcards from './pages/Flashcards';
+import Quiz from './pages/Quize';
+import TakeQuiz from './pages/TakeQuiz';
+import CreateQuiz from './pages/CreateQuiz';
+import TeacherQuizzes from './pages/TeacherQuizzes';
 import TeacherDashboard from './pages/TeacherDashboard';
 import TeacherMaterials from './pages/TeacherMaterials';
 import TeacherStudents from './pages/TeacherStudents';
@@ -28,7 +33,7 @@ function App() {
         <Route path="/register" element={<PublicLayout><Register /></PublicLayout>} />
         <Route path="/resources" element={<PublicLayout><Resources /></PublicLayout>} />
 
-        {/* Protected Student Routes */}
+        {/* Student Routes - No role restriction, but ProtectedRoute will handle redirects */}
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <DashboardLayout><Dashboard /></DashboardLayout>
@@ -54,25 +59,50 @@ function App() {
             <DashboardLayout><FocusTimer /></DashboardLayout>
           </ProtectedRoute>
         } />
+        <Route path="/flashcards" element={
+          <ProtectedRoute>
+            <DashboardLayout><Flashcards /></DashboardLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/quiz" element={
+          <ProtectedRoute>
+            <DashboardLayout><Quiz /></DashboardLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/quiz/:id" element={
+          <ProtectedRoute>
+            <DashboardLayout><TakeQuiz /></DashboardLayout>
+          </ProtectedRoute>
+        } />
 
-        {/* Protected Teacher Routes */}
+        {/* Teacher Routes */}
         <Route path="/teacher/dashboard" element={
-          <ProtectedRoute allowedRoles={['teacher']}>
+          <ProtectedRoute allowedRoles={['teacher', 'admin']}>
             <DashboardLayout><TeacherDashboard /></DashboardLayout>
           </ProtectedRoute>
         } />
         <Route path="/teacher/materials" element={
-          <ProtectedRoute allowedRoles={['teacher']}>
+          <ProtectedRoute allowedRoles={['teacher', 'admin']}>
             <DashboardLayout><TeacherMaterials /></DashboardLayout>
           </ProtectedRoute>
         } />
         <Route path="/teacher/students" element={
-          <ProtectedRoute allowedRoles={['teacher']}>
+          <ProtectedRoute allowedRoles={['teacher', 'admin']}>
             <DashboardLayout><TeacherStudents /></DashboardLayout>
           </ProtectedRoute>
         } />
+        <Route path="/create-quiz" element={
+          <ProtectedRoute allowedRoles={['teacher', 'admin']}>
+            <DashboardLayout><CreateQuiz /></DashboardLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/teacher/quizzes" element={
+          <ProtectedRoute allowedRoles={['teacher', 'admin']}>
+            <DashboardLayout><TeacherQuizzes /></DashboardLayout>
+          </ProtectedRoute>
+        } />
 
-        {/* Protected Admin Routes */}
+        {/* Admin Routes */}
         <Route path="/admin/dashboard" element={
           <ProtectedRoute allowedRoles={['admin']}>
             <DashboardLayout><AdminDashboard /></DashboardLayout>

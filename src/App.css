@@ -5,8 +5,10 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #f3f4f6;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background: #f8fafc;
+  color: #1e293b;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .loading {
@@ -14,15 +16,84 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: #1e3a8a;
 }
 
 .error-alert {
   background: #fee2e2;
   color: #dc2626;
-  padding: 0.75rem;
+  padding: 1rem;
   border-radius: 8px;
   margin-bottom: 1rem;
   text-align: center;
+}
+
+/* Dark Mode Variables */
+.dark-mode {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --card-bg: #1e293b;
+  --border-color: #334155;
+  --input-bg: #334155;
+  --input-border: #475569;
+}
+
+.dark-mode body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.dark-mode .stat-card,
+.dark-mode .feature-card,
+.dark-mode .subject-card,
+.dark-mode .recommendations,
+.dark-mode .planner-controls,
+.dark-mode .achievement-section,
+.dark-mode .stats-card,
+.dark-mode .timer-card,
+.dark-mode .chart-card,
+.dark-mode .recent-activity,
+.dark-mode .quick-actions,
+.dark-mode .performance-table,
+.dark-mode .card {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.dark-mode .stat-value,
+.dark-mode .card-title h3,
+.dark-mode .subject-card h3,
+.dark-mode .dashboard-header h1,
+.dark-mode .welcome-header h2 {
+  color: var(--text-primary);
+}
+
+.dark-mode .stat-label,
+.dark-mode .description,
+.dark-mode .detail,
+.dark-mode .activity-desc,
+.dark-mode .meta-item,
+.dark-mode .subject-meta {
+  color: var(--text-secondary);
+}
+
+.dark-mode .login-card,
+.dark-mode .register-card {
+  background: var(--card-bg);
+}
+
+.dark-mode input,
+.dark-mode select,
+.dark-mode textarea {
+  background: var(--input-bg);
+  border-color: var(--input-border);
+  color: var(--text-primary);
+}
+
+.dark-mode input::placeholder,
+.dark-mode textarea::placeholder {
+  color: var(--text-secondary);
 }

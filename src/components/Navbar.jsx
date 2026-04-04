@@ -1,14 +1,16 @@
 import { Link } from 'react-router-dom';
-import Logo from './Logo';
+import { FaMoon, FaSun } from 'react-icons/fa';
+import { useTheme } from '../context/ThemeContext';
 import './Navbar.css';
 
 function Navbar() {
+  const { darkMode, toggleDarkMode } = useTheme();
+
   return (
     <nav className="navbar">
       <div className="nav-container">
         <div className="logo">
           <Link to="/">
-            <Logo width={40} height={40} />
             <h1>Study<span>Nep</span></h1>
           </Link>
         </div>
@@ -19,6 +21,9 @@ function Navbar() {
           <li><Link to="/dashboard">Dashboard</Link></li>
         </ul>
         <div className="nav-buttons">
+          <button className="theme-toggle-btn" onClick={toggleDarkMode}>
+            {darkMode ? <FaSun /> : <FaMoon />}
+          </button>
           <Link to="/login" className="btn-login">Login</Link>
           <Link to="/register" className="btn-register">Sign Up</Link>
         </div>

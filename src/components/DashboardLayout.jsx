@@ -1,11 +1,10 @@
 import Sidebar from './Sidebar';
-import './DashboardLayout.css';
 
 function DashboardLayout({ children }) {
   return (
-    <div className="dashboard-layout">
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#f8fafc' }}>
       <Sidebar />
-      <div className="dashboard-content-area">
+      <div style={{ flex: 1, marginLeft: '260px', padding: '2rem' }}>
         {children}
       </div>
     </div>

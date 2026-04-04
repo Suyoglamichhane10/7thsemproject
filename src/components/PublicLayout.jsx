@@ -1,12 +1,11 @@
 import Navbar from './Navbar';
 import Footer from './Footer';
-import './PublicLayout.css';
 
 function PublicLayout({ children }) {
   return (
-    <div className="public-layout">
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Navbar />
-      <main>{children}</main>
+      <main style={{ flex: 1 }}>{children}</main>
       <Footer />
     </div>
   );

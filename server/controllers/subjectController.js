@@ -1,76 +1,49 @@
 const Subject = require('../models/Subject');
+const Activity = require('../models/Activity');
 
-// @desc    Get all subjects for logged in user
-// @route   GET /api/subjects
-// @access  Private
 const getSubjects = async (req, res) => {
   try {
-    const subjects = await Subject.find({ user: req.user.id });
+    const subjects = await Subject.find({ user: req.user.id }).sort({ examDate: 1 });
     res.json(subjects);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// @desc    Create a new subject
-// @route   POST /api/subjects
-// @access  Private
 const createSubject = async (req, res) => {
   try {
-    const { name, examDate, priority, hoursPerDay } = req.body;
+    const { name, examDate, priority, hoursPerDay, description } = req.body;
     const subject = await Subject.create({
-      name,
-      examDate,
-      priority,
-      hoursPerDay,
-      user: req.user.id,
+      name, examDate, priority, hoursPerDay, description, user: req.user.id
     });
+    await Activity.create({ user: req.user.id, type: 'start', description: `Started studying ${name}` });
     res.status(201).json(subject);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// @desc    Update subject
-// @route   PUT /api/subjects/:id
-// @access  Private
 const updateSubject = async (req, res) => {
   try {
     let subject = await Subject.findById(req.params.id);
-    if (!subject) {
-      return res.status(404).json({ message: 'Subject not found' });
+    if (!subject) return res.status(404).json({ message: 'Subject not found' });
+    if (subject.user.toString() !== req.user.id) return res.status(401).json({ message: 'Not authorized' });
+    const wasCompleted = subject.completed;
+    subject = await Subject.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!wasCompleted && subject.completed) {
+      await Activity.create({ user: req.user.id, type: 'complete', description: `Completed ${subject.name}` });
     }
-
-    // Make sure user owns subject
-    if (subject.user.toString() !== req.user.id) {
-      return res.status(401).json({ message: 'Not authorized' });
-    }
-
-    subject = await Subject.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-
     res.json(subject);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// @desc    Delete subject
-// @route   DELETE /api/subjects/:id
-// @access  Private
 const deleteSubject = async (req, res) => {
   try {
     const subject = await Subject.findById(req.params.id);
-    if (!subject) {
-      return res.status(404).json({ message: 'Subject not found' });
-    }
-
-    if (subject.user.toString() !== req.user.id) {
-      return res.status(401).json({ message: 'Not authorized' });
-    }
-
+    if (!subject) return res.status(404).json({ message: 'Subject not found' });
+    if (subject.user.toString() !== req.user.id) return res.status(401).json({ message: 'Not authorized' });
     await subject.deleteOne();
     res.json({ message: 'Subject removed' });
   } catch (error) {
