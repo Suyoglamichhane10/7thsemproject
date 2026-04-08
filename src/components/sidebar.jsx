@@ -2,7 +2,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   FaHome, FaBook, FaCalendarAlt, FaChartBar, FaClock, 
   FaSignOutAlt, FaBrain, FaPlus, FaList, FaChalkboardTeacher, 
-  FaUsers, FaUpload, FaCog, FaUserCog 
+  FaUsers, FaUpload, FaCog, FaUserCog, 
+  FaFolderOpen
 } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import './Sidebar.css';
@@ -38,6 +39,7 @@ function Sidebar() {
             <li><Link to="/progress" className={isActive('/progress')}><FaChartBar /> Progress</Link></li>
             <li><Link to="/focus" className={isActive('/focus')}><FaClock /> Focus Timer</Link></li>
             <li><Link to="/quiz" className={isActive('/quiz')}><FaBrain /> Take Quiz</Link></li>
+            <li><Link to="/student/materials" className={isActive('/student/materials')}><FaFolderOpen /> Study Materials</Link></li>
           </>
         )}
 

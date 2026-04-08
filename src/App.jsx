@@ -22,6 +22,9 @@ import TeacherStudents from './pages/TeacherStudents';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminUsers from './pages/AdminUsers';
 import AdminReports from './pages/AdminReports';
+import Portfolio from './pages/Portfolio';
+import About from './pages/About';
+import StudentMaterials from './pages/StudentMaterials';
 
 function App() {
   return (
@@ -32,6 +35,8 @@ function App() {
         <Route path="/login" element={<PublicLayout><Login /></PublicLayout>} />
         <Route path="/register" element={<PublicLayout><Register /></PublicLayout>} />
         <Route path="/resources" element={<PublicLayout><Resources /></PublicLayout>} />
+        <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
+        <Route path="/portfolio" element={<PublicLayout><Portfolio /></PublicLayout>} />
 
         {/* Student Routes - No role restriction, but ProtectedRoute will handle redirects */}
         <Route path="/dashboard" element={
@@ -54,6 +59,11 @@ function App() {
             <DashboardLayout><Progress /></DashboardLayout>
           </ProtectedRoute>
         } />
+        <Route path="/student/materials" element={
+  <ProtectedRoute>
+    <DashboardLayout><StudentMaterials /></DashboardLayout>
+  </ProtectedRoute>
+} />
         <Route path="/focus" element={
           <ProtectedRoute>
             <DashboardLayout><FocusTimer /></DashboardLayout>

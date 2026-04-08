@@ -34,9 +34,53 @@ function Dashboard() {
     }
   };
 
+  // Function to calculate days remaining
+  const getDaysRemaining = (examDate) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const exam = new Date(examDate);
+    exam.setHours(0, 0, 0, 0);
+    const diffTime = exam - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
+
+  // Function to get formatted days remaining text
+  const getDaysRemainingText = (examDate) => {
+    const days = getDaysRemaining(examDate);
+    
+    if (days < 0) {
+      return `📅 Passed`;
+    } else if (days === 0) {
+      return `🔥 Today!`;
+    } else if (days === 1) {
+      return `⚠️ Tomorrow`;
+    } else if (days <= 3) {
+      return `⚠️ ${days} days left`;
+    } else if (days <= 7) {
+      return `📅 ${days} days left`;
+    } else {
+      return `📅 ${days} days left`;
+    }
+  };
+
+  // Get CSS class based on urgency
+  const getUrgencyClass = (examDate) => {
+    const days = getDaysRemaining(examDate);
+    if (days < 0) return 'passed';
+    if (days === 0) return 'today';
+    if (days <= 3) return 'urgent';
+    if (days <= 7) return 'warning';
+    return 'normal';
+  };
+
   if (loading) return <div className="loading">Loading dashboard...</div>;
 
-  const upcomingDeadlines = subjects.filter(s => !s.completed && new Date(s.examDate) > new Date()).slice(0, 3);
+  const upcomingDeadlines = subjects
+    .filter(s => !s.completed && new Date(s.examDate) > new Date())
+    .sort((a, b) => new Date(a.examDate) - new Date(b.examDate))
+    .slice(0, 5);
+
   const totalHours = stats.totalHours || 0;
   const completedSubjects = stats.completedSubjects || 0;
   const streak = stats.streak || 0;
@@ -64,12 +108,17 @@ function Dashboard() {
           {upcomingDeadlines.length === 0 ? (
             <p>No upcoming deadlines. Great job!</p>
           ) : (
-            upcomingDeadlines.map(s => (
-              <div key={s._id} className="deadline-item">
-                <span>{s.name}</span>
-                <span>{new Date(s.examDate).toLocaleDateString()}</span>
-              </div>
-            ))
+            upcomingDeadlines.map(s => {
+              const daysRemaining = getDaysRemaining(s.examDate);
+              return (
+                <div key={s._id} className={`deadline-item ${getUrgencyClass(s.examDate)}`}>
+                  <span className="deadline-name">{s.name}</span>
+                  <span className="deadline-days">
+                    {getDaysRemainingText(s.examDate)}
+                  </span>
+                </div>
+              );
+            })
           )}
         </div>
 

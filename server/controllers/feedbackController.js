@@ -23,6 +23,7 @@ const createFeedback = async (req, res) => {
       student: studentId,
       teacher: req.user.id,
       message,
+      user: req.user.id
     });
     res.status(201).json(feedback);
   } catch (error) {

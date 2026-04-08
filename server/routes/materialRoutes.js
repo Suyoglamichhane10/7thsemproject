@@ -1,16 +1,25 @@
 const express = require('express');
 const {
-  getMaterials,
-  createMaterial,
+  uploadPDF,
+  uploadLink,
+  downloadPDF,
+  viewPDF,
+  getAllMaterials,
   deleteMaterial,
-} = require('../controllers/materialController');
+} = require('../controllers/uploadController');
 const { protect, authorize } = require('../middleware/authMiddleware');
+const upload = require('../middleware/uploadMiddleware');
+
 const router = express.Router();
 
-router.route('/')
-  .get(getMaterials) // public
-  .post(protect, authorize('teacher'), createMaterial);
+// Public routes (student view)
+router.get('/', getAllMaterials);
 
-router.delete('/:id', protect, authorize('teacher'), deleteMaterial);
+// Teacher/Admin routes
+router.post('/upload-pdf', protect, authorize('teacher', 'admin'), upload.single('file'), uploadPDF);
+router.post('/upload-link', protect, authorize('teacher', 'admin'), uploadLink);
+router.get('/download/:id', protect, downloadPDF);
+router.get('/view/:id', protect, viewPDF);
+router.delete('/:id', protect, authorize('teacher', 'admin'), deleteMaterial);
 
 module.exports = router;

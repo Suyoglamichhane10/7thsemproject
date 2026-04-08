@@ -10,7 +10,7 @@ function Footer() {
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-section">
-          <h3>Study<span>Nep</span> 🇳🇵</h3>
+          <h3>Study<span>Nep</span> </h3>
           <p>Smart Study Planner for Nepalese Students</p>
         </div>
 
@@ -57,7 +57,7 @@ function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <p>© 2026 StudyNep. All rights reserved. 🇳🇵</p>
+        <p>© 2026 StudyNep</p>
       </div>
     </footer>
   );

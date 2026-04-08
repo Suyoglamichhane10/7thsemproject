@@ -29,7 +29,7 @@
   padding: 1.5rem;
   border-radius: 12px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .stat-card h3 {
@@ -55,7 +55,7 @@
   background: white;
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .card h3 {
@@ -63,9 +63,52 @@
   margin-bottom: 1rem;
 }
 
-.deadline-item, .activity-item {
+/* Deadline Item - Original style with days remaining */
+.deadline-item {
   display: flex;
   justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eef2f6;
+}
+
+.deadline-name {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.deadline-days {
+  font-size: 0.85rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+}
+
+/* Urgency Colors for Days Remaining */
+.deadline-item.today .deadline-days {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.deadline-item.urgent .deadline-days {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.deadline-item.warning .deadline-days {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.deadline-item.normal .deadline-days {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.deadline-item.passed .deadline-days {
+  background: #f1f5f9;
+  color: #94a3b8;
+}
+
+.activity-item {
   padding: 0.5rem 0;
   border-bottom: 1px solid #eef2f6;
 }
@@ -78,4 +121,31 @@
     flex-direction: column;
     text-align: center;
   }
+}
+
+/* Dark Mode Support */
+.dark-mode .stat-card,
+.dark-mode .card {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.dark-mode .stat-card p {
+  color: var(--text-primary);
+}
+
+.dark-mode .card h3 {
+  color: var(--text-primary);
+}
+
+.dark-mode .deadline-name {
+  color: var(--text-primary);
+}
+
+.dark-mode .deadline-item {
+  border-bottom-color: var(--border-color);
+}
+
+.dark-mode .activity-item {
+  border-bottom-color: var(--border-color);
 }

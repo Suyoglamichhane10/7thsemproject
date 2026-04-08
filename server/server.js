@@ -2,9 +2,11 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const { initGridFS } = require('./config/gridfs');
 
 dotenv.config();
 connectDB();
+initGridFS();
 
 const app = express();
 app.use(cors());
@@ -15,8 +17,10 @@ app.use('/api/subjects', require('./routes/subjectRoutes'));
 app.use('/api/progress', require('./routes/ProgressRoutes'));
 app.use('/api/flashcards', require('./routes/flashcardRoutes'));
 app.use('/api/teacher', require('./routes/teacherRoutes'))
-app.use('/api', require('./routes/adminRoutes'))
-app.use('/api', require('./routes/quizRoutes'))
+app.use('/api/admin', require('./routes/adminRoutes'))
+app.use('/api/quiz', require('./routes/quizRoutes'))
+app.use('/api/materials', require('./routes/materialRoutes'))
+app.use('/api/feedback', require('./routes/feedbackRoutes'))
 
 app.get('/', (req, res) => {
   res.send('StudyNep API is running...');

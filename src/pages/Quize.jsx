@@ -1,27 +1,30 @@
 import { useState, useEffect } from 'react';
-import { FaClock, FaCheckCircle, FaTimesCircle, FaArrowRight, FaArrowLeft, FaStar, FaTrophy, FaRedo } from 'react-icons/fa';
-import { getSubjects } from '../services/subjectService';
-import { submitQuizScore } from '../services/progressService';
+import { FaClock, FaCheckCircle, FaTimesCircle, FaArrowRight, FaArrowLeft, FaTrophy, FaRedo, FaHistory } from 'react-icons/fa';
+import { getQuizzes, getQuizById, submitQuizAttempt, getUserAttempts } from '../services/quizService';
 import './Quiz.css';
 
 function Quiz() {
-  const [subjects, setSubjects] = useState([]);
-  const [selectedSubject, setSelectedSubject] = useState('');
-  const [difficulty, setDifficulty] = useState('medium');
-  const [questionCount, setQuestionCount] = useState(10);
+  const [quizzes, setQuizzes] = useState([]);
+  const [selectedQuizId, setSelectedQuizId] = useState('');
   const [quizStarted, setQuizStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [score, setScore] = useState(0);
+  const [percentage, setPercentage] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
   const [timerActive, setTimerActive] = useState(false);
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
+  const [attempts, setAttempts] = useState([]);
+  const [showAttempts, setShowAttempts] = useState(false);
+  const [quizTitle, setQuizTitle] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchSubjects();
+    fetchQuizzes();
+    fetchAttempts();
   }, []);
 
   useEffect(() => {
@@ -34,72 +37,46 @@ function Quiz() {
     return () => clearTimeout(timer);
   }, [timerActive, timeLeft]);
 
-  const fetchSubjects = async () => {
+  const fetchQuizzes = async () => {
     try {
-      const res = await getSubjects();
-      setSubjects(res.data);
-    } catch (error) {
-      console.error('Error fetching subjects:', error);
+      const res = await getQuizzes();
+      setQuizzes(res.data);
+    } catch (err) {
+      console.error('Error fetching quizzes:', err);
+      setError('Failed to load quizzes');
     }
   };
 
-  const generateQuestions = () => {
-    // Mock questions - in real app, these would come from backend
-    const mockQuestions = {
-      mathematics: [
-        { id: 1, text: "What is the derivative of x²?", options: ["x", "2x", "x²", "2"], correct: 1 },
-        { id: 2, text: "What is 5 + 7?", options: ["10", "11", "12", "13"], correct: 2 },
-        { id: 3, text: "What is the square root of 16?", options: ["2", "4", "6", "8"], correct: 1 },
-        { id: 4, text: "What is 15% of 200?", options: ["15", "20", "25", "30"], correct: 3 },
-        { id: 5, text: "Solve: 3x + 5 = 20", options: ["3", "5", "7", "9"], correct: 1 },
-      ],
-      physics: [
-        { id: 1, text: "What is Newton's first law about?", options: ["Force", "Inertia", "Acceleration", "Energy"], correct: 1 },
-        { id: 2, text: "What is the unit of force?", options: ["Joule", "Watt", "Newton", "Pascal"], correct: 2 },
-        { id: 3, text: "What is the speed of light?", options: ["3×10⁶ m/s", "3×10⁷ m/s", "3×10⁸ m/s", "3×10⁹ m/s"], correct: 2 },
-      ],
-      chemistry: [
-        { id: 1, text: "What is the chemical symbol for Gold?", options: ["Go", "Gd", "Au", "Ag"], correct: 2 },
-        { id: 2, text: "What is H₂O?", options: ["Oxygen", "Hydrogen", "Water", "Peroxide"], correct: 2 },
-      ],
-      default: [
-        { id: 1, text: "Sample Question 1?", options: ["Option A", "Option B", "Option C", "Option D"], correct: 0 },
-        { id: 2, text: "Sample Question 2?", options: ["Option A", "Option B", "Option C", "Option D"], correct: 1 },
-      ]
-    };
-
-    let subjectQuestions = mockQuestions[selectedSubject.toLowerCase()] || mockQuestions.default;
-    let generated = [...subjectQuestions];
-    
-    // Adjust number of questions
-    while (generated.length < questionCount) {
-      generated = [...generated, ...subjectQuestions];
+  const fetchAttempts = async () => {
+    try {
+      const res = await getUserAttempts();
+      setAttempts(res.data);
+    } catch (err) {
+      console.error('Error fetching attempts:', err);
     }
-    generated = generated.slice(0, questionCount);
-    
-    // Add difficulty variations
-    generated = generated.map(q => ({
-      ...q,
-      difficulty: difficulty,
-      timeLimit: difficulty === 'easy' ? 60 : difficulty === 'medium' ? 45 : 30
-    }));
-    
-    setQuestions(generated);
-    setTimeLeft(generated.length * (difficulty === 'easy' ? 60 : difficulty === 'medium' ? 45 : 30));
   };
 
-  const startQuiz = () => {
-    if (!selectedSubject) {
-      alert('Please select a subject');
+  const startQuiz = async () => {
+    if (!selectedQuizId) {
+      alert('Please select a quiz');
       return;
     }
     setLoading(true);
-    setTimeout(() => {
-      generateQuestions();
+    setError('');
+    try {
+      const res = await getQuizById(selectedQuizId);
+      const quiz = res.data;
+      setQuizTitle(quiz.title);
+      setQuestions(quiz.questions);
+      setTimeLeft(quiz.timeLimit * 60);
       setQuizStarted(true);
       setTimerActive(true);
+    } catch (err) {
+      console.error('Error loading quiz:', err);
+      setError('Failed to load quiz. Please try again.');
+    } finally {
       setLoading(false);
-    }, 500);
+    }
   };
 
   const handleAnswerSelect = (questionId, answerIndex) => {
@@ -123,35 +100,51 @@ function Quiz() {
     }
   };
 
-  const handleQuizComplete = () => {
+  const handleQuizComplete = async () => {
     setTimerActive(false);
     
     let correctCount = 0;
-    const detailedResults = questions.map((q, idx) => {
-      const userAnswer = selectedAnswers[q.id];
-      const isCorrect = userAnswer === q.correct;
+    const answersArray = questions.map((q, idx) => {
+      const userAnswer = selectedAnswers[q._id];
+      const isCorrect = userAnswer === q.correctAnswer;
       if (isCorrect) correctCount++;
+      return {
+        questionId: q._id,
+        selectedAnswer: userAnswer !== undefined ? userAnswer : -1,
+        isCorrect,
+      };
+    });
+    
+    const totalQuestions = questions.length;
+    const percent = (correctCount / totalQuestions) * 100;
+    setPercentage(percent);
+    setScore(correctCount);
+    
+    // Prepare detailed results for display
+    const detailedResults = questions.map((q, idx) => {
+      const userAnswer = selectedAnswers[q._id];
+      const isCorrect = userAnswer === q.correctAnswer;
       return {
         question: q.text,
         userAnswer: userAnswer !== undefined ? q.options[userAnswer] : 'Not answered',
-        correctAnswer: q.options[q.correct],
+        correctAnswer: q.options[q.correctAnswer],
         isCorrect,
         explanation: q.explanation || 'No explanation available'
       };
     });
-    
-    const finalScore = Math.round((correctCount / questions.length) * 100);
-    setScore(finalScore);
     setResults(detailedResults);
     setQuizCompleted(true);
     
-    // Submit score to backend
-    submitQuizScore({
-      subject: selectedSubject,
-      score: finalScore,
-      totalQuestions: questions.length,
-      correctAnswers: correctCount
-    }).catch(err => console.error('Error submitting score:', err));
+    // Submit attempt to backend
+    try {
+      await submitQuizAttempt(selectedQuizId, {
+        answers: answersArray,
+        timeTaken: (questions[0]?.timeLimit * 60 || 0) - timeLeft,
+      });
+      fetchAttempts(); // refresh attempts list
+    } catch (err) {
+      console.error('Error submitting quiz:', err);
+    }
   };
 
   const resetQuiz = () => {
@@ -159,11 +152,13 @@ function Quiz() {
     setQuizCompleted(false);
     setCurrentQuestion(0);
     setSelectedAnswers({});
-    setSelectedSubject('');
-    setDifficulty('medium');
-    setQuestionCount(10);
+    setSelectedQuizId('');
+    setQuestions([]);
     setScore(0);
+    setPercentage(0);
     setResults([]);
+    setQuizTitle('');
+    setError('');
   };
 
   const formatTime = (seconds) => {
@@ -180,7 +175,7 @@ function Quiz() {
     return (
       <div className="quiz-loading">
         <div className="loading-spinner"></div>
-        <p>Preparing your quiz...</p>
+        <p>Loading quiz...</p>
       </div>
     );
   }
@@ -190,44 +185,21 @@ function Quiz() {
       <div className="quiz-page">
         <div className="quiz-setup">
           <h1>📝 Take a Quiz</h1>
-          <p>Test your knowledge and track your progress</p>
+          <p>Test your knowledge with available quizzes</p>
+
+          {error && <div className="error-alert">{error}</div>}
 
           <div className="setup-form">
             <div className="form-group">
-              <label>Select Subject</label>
-              <select value={selectedSubject} onChange={(e) => setSelectedSubject(e.target.value)}>
-                <option value="">Choose a subject</option>
-                {subjects.map(sub => (
-                  <option key={sub._id} value={sub.name}>{sub.name}</option>
+              <label>Select Quiz</label>
+              <select value={selectedQuizId} onChange={(e) => setSelectedQuizId(e.target.value)}>
+                <option value="">Choose a quiz</option>
+                {quizzes.map(quiz => (
+                  <option key={quiz._id} value={quiz._id}>
+                    {quiz.title} ({quiz.subject}) - {quiz.questions?.length || 0} questions
+                  </option>
                 ))}
               </select>
-            </div>
-
-            <div className="form-group">
-              <label>Difficulty Level</label>
-              <div className="difficulty-options">
-                <button className={`difficulty-btn easy ${difficulty === 'easy' ? 'active' : ''}`} onClick={() => setDifficulty('easy')}>
-                  🟢 Easy
-                </button>
-                <button className={`difficulty-btn medium ${difficulty === 'medium' ? 'active' : ''}`} onClick={() => setDifficulty('medium')}>
-                  🟡 Medium
-                </button>
-                <button className={`difficulty-btn hard ${difficulty === 'hard' ? 'active' : ''}`} onClick={() => setDifficulty('hard')}>
-                  🔴 Hard
-                </button>
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label>Number of Questions</label>
-              <input type="range" min="5" max="20" step="5" value={questionCount} onChange={(e) => setQuestionCount(parseInt(e.target.value))} />
-              <div className="range-values">
-                <span>5</span>
-                <span>10</span>
-                <span>15</span>
-                <span>20</span>
-              </div>
-              <p className="question-count">{questionCount} questions</p>
             </div>
 
             <button className="start-quiz-btn" onClick={startQuiz}>
@@ -235,11 +207,35 @@ function Quiz() {
             </button>
           </div>
 
+          {/* Show past attempts */}
+          <div className="past-attempts">
+            <button className="toggle-attempts" onClick={() => setShowAttempts(!showAttempts)}>
+              <FaHistory /> {showAttempts ? 'Hide Past Attempts' : 'Show Past Attempts'}
+            </button>
+            {showAttempts && (
+              <div className="attempts-list">
+                <h3>Your Previous Quiz Results</h3>
+                {attempts.length === 0 ? (
+                  <p>No past attempts yet.</p>
+                ) : (
+                  <ul>
+                    {attempts.map(attempt => (
+                      <li key={attempt._id}>
+                        <strong>{attempt.quiz?.title || 'Quiz'}</strong> - Score: {attempt.score}/{attempt.totalQuestions} ({Math.round(attempt.percentage)}%)
+                        <br />
+                        <small>Completed: {new Date(attempt.completedAt).toLocaleDateString()}</small>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
+          </div>
+
           <div className="quiz-tips">
             <h3>📌 Quiz Tips</h3>
             <ul>
               <li>Read each question carefully</li>
-              <li>You can skip and come back to questions</li>
               <li>Timer starts when you begin</li>
               <li>Review your answers before submitting</li>
             </ul>
@@ -256,21 +252,21 @@ function Quiz() {
           <div className="results-header">
             <FaTrophy className="trophy-icon" />
             <h1>Quiz Completed!</h1>
-            <p>Here's how you performed</p>
+            <p>{quizTitle}</p>
           </div>
 
           <div className="score-card">
             <div className="score-circle">
-              <span className="score-value">{score}%</span>
+              <span className="score-value">{Math.round(percentage)}%</span>
             </div>
             <div className="score-details">
               <div className="detail">
                 <FaCheckCircle className="correct-icon" />
-                <span>{results.filter(r => r.isCorrect).length} Correct</span>
+                <span>{score} Correct</span>
               </div>
               <div className="detail">
                 <FaTimesCircle className="incorrect-icon" />
-                <span>{results.filter(r => !r.isCorrect).length} Incorrect</span>
+                <span>{questions.length - score} Incorrect</span>
               </div>
             </div>
           </div>
@@ -312,8 +308,7 @@ function Quiz() {
       <div className="quiz-container">
         <div className="quiz-header">
           <div className="quiz-info">
-            <span className="subject-badge">{selectedSubject}</span>
-            <span className={`difficulty-badge ${difficulty}`}>{difficulty}</span>
+            <span className="subject-badge">{quizTitle}</span>
           </div>
           <div className="quiz-timer">
             <FaClock />
@@ -334,12 +329,12 @@ function Quiz() {
             {currentQ?.options.map((option, idx) => (
               <button
                 key={idx}
-                className={`option-btn ${selectedAnswers[currentQ.id] === idx ? 'selected' : ''}`}
-                onClick={() => handleAnswerSelect(currentQ.id, idx)}
+                className={`option-btn ${selectedAnswers[currentQ._id] === idx ? 'selected' : ''}`}
+                onClick={() => handleAnswerSelect(currentQ._id, idx)}
               >
                 <span className="option-letter">{String.fromCharCode(65 + idx)}.</span>
                 <span className="option-text">{option}</span>
-                {selectedAnswers[currentQ.id] === idx && <FaCheckCircle className="check-icon" />}
+                {selectedAnswers[currentQ._id] === idx && <FaCheckCircle className="check-icon" />}
               </button>
             ))}
           </div>

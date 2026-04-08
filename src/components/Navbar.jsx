@@ -16,14 +16,13 @@ function Navbar() {
         </div>
         <ul className="nav-menu">
           <li><Link to="/">Home</Link></li>
+          <li><Link to="/about">About</Link></li>
           <li><Link to="/resources">Resources</Link></li>
-          <li><Link to="/planner">Planner</Link></li>
-          <li><Link to="/dashboard">Dashboard</Link></li>
         </ul>
         <div className="nav-buttons">
-          <button className="theme-toggle-btn" onClick={toggleDarkMode}>
+          {/* <button className="theme-toggle-btn" onClick={toggleDarkMode}>
             {darkMode ? <FaSun /> : <FaMoon />}
-          </button>
+          </button> */}
           <Link to="/login" className="btn-login">Login</Link>
           <Link to="/register" className="btn-register">Sign Up</Link>
         </div>

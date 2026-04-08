@@ -17,6 +17,7 @@ const createQuiz = async (req, res) => {
       createdBy: req.user.id,
       timeLimit: timeLimit || 30,
       difficulty: difficulty || 'medium',
+      isPublished: true,   // ✅ Make quiz available immediately
     });
     
     await Activity.create({

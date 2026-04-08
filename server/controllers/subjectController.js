@@ -51,4 +51,35 @@ const deleteSubject = async (req, res) => {
   }
 };
 
-module.exports = { getSubjects, createSubject, updateSubject, deleteSubject };
+// ✅ NEW: Log study hours for a subject
+const logStudySession = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { hours } = req.body;
+    const subject = await Subject.findById(id);
+    if (!subject) return res.status(404).json({ message: 'Subject not found' });
+    if (subject.user.toString() !== req.user.id) return res.status(401).json({ message: 'Not authorized' });
+
+    subject.studiedHours = (subject.studiedHours || 0) + hours;
+    await subject.save();
+
+    // Optional: Create an activity
+    await Activity.create({
+      user: req.user.id,
+      type: 'study',
+      description: `Logged ${hours} hours of study for ${subject.name}`,
+    });
+
+    res.json(subject);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = {
+  getSubjects,
+  createSubject,
+  updateSubject,
+  deleteSubject,
+  logStudySession,   // ✅ Must be exported
+};

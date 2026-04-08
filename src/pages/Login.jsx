@@ -30,7 +30,7 @@ function Login() {
     setError('');
     
     try {
-      await login({ email, password });
+      const data = await login({ email, password });
       
       // Handle remember me
       if (rememberMe) {
@@ -40,8 +40,17 @@ function Login() {
         localStorage.removeItem('rememberedEmail');
         localStorage.removeItem('rememberMe');
       }
-      
-      navigate('/dashboard');
+      switch (data.role) {
+        case "teacher":
+          navigate('/teacher/dashboard');
+          break;
+        case "admin":
+          navigate('/admin/dashboard');
+          break
+        default:
+          navigate('/dashboard');
+          break;
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Invalid email or password');
     } finally {

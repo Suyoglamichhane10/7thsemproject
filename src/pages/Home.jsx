@@ -8,7 +8,7 @@ function Home() {
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-content">
-          <h1>Study <span>Smarter</span> with StudyNep 🇳🇵</h1>
+          <h1>Study <span>Smarter</span> with StudyNep</h1>
           <p>Your complete study companion for +2 and Bachelor students in Nepal</p>
           <div className="hero-buttons">
             <Link to="/register" className="btn-primary">Get Started Free</Link>
@@ -16,7 +16,7 @@ function Home() {
           </div>
 
           {/* Hero Stats - NEW */}
-          <div className="hero-stats">
+          {/* <div className="hero-stats">
             <div className="hero-stat">
               <span className="stat-number">10,000+</span>
               <span className="stat-label">Active Students</span>
@@ -29,7 +29,7 @@ function Home() {
               <span className="stat-number">98%</span>
               <span className="stat-label" >Success Rate</span>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -158,19 +158,19 @@ function Home() {
           <div className="testimonial-card">
             <FaQuoteLeft className="quote-icon" />
             <p>"StudyNep helped me organize my CSIT studies. The planner is amazing!"</p>
-            <h4>- Ram Sharma, CSIT 5th Sem</h4>
+            <h4>- Suyog Lamichhane, CSIT 5th Sem</h4>
             <div className="rating">★★★★★</div>
           </div>
           <div className="testimonial-card">
             <FaQuoteLeft className="quote-icon" />
             <p>"Finally a study tool made for Nepali students. Very useful for +2 preparation."</p>
-            <h4>- Sita KC, +2 Science</h4>
+            <h4>- Sushant Thapaliya, +2 Science</h4>
             <div className="rating">★★★★★</div>
           </div>
           <div className="testimonial-card">
             <FaQuoteLeft className="quote-icon" />
             <p>"The focus timer and progress tracking keep me motivated daily."</p>
-            <h4>- Binod Thapa, Bachelor 3rd Year</h4>
+            <h4>- Gaurab sapkota, Bachelor 3rd Year</h4>
             <div className="rating">★★★★★</div>
           </div>
         </div>

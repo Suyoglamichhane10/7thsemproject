@@ -23,14 +23,14 @@ function Resources() {
   // Bachelor Resources Data (by semester)
   const bachelorResources = {
     csit: [
-      { semester: "Semester 1", subjects: ["Computer Fundamentals", "Programming Logic", "Mathematics I"] },
-      { semester: "Semester 2", subjects: ["C Programming", "Digital Logic", "Mathematics II"] },
-      { semester: "Semester 3", subjects: ["OOP", "Data Structures", "Computer Architecture"] },
-      { semester: "Semester 4", subjects: ["Operating Systems", "Database Management", "Numerical Methods"] },
-      { semester: "Semester 5", subjects: ["Computer Networks", "Algorithm", "Web Technology"] },
-      { semester: "Semester 6", subjects: ["Software Engineering", "Compiler Design", "E-Governance"] },
-      { semester: "Semester 7", subjects: ["AI", "Network Security", "Project I"] },
-      { semester: "Semester 8", subjects: ["Machine Learning", "Cloud Computing", "Project II"] },
+      { semester: "Semester 1", subjects: ["C programming", "Digital Logic", "Mathematics I" ,"IIT"] },
+      { semester: "Semester 2", subjects: ["Microprocessor", "statistics", "Mathematics II" ,"OOP"] },
+      { semester: "Semester 3", subjects: ["Numerical Methods", "Data Structures Alogorithm", "Computer Architecture","Computer Graphics"] },
+      { semester: "Semester 4", subjects: ["Artificial Intelligence", "Database Management system", "Operating system","Theory of computation"] },
+      { semester: "Semester 5", subjects: ["Cryptography", "simulation and modeling", "Web Technology","System analysis and Design"] },
+      { semester: "Semester 6", subjects: ["Software Engineering", "Compiler Design", "E-Governance","E-Commerce"] },
+      { semester: "Semester 7", subjects: ["Principle of  Management", "Data Warehouse and Data Mining ", "Project I"] },
+      { semester: "Semester 8", subjects: ["Advanced javascript", "Cloud Computing", "Project II"] },
     ],
     engineering: [
       { semester: "Year 1", subjects: ["Engineering Math I", "Physics", "Basic Electronics"] },

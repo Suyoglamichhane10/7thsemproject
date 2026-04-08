@@ -1,32 +1,22 @@
 import { useState, useEffect } from 'react';
 import { 
-  FaUpload, FaFilePdf, FaVideo, FaLink, FaDownload, FaEye, 
-  FaTrash, FaPlus, FaTimes, FaSearch, FaFilter,
-  FaCalendarAlt, FaUser, FaFileAlt
+  FaSearch, FaFilePdf, FaVideo, FaLink, FaDownload, FaEye, 
+  FaCalendarAlt, FaFilter, FaUser, FaTimes, FaFileAlt 
 } from 'react-icons/fa';
-import { getMaterials, uploadPDF, uploadLink, deleteMaterial } from '../services/materialService';
-import './TeacherMaterials.css';
+import { getMaterials } from '../services/materialService';
+import './StudentMaterials.css';
 
-function TeacherMaterials() {
+function StudentMaterials() {
   const [materials, setMaterials] = useState([]);
   const [filteredMaterials, setFilteredMaterials] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
-  const [uploadType, setUploadType] = useState('PDF');
+  const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('all');
   const [selectedSubject, setSelectedSubject] = useState('all');
   const [subjects, setSubjects] = useState([]);
-  const [formData, setFormData] = useState({
-    title: '',
-    subject: '',
-    file: null,
-    fileUrl: '',
-  });
-  const [uploading, setUploading] = useState(false);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
   const API_BASE_URL = 'http://localhost:5000/api';
 
   useEffect(() => {
@@ -47,6 +37,7 @@ function TeacherMaterials() {
       setSubjects(uniqueSubjects);
     } catch (err) {
       console.error('Error fetching materials:', err);
+      setError('Failed to load materials');
     } finally {
       setLoading(false);
     }
@@ -85,6 +76,7 @@ function TeacherMaterials() {
     }
 
     if (material.type === 'PDF') {
+      // Open with token in URL (backend now accepts query token)
       const viewUrl = `${API_BASE_URL}/materials/view/${material._id}?token=${token}`;
       window.open(viewUrl, '_blank');
     } else if (material.type === 'Video' || material.type === 'Link') {
@@ -109,72 +101,6 @@ function TeacherMaterials() {
       window.open(material.fileUrl, '_blank');
     } else if (material.type === 'Video') {
       window.open(material.fileUrl, '_blank');
-    }
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData({ ...formData, file: file, title: formData.title || file.name });
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!formData.title || !formData.subject) {
-      alert('Please fill in title and subject');
-      return;
-    }
-
-    setUploading(true);
-    
-    try {
-      if (uploadType === 'PDF') {
-        if (!formData.file) {
-          alert('Please select a file');
-          setUploading(false);
-          return;
-        }
-        const data = new FormData();
-        data.append('file', formData.file);
-        data.append('title', formData.title);
-        data.append('subject', formData.subject);
-        await uploadPDF(data);
-      } else {
-        if (!formData.fileUrl) {
-          alert('Please enter a URL');
-          setUploading(false);
-          return;
-        }
-        await uploadLink({
-          title: formData.title,
-          subject: formData.subject,
-          type: uploadType,
-          fileUrl: formData.fileUrl,
-        });
-      }
-      
-      setFormData({ title: '', subject: '', file: null, fileUrl: '' });
-      setShowForm(false);
-      fetchMaterials();
-      alert('Material uploaded successfully!');
-    } catch (err) {
-      console.error('Upload error:', err);
-      alert(err.response?.data?.message || 'Upload failed');
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await deleteMaterial(id);
-      fetchMaterials();
-      setShowDeleteConfirm(null);
-      alert('Material deleted successfully');
-    } catch (err) {
-      alert('Delete failed');
     }
   };
 
@@ -218,126 +144,30 @@ function TeacherMaterials() {
 
   if (loading) {
     return (
-      <div className="teacher-materials-loading">
+      <div className="student-materials-loading">
         <div className="loading-spinner"></div>
-        <p>Loading your materials...</p>
+        <p>Loading study materials...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="student-materials-error">
+        <div className="error-icon">⚠️</div>
+        <p>{error}</p>
+        <button onClick={fetchMaterials} className="retry-btn">Try Again</button>
       </div>
     );
   }
 
   return (
-    <div className="teacher-materials-page">
+    <div className="student-materials-page">
       <div className="materials-header">
-        <div>
-          <h1>📚 Study Materials</h1>
-          <p>Manage and share study resources with your students</p>
-        </div>
-        <button className="upload-btn" onClick={() => setShowForm(!showForm)}>
-          <FaPlus /> {showForm ? 'Cancel' : 'Upload New Material'}
-        </button>
+        <h1>📚 Study Materials</h1>
+        <p>Access notes, video lectures, and resources shared by your teachers</p>
       </div>
 
-      {/* Upload Form */}
-      {showForm && (
-        <div className="upload-form-container">
-          <div className="upload-form">
-            <h3>Upload New Material</h3>
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label>Type *</label>
-                <div className="type-selector">
-                  <button 
-                    type="button"
-                    className={`type-option ${uploadType === 'PDF' ? 'active' : ''}`}
-                    onClick={() => setUploadType('PDF')}
-                  >
-                    📄 PDF Document
-                  </button>
-                  <button 
-                    type="button"
-                    className={`type-option ${uploadType === 'Video' ? 'active' : ''}`}
-                    onClick={() => setUploadType('Video')}
-                  >
-                    🎥 Video Lecture
-                  </button>
-                  <button 
-                    type="button"
-                    className={`type-option ${uploadType === 'Link' ? 'active' : ''}`}
-                    onClick={() => setUploadType('Link')}
-                  >
-                    🔗 External Link
-                  </button>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label>Title *</label>
-                <input 
-                  type="text" 
-                  value={formData.title} 
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })} 
-                  required 
-                  placeholder="e.g., Physics Chapter 1 Notes"
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Subject *</label>
-                <input 
-                  type="text" 
-                  value={formData.subject} 
-                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })} 
-                  required 
-                  placeholder="e.g., Mathematics, Physics, CSIT"
-                />
-              </div>
-
-              {uploadType === 'PDF' && (
-                <div className="form-group">
-                  <label>PDF File *</label>
-                  <div className="file-input-wrapper">
-                    <input 
-                      type="file" 
-                      accept=".pdf,.doc,.docx"
-                      onChange={handleFileChange}
-                      id="pdf-file"
-                      required
-                    />
-                    <label htmlFor="pdf-file" className="file-label">
-                      {formData.file ? formData.file.name : 'Choose PDF file'}
-                    </label>
-                  </div>
-                  <small className="form-hint">Upload PDF, DOC, or DOCX files (Max 10MB)</small>
-                </div>
-              )}
-
-              {(uploadType === 'Video' || uploadType === 'Link') && (
-                <div className="form-group">
-                  <label>{uploadType === 'Video' ? 'Video URL' : 'Link URL'} *</label>
-                  <input 
-                    type="url" 
-                    value={formData.fileUrl} 
-                    onChange={(e) => setFormData({ ...formData, fileUrl: e.target.value })} 
-                    required 
-                    placeholder={uploadType === 'Video' ? 'https://youtube.com/...' : 'https://...'}
-                  />
-                </div>
-              )}
-
-              <div className="form-actions">
-                <button type="submit" className="submit-btn" disabled={uploading}>
-                  {uploading ? 'Uploading...' : 'Upload Material'}
-                </button>
-                <button type="button" className="cancel-btn" onClick={() => setShowForm(false)}>
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Search and Filters */}
       <div className="materials-controls">
         <div className="search-box">
           <FaSearch className="search-icon" />
@@ -370,17 +200,15 @@ function TeacherMaterials() {
         </div>
       </div>
 
-      {/* Results Count */}
       <div className="results-count">
         Found {filteredMaterials.length} {filteredMaterials.length === 1 ? 'material' : 'materials'}
       </div>
 
-      {/* Materials Grid */}
       {filteredMaterials.length === 0 ? (
         <div className="no-materials">
           <div className="no-materials-icon">📭</div>
           <h3>No materials found</h3>
-          <p>Click "Upload New Material" to add your first study resource</p>
+          <p>Try adjusting your search or filter criteria</p>
         </div>
       ) : (
         <div className="materials-grid">
@@ -398,7 +226,7 @@ function TeacherMaterials() {
                     <FaCalendarAlt /> {formatDate(material.createdAt)}
                   </span>
                   <span className="material-uploader">
-                    <FaUser /> You
+                    <FaUser /> {material.uploadedBy?.name || 'Teacher'}
                   </span>
                 </div>
               </div>
@@ -409,16 +237,12 @@ function TeacherMaterials() {
                 <button onClick={() => handleDownload(material)} className="download-btn">
                   <FaDownload /> {material.type === 'Link' ? 'Visit' : 'Download'}
                 </button>
-                <button onClick={() => setShowDeleteConfirm(material._id)} className="delete-btn">
-                  <FaTrash /> Delete
-                </button>
               </div>
             </div>
           ))}
         </div>
       )}
 
-      {/* Stats Section */}
       <div className="materials-stats">
         <div className="stat-item">
           <span className="stat-number">{materials.length}</span>
@@ -438,7 +262,6 @@ function TeacherMaterials() {
         </div>
       </div>
 
-      {/* Preview Modal */}
       {showPreview && selectedMaterial && (
         <div className="preview-modal" onClick={() => setShowPreview(false)}>
           <div className="preview-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -455,10 +278,16 @@ function TeacherMaterials() {
                     <FaFilePdf className="pdf-icon-large" />
                     <p>PDF Document</p>
                     <div className="preview-actions">
-                      <button onClick={() => handleView(selectedMaterial)} className="preview-btn">
+                      <button 
+                        onClick={() => handleView(selectedMaterial)} 
+                        className="preview-btn"
+                      >
                         <FaEye /> Open PDF
                       </button>
-                      <button onClick={() => handleDownload(selectedMaterial)} className="preview-btn download">
+                      <button 
+                        onClick={() => handleDownload(selectedMaterial)} 
+                        className="preview-btn download"
+                      >
                         <FaDownload /> Download PDF
                       </button>
                     </div>
@@ -489,27 +318,8 @@ function TeacherMaterials() {
           </div>
         </div>
       )}
-
-      {/* Delete Confirmation Modal */}
-      {showDeleteConfirm && (
-        <div className="delete-modal" onClick={() => setShowDeleteConfirm(null)}>
-          <div className="delete-modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="delete-icon">🗑️</div>
-            <h3>Delete Material?</h3>
-            <p>Are you sure you want to delete this material? This action cannot be undone.</p>
-            <div className="delete-actions">
-              <button className="cancel-delete" onClick={() => setShowDeleteConfirm(null)}>
-                Cancel
-              </button>
-              <button className="confirm-delete" onClick={() => handleDelete(showDeleteConfirm)}>
-                Yes, Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
 
-export default TeacherMaterials;
+export default StudentMaterials;
