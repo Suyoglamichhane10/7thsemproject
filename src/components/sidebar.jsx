@@ -3,73 +3,218 @@ import {
   FaHome, FaBook, FaCalendarAlt, FaChartBar, FaClock, 
   FaSignOutAlt, FaBrain, FaPlus, FaList, FaChalkboardTeacher, 
   FaUsers, FaUpload, FaCog, FaUserCog, 
-  FaFolderOpen
+  FaFolderOpen, FaBars, FaTimes, FaChevronLeft, FaChevronRight,
+  FaUser
 } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import './Sidebar.css';
+import { useState, useEffect } from 'react';
 
 function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
   const isActive = (path) => location.pathname === path ? 'active' : '';
+
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      
+      if (!mobile && isOpen) {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isMobile && isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobile, isOpen]);
+
+  const toggleSidebar = () => {
+    console.log('Toggle clicked, current state:', isOpen);
+    setIsOpen(!isOpen);
+  };
+
+  const toggleCollapse = () => {
+    if (!isMobile) {
+      setIsCollapsed(!isCollapsed);
+    }
+  };
+
+  const closeSidebar = () => {
+    setIsOpen(false);
+  };
 
   const handleLogout = () => {
     logout();
     navigate('/login');
+    closeSidebar();
   };
 
-  if (!user) return null;
+  if (!user) {
+    console.log('No user found');
+    return null;
+  }
+
+  console.log('Sidebar rendering, isOpen:', isOpen, 'isMobile:', isMobile);
 
   return (
-    <div className="sidebar">
-      <div className="sidebar-header">
-        <h2>Study<span>Nep</span></h2>
-        <p>🇳🇵 Smart Study Planner</p>
+    <>
+      {/* Mobile Overlay */}
+      {isMobile && isOpen && (
+        <div className="mobile-overlay" onClick={closeSidebar}></div>
+      )}
+
+      {/* Sidebar */}
+      <div className={`sidebar ${isOpen ? 'mobile-open' : ''} ${isCollapsed ? 'collapsed' : ''}`}>
+        <div className="sidebar-header">
+          {!isCollapsed ? (
+            <>
+              <h2>Study<span>Nep</span></h2>
+              <p>Smart Study Planner</p>
+            </>
+          ) : (
+            <div className="sidebar-logo-mini">
+              SN
+            </div>
+          )}
+        </div>
+
+        <div className="sidebar-menu">
+          {/* STUDENT SECTION */}
+          {user.role === 'student' && (
+            <>
+              {!isCollapsed && <div className="sidebar-section">🎓 Student</div>}
+             
+              <Link to="/dashboard" className={`sidebar-link ${isActive('/dashboard')}`} onClick={closeSidebar}>
+                <FaHome />
+                {!isCollapsed && <span>Dashboard</span>}
+              </Link>
+              <Link to="/planner" className={`sidebar-link ${isActive('/planner')}`} onClick={closeSidebar}>
+                <FaBook />
+                {!isCollapsed && <span>Study Planner</span>}
+              </Link>
+              <Link to="/schedule" className={`sidebar-link ${isActive('/schedule')}`} onClick={closeSidebar}>
+                <FaCalendarAlt />
+                {!isCollapsed && <span>Schedule</span>}
+              </Link>
+              <Link to="/progress" className={`sidebar-link ${isActive('/progress')}`} onClick={closeSidebar}>
+                <FaChartBar />
+                {!isCollapsed && <span>Progress</span>}
+              </Link>
+              <Link to="/focus" className={`sidebar-link ${isActive('/focus')}`} onClick={closeSidebar}>
+                <FaClock />
+                {!isCollapsed && <span>Focus Timer</span>}
+              </Link>
+              <Link to="/quiz" className={`sidebar-link ${isActive('/quiz')}`} onClick={closeSidebar}>
+                <FaBrain />
+                {!isCollapsed && <span>Take Quiz</span>}
+              </Link>
+              <Link to="/student/materials" className={`sidebar-link ${isActive('/student/materials')}`} onClick={closeSidebar}>
+                <FaFolderOpen />
+                {!isCollapsed && <span>Study Materials</span>}
+              </Link>
+               <Link to="/profile" className={`sidebar-link ${isActive('/profile')}`} onClick={closeSidebar}>
+                <FaUser />
+                {!isCollapsed && <span>My Profile</span>}
+              </Link>
+            </>
+          )}
+
+          {/* TEACHER SECTION */}
+          {user.role === 'teacher' && (
+            <>
+              {!isCollapsed && <div className="sidebar-section">👨‍🏫 Teacher</div>}
+             
+              <Link to="/teacher/dashboard" className={`sidebar-link ${isActive('/teacher/dashboard')}`} onClick={closeSidebar}>
+                <FaChalkboardTeacher />
+                {!isCollapsed && <span>Teacher Dashboard</span>}
+              </Link>
+              <Link to="/teacher/materials" className={`sidebar-link ${isActive('/teacher/materials')}`} onClick={closeSidebar}>
+                <FaUpload />
+                {!isCollapsed && <span>Materials</span>}
+              </Link>
+              <Link to="/teacher/students" className={`sidebar-link ${isActive('/teacher/students')}`} onClick={closeSidebar}>
+                <FaUsers />
+                {!isCollapsed && <span>Students</span>}
+              </Link>
+              {!isCollapsed && <div className="sidebar-section">📝 Quiz Management</div>}
+              <Link to="/create-quiz" className={`sidebar-link ${isActive('/create-quiz')}`} onClick={closeSidebar}>
+                <FaPlus />
+                {!isCollapsed && <span>Create Quiz</span>}
+              </Link>
+              <Link to="/teacher/quizzes" className={`sidebar-link ${isActive('/teacher/quizzes')}`} onClick={closeSidebar}>
+                <FaList />
+                {!isCollapsed && <span>My Quizzes</span>}
+              </Link>
+               <Link to="/profile" className={`sidebar-link ${isActive('/profile')}`} onClick={closeSidebar}>
+                <FaUser />
+                {!isCollapsed && <span>My Profile</span>}
+              </Link>
+            </>
+          )}
+
+          {/* ADMIN SECTION */}
+          {user.role === 'admin' && (
+            <>
+              {!isCollapsed && <div className="sidebar-section">👑 Admin</div>}
+             
+              <Link to="/admin/dashboard" className={`sidebar-link ${isActive('/admin/dashboard')}`} onClick={closeSidebar}>
+                <FaCog />
+                {!isCollapsed && <span>Admin Dashboard</span>}
+              </Link>
+              <Link to="/admin/users" className={`sidebar-link ${isActive('/admin/users')}`} onClick={closeSidebar}>
+                <FaUserCog />
+                {!isCollapsed && <span>Manage Users</span>}
+              </Link>
+              <Link to="/admin/reports" className={`sidebar-link ${isActive('/admin/reports')}`} onClick={closeSidebar}>
+                <FaChartBar />
+                {!isCollapsed && <span>Reports</span>}
+              </Link>
+               <Link to="/profile" className={`sidebar-link ${isActive('/profile')}`} onClick={closeSidebar}>
+                <FaUser />
+                {!isCollapsed && <span>My Profile</span>}
+              </Link>
+            </>
+          )}
+
+          <div className="sidebar-divider"></div>
+
+          {/* Logout */}
+          <button className="sidebar-link logout-btn" onClick={handleLogout}>
+            <FaSignOutAlt />
+            {!isCollapsed && <span>Logout</span>}
+          </button>
+        </div>
+
+        {/* Collapse Toggle Button - Desktop Only */}
+        {!isMobile && (
+          <button className="collapse-toggle" onClick={toggleCollapse}>
+            {isCollapsed ? <FaChevronRight /> : <FaChevronLeft />}
+          </button>
+        )}
       </div>
 
-      <ul className="sidebar-menu">
-        {/* ===== STUDENT SECTION ===== */}
-        {user.role === 'student' && (
-          <>
-            <li className="sidebar-section">🎓 Student</li>
-            <li><Link to="/dashboard" className={isActive('/dashboard')}><FaHome /> Dashboard</Link></li>
-            <li><Link to="/planner" className={isActive('/planner')}><FaBook /> Study Planner</Link></li>
-            <li><Link to="/schedule" className={isActive('/schedule')}><FaCalendarAlt /> Schedule</Link></li>
-            <li><Link to="/progress" className={isActive('/progress')}><FaChartBar /> Progress</Link></li>
-            <li><Link to="/focus" className={isActive('/focus')}><FaClock /> Focus Timer</Link></li>
-            <li><Link to="/quiz" className={isActive('/quiz')}><FaBrain /> Take Quiz</Link></li>
-            <li><Link to="/student/materials" className={isActive('/student/materials')}><FaFolderOpen /> Study Materials</Link></li>
-          </>
-        )}
-
-        {/* ===== TEACHER SECTION (Only for teachers, NOT for admin) ===== */}
-        {user.role === 'teacher' && (
-          <>
-            <li className="sidebar-section">👨‍🏫 Teacher</li>
-            <li><Link to="/teacher/dashboard" className={isActive('/teacher/dashboard')}><FaChalkboardTeacher /> Teacher Dashboard</Link></li>
-            <li><Link to="/teacher/materials" className={isActive('/teacher/materials')}><FaUpload /> Materials</Link></li>
-            <li><Link to="/teacher/students" className={isActive('/teacher/students')}><FaUsers /> Students</Link></li>
-            <li className="sidebar-section">📝 Quiz Management</li>
-            <li><Link to="/create-quiz" className={isActive('/create-quiz')}><FaPlus /> Create Quiz</Link></li>
-            <li><Link to="/teacher/quizzes" className={isActive('/teacher/quizzes')}><FaList /> My Quizzes</Link></li>
-          </>
-        )}
-
-        {/* ===== ADMIN SECTION (Only for admin) ===== */}
-        {user.role === 'admin' && (
-          <>
-            <li className="sidebar-section">👑 Admin</li>
-            <li><Link to="/admin/dashboard" className={isActive('/admin/dashboard')}><FaCog /> Admin Dashboard</Link></li>
-            <li><Link to="/admin/users" className={isActive('/admin/users')}><FaUserCog /> Manage Users</Link></li>
-            <li><Link to="/admin/reports" className={isActive('/admin/reports')}><FaChartBar /> Reports</Link></li>
-          </>
-        )}
-
-        {/* Logout */}
-        <li className="logout"><a href="#" onClick={handleLogout}><FaSignOutAlt /> Logout</a></li>
-      </ul>
-    </div>
+      {/* Mobile Menu Button */}
+      <button className="mobile-menu-btn" onClick={toggleSidebar}>
+        {isOpen ? <FaTimes /> : <FaBars />}
+      </button>
+    </>
   );
 }
 

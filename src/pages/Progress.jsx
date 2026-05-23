@@ -6,7 +6,6 @@ import {
 } from 'recharts';
 import { getSubjects } from '../services/subjectService';
 import { 
-  getProgress,
   getDashboardStats,
   getWeeklyProgress,
   getPerformanceData,
@@ -20,7 +19,6 @@ function Progress() {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [progressData, setProgressData] = useState(null);
   const [stats, setStats] = useState({
     totalStudyHours: 0,
     completedTopics: 0,
@@ -36,15 +34,14 @@ function Progress() {
   const [achievements, setAchievements] = useState([]);
   const [timeDistribution, setTimeDistribution] = useState([]);
   const [subjectProgressList, setSubjectProgressList] = useState([]);
-  const [selectedTimeframe, setSelectedTimeframe] = useState('week'); // 'week', 'month', 'year'
+  const [selectedTimeframe, setSelectedTimeframe] = useState('week');
 
   // Colors for charts
   const colorPalette = ['#1e3a8a', '#dc2626', '#facc15', '#10b981', '#8b5cf6', '#ec4899', '#f97316', '#06b6d4'];
-  const performanceColors = ['#dc2626', '#f97316', '#facc15', '#10b981'];
 
   useEffect(() => {
     fetchAllProgressData();
-  }, [selectedTimeframe]);
+  }, []);
 
   const fetchAllProgressData = async () => {
     try {
@@ -52,7 +49,7 @@ function Progress() {
       
       // Fetch subjects data
       const subjectsRes = await getSubjects();
-      const subjectsData = subjectsRes.data;
+      const subjectsData = subjectsRes.data || [];
       setSubjects(subjectsData);
       
       // Calculate stats from subjects
@@ -60,7 +57,7 @@ function Progress() {
       const completed = subjectsData.filter(s => s.completed).length;
       const total = subjectsData.length;
       const active = subjectsData.filter(s => !s.completed).length;
-      const upcoming = subjectsData.filter(s => !s.completed && new Date(s.examDate) > new Date()).length;
+      const upcoming = subjectsData.filter(s => !s.completed && s.examDate && new Date(s.examDate) > new Date()).length;
       
       setStats({
         totalStudyHours: totalHours,
@@ -91,43 +88,31 @@ function Progress() {
         }));
       setTimeDistribution(distribution);
       
-      // Fetch dashboard stats from backend
-      try {
-        const statsRes = await getDashboardStats();
-        if (statsRes.data) {
-          setStats(prev => ({ ...prev, ...statsRes.data }));
-        }
-      } catch (err) {
-        console.log('Dashboard stats endpoint not available');
-      }
-      
       // Fetch weekly study hours
       try {
         const weeklyRes = await getWeeklyProgress();
         if (weeklyRes.data && weeklyRes.data.length > 0) {
           setWeeklyStudyData(weeklyRes.data);
         } else {
-          // Fallback mock data
           setWeeklyStudyData([
-            { day: 'Mon', hours: 2.5 },
-            { day: 'Tue', hours: 3 },
-            { day: 'Wed', hours: 1.5 },
-            { day: 'Thu', hours: 2 },
-            { day: 'Fri', hours: 2.5 },
-            { day: 'Sat', hours: 4 },
-            { day: 'Sun', hours: 3.5 },
+            { day: 'Mon', hours: 2.5, study: 2.5 },
+            { day: 'Tue', hours: 3.0, study: 3.0 },
+            { day: 'Wed', hours: 1.5, study: 1.5 },
+            { day: 'Thu', hours: 2.0, study: 2.0 },
+            { day: 'Fri', hours: 2.5, study: 2.5 },
+            { day: 'Sat', hours: 4.0, study: 4.0 },
+            { day: 'Sun', hours: 3.5, study: 3.5 },
           ]);
         }
       } catch (err) {
-        console.log('Weekly study data endpoint not available');
         setWeeklyStudyData([
-          { day: 'Mon', hours: 2.5 },
-          { day: 'Tue', hours: 3 },
-          { day: 'Wed', hours: 1.5 },
-          { day: 'Thu', hours: 2 },
-          { day: 'Fri', hours: 2.5 },
-          { day: 'Sat', hours: 4 },
-          { day: 'Sun', hours: 3.5 },
+          { day: 'Mon', hours: 2.5, study: 2.5 },
+          { day: 'Tue', hours: 3.0, study: 3.0 },
+          { day: 'Wed', hours: 1.5, study: 1.5 },
+          { day: 'Thu', hours: 2.0, study: 2.0 },
+          { day: 'Fri', hours: 2.5, study: 2.5 },
+          { day: 'Sat', hours: 4.0, study: 4.0 },
+          { day: 'Sun', hours: 3.5, study: 3.5 },
         ]);
       }
       
@@ -138,23 +123,22 @@ function Progress() {
           setPerformanceData(performanceRes.data);
         } else {
           setPerformanceData([
-            { week: 'W1', score: 65 },
-            { week: 'W2', score: 70 },
-            { week: 'W3', score: 68 },
-            { week: 'W4', score: 75 },
-            { week: 'W5', score: 80 },
-            { week: 'W6', score: 82 },
+            { week: 'Week 1', score: 65, quiz: 65 },
+            { week: 'Week 2', score: 70, quiz: 70 },
+            { week: 'Week 3', score: 68, quiz: 68 },
+            { week: 'Week 4', score: 75, quiz: 75 },
+            { week: 'Week 5', score: 80, quiz: 80 },
+            { week: 'Week 6', score: 82, quiz: 82 },
           ]);
         }
       } catch (err) {
-        console.log('Performance data endpoint not available');
         setPerformanceData([
-          { week: 'W1', score: 65 },
-          { week: 'W2', score: 70 },
-          { week: 'W3', score: 68 },
-          { week: 'W4', score: 75 },
-          { week: 'W5', score: 80 },
-          { week: 'W6', score: 82 },
+          { week: 'Week 1', score: 65, quiz: 65 },
+          { week: 'Week 2', score: 70, quiz: 70 },
+          { week: 'Week 3', score: 68, quiz: 68 },
+          { week: 'Week 4', score: 75, quiz: 75 },
+          { week: 'Week 5', score: 80, quiz: 80 },
+          { week: 'Week 6', score: 82, quiz: 82 },
         ]);
       }
       
@@ -171,7 +155,6 @@ function Progress() {
           ]);
         }
       } catch (err) {
-        console.log('Activities endpoint not available');
         setRecentActivities([
           { id: 1, activity: 'Completed Mathematics Chapter 5', time: 'Today, 10:30 AM', type: 'complete' },
           { id: 2, activity: 'Physics Practice Test - 85%', time: 'Yesterday, 3:15 PM', type: 'quiz' },
@@ -183,7 +166,6 @@ function Progress() {
         const streakRes = await getStudyStreak();
         setStudyStreak(streakRes.data?.streak || 7);
       } catch (err) {
-        console.log('Streak endpoint not available');
         setStudyStreak(7);
       }
       
@@ -215,15 +197,27 @@ function Progress() {
       return (
         <div className="custom-tooltip">
           <p className="tooltip-label">{label}</p>
-          <p className="tooltip-value">{payload[0].value} {payload[0].name === 'hours' ? 'hours' : '%'}</p>
+          <p className="tooltip-value">{payload[0].value} {payload[0].name === 'hours' || payload[0].name === 'study' ? 'hours' : '%'}</p>
         </div>
       );
     }
     return null;
   };
 
-  if (loading) return <div className="loading-container"><div className="loading-spinner"></div><p>Loading your progress data...</p></div>;
-  if (error) return <div className="error-container"><div className="error-icon">⚠️</div><p>{error}</p><button onClick={fetchAllProgressData} className="retry-btn">Retry</button></div>;
+  if (loading) return (
+    <div className="loading-container">
+      <div className="loading-spinner"></div>
+      <p>Loading your progress data...</p>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="error-container">
+      <div className="error-icon">⚠️</div>
+      <p>{error}</p>
+      <button onClick={fetchAllProgressData} className="retry-btn">Retry</button>
+    </div>
+  );
 
   return (
     <div className="progress-page">
@@ -297,7 +291,7 @@ function Progress() {
             </div>
           </div>
           <ResponsiveContainer width="100%" height={280}>
-            <BarChart data={weeklyStudyData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+            <BarChart data={weeklyStudyData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis dataKey="day" tick={{ fill: '#64748b' }} />
               <YAxis tick={{ fill: '#64748b' }} />
@@ -310,9 +304,9 @@ function Progress() {
 
         {/* Performance Trend */}
         <div className="chart-card">
-          <h3>📈 Performance Trend</h3>
+          <h3>Performance Trend</h3>
           <ResponsiveContainer width="100%" height={280}>
-            <AreaChart data={performanceData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+            <AreaChart data={performanceData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="scoreGradient" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#dc2626" stopOpacity={0.3}/>
@@ -324,7 +318,6 @@ function Progress() {
               <YAxis domain={[0, 100]} tick={{ fill: '#64748b' }} />
               <Tooltip content={<CustomTooltip />} />
               <Area type="monotone" dataKey="score" stroke="#dc2626" strokeWidth={2} fill="url(#scoreGradient)" name="Quiz Score" />
-              <Line type="monotone" dataKey="score" stroke="#dc2626" strokeWidth={2} dot={{ fill: '#dc2626', r: 4 }} />
             </AreaChart>
           </ResponsiveContainer>
           <p className="chart-note">📊 Your quiz performance trend</p>
@@ -332,7 +325,7 @@ function Progress() {
 
         {/* Subject Progress Bars */}
         <div className="chart-card">
-          <h3>📚 Subject Progress</h3>
+          <h3>Subject Progress</h3>
           <div className="subject-progress-list">
             {subjectProgressList.length === 0 ? (
               <p className="no-data">No subjects added yet</p>
@@ -344,13 +337,7 @@ function Progress() {
                     <span className="subject-name">{sub.name}</span>
                   </div>
                   <div className="progress-bar-bg">
-                    <div
-                      className="progress-bar-fill"
-                      style={{
-                        width: `${sub.percentage}%`,
-                        backgroundColor: sub.color,
-                      }}
-                    ></div>
+                    <div className="progress-bar-fill" style={{ width: `${sub.percentage}%`, backgroundColor: sub.color }}></div>
                   </div>
                   <span className="progress-percent">{sub.percentage}%</span>
                 </div>
@@ -364,7 +351,7 @@ function Progress() {
 
         {/* Time Distribution Pie */}
         <div className="chart-card">
-          <h3>⏱️ Time Distribution</h3>
+          <h3>Time Distribution</h3>
           {timeDistribution.length === 0 ? (
             <p className="no-data">No subjects with study hours</p>
           ) : (
@@ -405,54 +392,10 @@ function Progress() {
         </div>
       </div>
 
-      {/* Second Row Charts */}
-      <div className="charts-grid-second">
-        {/* Monthly Progress */}
-        <div className="chart-card">
-          <h3>📅 Monthly Progress</h3>
-          <ResponsiveContainer width="100%" height={200}>
-            <LineChart data={performanceData.slice(-4)} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis dataKey="week" tick={{ fill: '#64748b' }} />
-              <YAxis tick={{ fill: '#64748b' }} />
-              <Tooltip />
-              <Line type="monotone" dataKey="score" stroke="#f59e0b" strokeWidth={2} dot={{ fill: '#f59e0b', r: 4 }} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Study vs Goals */}
-        <div className="chart-card">
-          <h3>🎯 Goal Progress</h3>
-          <div className="goal-progress">
-            <div className="goal-item">
-              <div className="goal-label">
-                <span>Weekly Study Goal</span>
-                <span>{Math.min(100, Math.round((stats.totalStudyHours / 20) * 100))}%</span>
-              </div>
-              <div className="progress-bar-bg">
-                <div className="progress-bar-fill" style={{ width: `${Math.min(100, Math.round((stats.totalStudyHours / 20) * 100))}%`, backgroundColor: '#10b981' }}></div>
-              </div>
-              <small>{stats.totalStudyHours} / 20 hours completed</small>
-            </div>
-            <div className="goal-item">
-              <div className="goal-label">
-                <span>Topics Completed</span>
-                <span>{stats.completionPercentage}%</span>
-              </div>
-              <div className="progress-bar-bg">
-                <div className="progress-bar-fill" style={{ width: `${stats.completionPercentage}%`, backgroundColor: '#3b82f6' }}></div>
-              </div>
-              <small>{stats.completedTopics} / {stats.totalTopics} topics</small>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Recent Activity */}
       <div className="recent-activity">
         <div className="activity-header">
-          <h2>🕒 Recent Activity</h2>
+          <h2>Recent Activity</h2>
           <span className="activity-count">{recentActivities.length} activities</span>
         </div>
         {recentActivities.length === 0 ? (
@@ -471,7 +414,7 @@ function Progress() {
                 </div>
                 <div className="activity-details">
                   <p className="activity-desc">{act.activity || act.description}</p>
-                  <span className="activity-time">{act.time || new Date(act.createdAt).toLocaleDateString()}</span>
+                  <span className="activity-time">{act.time || (act.createdAt ? new Date(act.createdAt).toLocaleDateString() : 'Recently')}</span>
                 </div>
               </div>
             ))}
@@ -482,7 +425,7 @@ function Progress() {
       {/* Achievements Section */}
       {achievements.length > 0 && (
         <div className="achievements-section">
-          <h2>🏆 Achievements</h2>
+          <h2>Achievements</h2>
           <div className="achievements-grid">
             {achievements.map((achievement, idx) => (
               <div key={achievement.id || idx} className="achievement-card">

@@ -1,3 +1,8 @@
+/* ========================================
+   RESOURCES PAGE - FULLY RESPONSIVE CSS
+   (JSX remains unchanged)
+   ======================================== */
+
 .resources-page {
   max-width: 1200px;
   margin: 0 auto;
@@ -240,31 +245,287 @@
   padding-left: 1.2rem;
 }
 
-/* Responsive */
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+  .resources-page {
+    padding: 1.5rem;
+  }
+  
+  .resources-header h1 {
+    font-size: 2.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .tab {
+    padding: 0.7rem 1.8rem;
+    font-size: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+  }
+  
+  .subject-card h3 {
+    font-size: 1.3rem;
+  }
+  
+  .semester-card h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/* Mobile (up to 768px) */
 @media (max-width: 768px) {
   .resources-page {
     padding: 1rem;
   }
-
+  
+  .resources-header {
+    margin-bottom: 2rem;
+  }
+  
   .resources-header h1 {
-    font-size: 2.2rem;
+    font-size: 2rem;
   }
-
+  
+  .resources-header h1::after {
+    width: 60px;
+    height: 3px;
+    bottom: -8px;
+  }
+  
   .subtitle {
-    font-size: 1rem;
+    font-size: 0.95rem;
+    margin: 1rem auto 0;
   }
-
+  
+  .resources-tabs {
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+  }
+  
   .tab {
-    padding: 0.6rem 1.5rem;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  
+  .category-section {
+    margin-bottom: 2rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .title-underline {
+    padding-bottom: 0.3rem;
+  }
+  
+  .subject-grid {
+    gap: 1.5rem;
+  }
+  
+  .subject-card {
+    padding: 1.5rem;
+  }
+  
+  .subject-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .resource-link {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .link-icon {
     font-size: 1rem;
   }
+  
+  .semester-grid {
+    gap: 1.5rem;
+  }
+  
+  .semester-card {
+    padding: 1.5rem;
+  }
+  
+  .semester-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .subject-list li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .subject-list a {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.85rem;
+  }
+}
 
-  .section-title {
+/* Small Mobile (up to 480px) */
+@media (max-width: 480px) {
+  .resources-page {
+    padding: 0.8rem;
+  }
+  
+  .resources-header h1 {
     font-size: 1.6rem;
   }
-
-  .subject-grid,
-  .semester-grid {
-    grid-template-columns: 1fr;
+  
+  .subtitle {
+    font-size: 0.85rem;
   }
+  
+  .resources-tabs {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  
+  .tab {
+    text-align: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .section-title {
+    font-size: 1.3rem;
+  }
+  
+  .subject-card {
+    padding: 1rem;
+  }
+  
+  .subject-card h3 {
+    font-size: 1.1rem;
+  }
+  
+  .resource-link {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.85rem;
+  }
+  
+  .semester-card {
+    padding: 1rem;
+  }
+  
+  .semester-card h3 {
+    font-size: 1rem;
+  }
+  
+  .subject-list a {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Extra Small Mobile (up to 360px) */
+@media (max-width: 360px) {
+  .resources-header h1 {
+    font-size: 1.4rem;
+  }
+  
+  .subtitle {
+    font-size: 0.8rem;
+  }
+  
+  .section-title {
+    font-size: 1.2rem;
+  }
+  
+  .subject-card h3 {
+    font-size: 1rem;
+  }
+  
+  .resource-link {
+    font-size: 0.8rem;
+  }
+  
+  .semester-card h3 {
+    font-size: 0.95rem;
+  }
+  
+  .subject-list a {
+    font-size: 0.75rem;
+  }
+}
+
+/* ===== DARK MODE SUPPORT ===== */
+.dark-mode .resources-page {
+  background-color: var(--bg-primary);
+}
+
+.dark-mode .resources-header h1 {
+  color: #60a5fa;
+}
+
+.dark-mode .subtitle {
+  color: var(--text-secondary);
+}
+
+.dark-mode .tab {
+  background: var(--card-bg);
+  color: var(--text-secondary);
+  border-color: var(--border-color);
+}
+
+.dark-mode .tab:hover {
+  border-color: #60a5fa;
+}
+
+.dark-mode .tab.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.dark-mode .section-title {
+  color: var(--text-primary);
+}
+
+.dark-mode .subject-card,
+.dark-mode .semester-card {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.dark-mode .subject-card h3,
+.dark-mode .semester-card h3 {
+  color: #60a5fa;
+  border-bottom-color: var(--border-color);
+}
+
+.dark-mode .resource-link.notes {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+}
+
+.dark-mode .resource-link.questions {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+}
+
+.dark-mode .resource-link.materials {
+  background: rgba(139, 92, 246, 0.2);
+  color: #a78bfa;
+}
+
+.dark-mode .subject-list a {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+}
+
+.dark-mode .subject-list a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #60a5fa;
 }

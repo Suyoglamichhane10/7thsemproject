@@ -1,3 +1,8 @@
+/* ========================================
+   CREATE QUIZ - FULLY RESPONSIVE CSS
+   (JSX remains unchanged)
+   ======================================== */
+
 /* Create Quiz Page */
 .create-quiz-page {
   padding: 2rem;
@@ -352,64 +357,217 @@
   cursor: not-allowed;
 }
 
-/* Question Number Badge */
-.question-number-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  background: #1e3a8a;
-  color: white;
-  border-radius: 50%;
-  font-size: 0.8rem;
-  font-weight: bold;
-  margin-right: 0.5rem;
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+  .create-quiz-page {
+    padding: 1.5rem;
+  }
+  
+  .create-quiz-page h1 {
+    font-size: 1.8rem;
+  }
+  
+  .form-section {
+    padding: 1.2rem;
+  }
+  
+  .form-section h2 {
+    font-size: 1.2rem;
+  }
 }
 
-/* Required Field Indicator */
-.form-group label.required::after {
-  content: '*';
-  color: #dc2626;
-  margin-left: 0.2rem;
+/* Mobile (up to 768px) */
+@media (max-width: 768px) {
+  .create-quiz-page {
+    padding: 1rem;
+  }
+
+  .create-quiz-page h1 {
+    font-size: 1.6rem;
+  }
+  
+  .create-quiz-page > p {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .form-section {
+    padding: 1rem;
+  }
+  
+  .form-section h2 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .question-card {
+    padding: 1rem;
+  }
+  
+  .question-header h3 {
+    font-size: 0.9rem;
+  }
+
+  .option-input {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .option-letter {
+    width: 25px;
+  }
+
+  .correct-btn {
+    width: auto;
+    padding: 0.3rem 0.8rem;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .add-question-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .form-actions {
+    justify-content: center;
+  }
+
+  .save-quiz-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
 }
 
-/* Tooltip */
-[data-tooltip] {
-  position: relative;
-  cursor: help;
+/* Small Mobile (up to 480px) */
+@media (max-width: 480px) {
+  .create-quiz-page {
+    padding: 0.8rem;
+  }
+  
+  .create-quiz-page h1 {
+    font-size: 1.4rem;
+  }
+  
+  .create-quiz-page > p {
+    font-size: 0.85rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+  }
+  
+  .form-group label {
+    font-size: 0.85rem;
+  }
+
+  .option-input {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .option-letter {
+    width: auto;
+  }
+
+  .option-input input {
+    width: 100%;
+  }
+
+  .correct-btn {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .message {
+    padding: 0.8rem;
+    font-size: 0.85rem;
+  }
+  
+  .question-card {
+    padding: 0.8rem;
+  }
+  
+  .remove-btn {
+    font-size: 0.9rem;
+  }
 }
 
-[data-tooltip]:before {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 0.3rem 0.6rem;
-  background: #1e293b;
-  color: white;
-  font-size: 0.7rem;
-  border-radius: 6px;
-  white-space: nowrap;
-  display: none;
-  z-index: 10;
-  margin-bottom: 5px;
+/* Extra Small Mobile (up to 360px) */
+@media (max-width: 360px) {
+  .create-quiz-page h1 {
+    font-size: 1.2rem;
+  }
+  
+  .form-section h2 {
+    font-size: 1rem;
+  }
+  
+  .add-question-btn {
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .save-quiz-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .option-input input {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .correct-btn {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+  }
 }
 
-[data-tooltip]:hover:before {
-  display: block;
-}
-
-/* Dark Mode */
+/* ===== DARK MODE SUPPORT ===== */
 .dark-mode .create-quiz-page {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.dark-mode .create-quiz-page h1 {
+  color: #60a5fa;
+}
+
+.dark-mode .create-quiz-page > p {
+  color: var(--text-secondary);
 }
 
 .dark-mode .form-section,
 .dark-mode .question-card {
   background: var(--card-bg);
   border-color: var(--border-color);
+}
+
+.dark-mode .form-section h2 {
+  color: #60a5fa;
+  border-bottom-color: var(--border-color);
 }
 
 .dark-mode .form-group label,
@@ -459,91 +617,14 @@
   background: rgba(248, 113, 113, 0.2);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .create-quiz-page {
-    padding: 1rem;
-  }
-
-  .create-quiz-page h1 {
-    font-size: 1.8rem;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
-    gap: 0.8rem;
-  }
-
-  .form-section {
-    padding: 1rem;
-  }
-
-  .question-card {
-    padding: 1rem;
-  }
-
-  .option-input {
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .option-letter {
-    width: 25px;
-  }
-
-  .correct-btn {
-    width: auto;
-    padding: 0.3rem 0.8rem;
-  }
-
-  .section-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .add-question-btn {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .form-actions {
-    justify-content: center;
-  }
-
-  .save-quiz-btn {
-    width: 100%;
-    justify-content: center;
-  }
+.dark-mode .message.success {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
 }
 
-@media (max-width: 480px) {
-  .create-quiz-page h1 {
-    font-size: 1.5rem;
-  }
-
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    padding: 0.6rem;
-  }
-
-  .option-input {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .option-letter {
-    width: auto;
-  }
-
-  .option-input input {
-    width: 100%;
-  }
-
-  .correct-btn {
-    width: 100%;
-    text-align: center;
-  }
+.dark-mode .message.error {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
 }
 
 /* Animation for new question */
@@ -629,4 +710,8 @@
 
 .message.success {
   animation: successPulse 0.5s ease;
+}
+
+.dark-mode .preview-mode .question-card {
+  background: rgba(250, 204, 21, 0.1);
 }

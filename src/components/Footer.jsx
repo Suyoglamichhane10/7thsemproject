@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Footer.css";
+import navIcon from '../assets/n.jpg';
 
 function Footer() {
   // Get the current website URL (for development, use window.location.origin)
@@ -10,7 +11,16 @@ function Footer() {
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-section">
-          <h3>Study<span>Nep</span> </h3>
+         <div className="logo">
+          <Link to="/" className="logo-link">
+            <h1>Study<span>Nep</span></h1>
+            <img 
+              src={navIcon} 
+              alt="StudyNep Icon" 
+              className="nav-icons"
+            />
+          </Link>
+        </div>
           <p>Smart Study Planner for Nepalese Students</p>
         </div>
 
@@ -45,12 +55,14 @@ function Footer() {
         <div className="footer-section qr-section">
           <h4>Scan to Share</h4>
           <div className="qr-code">
-            <img 
-              src={`https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(websiteUrl)}`}
-              alt="QR Code to share StudyNep"
-              width="100"
-              height="100"
-            />
+            <a href={websiteUrl} target="_blank" rel="noopener noreferrer" title="Open StudyNep in a new tab">
+              <img
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(websiteUrl)}`}
+                alt="QR Code to share StudyNep"
+                width="100"
+                height="100"
+              />
+            </a>
           </div>
           <p className="qr-text">Scan with your phone to open StudyNep</p>
         </div>

@@ -4,6 +4,7 @@ import { getSubjects } from '../services/subjectService';
 import { getDashboardStats, getRecentActivities } from '../services/progressService.js';
 import DailyQuote from '../components/DailyQuote';
 import AchievementBadges from '../components/AcheivementBadges';
+import StudentFeedback from '../components/StudentFeedback';
 import './Dashboard.css';
 
 function Dashboard() {
@@ -133,6 +134,15 @@ function Dashboard() {
           )}
         </div>
       </div>
+
+      {/* Show student feedback on dashboard for students */}
+      {user?.role === 'student' && (
+        <div className="dashboard-grid">
+          <div className="card">
+            <StudentFeedback />
+          </div>
+        </div>
+      )}
 
       <AchievementBadges streak={streak} totalHours={totalHours} completedSubjects={completedSubjects} />
     </div>

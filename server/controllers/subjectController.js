@@ -51,7 +51,7 @@ const deleteSubject = async (req, res) => {
   }
 };
 
-// ✅ NEW: Log study hours for a subject
+//  Log study hours for a subject
 const logStudySession = async (req, res) => {
   try {
     const { id } = req.params;

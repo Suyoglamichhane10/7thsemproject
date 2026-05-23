@@ -90,43 +90,143 @@ function FocusTimer() {
 
   const totalDuration = mode === 'focus' ? focusDuration * 60 : breakDuration * 60;
   const progress = ((totalDuration - timeLeft) / totalDuration) * 100;
+  const radius = 120;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (progress / 100) * circumference;
 
   return (
     <div className="focus-page">
-      <h1>Focus Timer</h1>
+      <h1>🎯 Focus Timer</h1>
       <div className="focus-layout">
         <div className="timer-card">
           <div className="mode-toggle">
-            <button className={`mode-btn ${mode === 'focus' ? 'active' : ''}`} onClick={() => { if (!isActive) { setMode('focus'); setTimeLeft(focusDuration * 60); } }}>Focus</button>
-            <button className={`mode-btn ${mode === 'break' ? 'active' : ''}`} onClick={() => { if (!isActive) { setMode('break'); setTimeLeft(breakDuration * 60); } }}>Break</button>
+            <button 
+              className={`mode-btn ${mode === 'focus' ? 'active' : ''}`} 
+              onClick={() => { 
+                if (!isActive) { 
+                  setMode('focus'); 
+                  setTimeLeft(focusDuration * 60); 
+                } 
+              }}
+            >
+              📚 Focus
+            </button>
+            <button 
+              className={`mode-btn ${mode === 'break' ? 'active' : ''}`} 
+              onClick={() => { 
+                if (!isActive) { 
+                  setMode('break'); 
+                  setTimeLeft(breakDuration * 60); 
+                } 
+              }}
+            >
+              ☕ Break
+            </button>
           </div>
-          <div className="timer-display-wrapper">
-            <svg className="progress-ring" width="200" height="200">
-              <circle className="progress-ring-bg" stroke="#e5e7eb" strokeWidth="6" fill="transparent" r="90" cx="100" cy="100" />
-              <circle className="progress-ring-fill" stroke={mode === 'focus' ? '#1e3a8a' : '#10b981'} strokeWidth="6" fill="transparent" r="90" cx="100" cy="100" style={{ strokeDasharray: `${2 * Math.PI * 90}`, strokeDashoffset: `${2 * Math.PI * 90 * (1 - progress / 100)}` }} />
+
+          {/* Timer Circle - Simplified Structure */}
+          <div className="timer-circle">
+            <svg width="260" height="260" viewBox="0 0 260 260">
+              <circle
+                cx="130"
+                cy="130"
+                r={radius}
+                fill="none"
+                stroke="#e5e7eb"
+                strokeWidth="8"
+              />
+              <circle
+                cx="130"
+                cy="130"
+                r={radius}
+                fill="none"
+                stroke={mode === 'focus' ? '#1e3a8a' : '#10b981'}
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeDasharray={circumference}
+                strokeDashoffset={strokeDashoffset}
+                style={{ transition: 'stroke-dashoffset 0.5s ease', transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }}
+              />
             </svg>
-            <div className="timer-display">
-              <h2>{formatTime(timeLeft)}</h2>
-              <p>{mode === 'focus' ? 'Study Time' : 'Break Time'}</p>
+            <div className="timer-content">
+              <div className="timer-time">{formatTime(timeLeft)}</div>
+              <div className="timer-label">{mode === 'focus' ? 'Study Time' : 'Break Time'}</div>
             </div>
           </div>
+
           <div className="timer-controls">
-            {!isActive ? <button onClick={startTimer} className="control-btn start">Start</button> : <button onClick={pauseTimer} className="control-btn pause">Pause</button>}
-            <button onClick={resetTimer} className="control-btn reset">Reset</button>
-            <button onClick={skipToNext} className="control-btn skip">Skip</button>
+            {!isActive ? (
+              <button onClick={startTimer} className="control-btn start">▶ Start</button>
+            ) : (
+              <button onClick={pauseTimer} className="control-btn pause">⏸ Pause</button>
+            )}
+            <button onClick={resetTimer} className="control-btn reset">🔄 Reset</button>
+            <button onClick={skipToNext} className="control-btn skip">⏩ Skip</button>
           </div>
+
           <div className="timer-settings">
-            <div className="setting-item"><label>Focus (min)</label><input type="number" min="1" max="60" value={focusDuration} onChange={(e) => { const val = parseInt(e.target.value) || 25; setFocusDuration(val); if (mode === 'focus' && !isActive) setTimeLeft(val * 60); }} disabled={isActive} /></div>
-            <div className="setting-item"><label>Break (min)</label><input type="number" min="1" max="30" value={breakDuration} onChange={(e) => { const val = parseInt(e.target.value) || 5; setBreakDuration(val); if (mode === 'break' && !isActive) setTimeLeft(val * 60); }} disabled={isActive} /></div>
+            <div className="setting-item">
+              <label>Focus (min)</label>
+              <input 
+                type="number" 
+                min="1" 
+                max="60" 
+                value={focusDuration} 
+                onChange={(e) => { 
+                  const val = parseInt(e.target.value) || 25; 
+                  setFocusDuration(val); 
+                  if (mode === 'focus' && !isActive) setTimeLeft(val * 60); 
+                }} 
+                disabled={isActive} 
+              />
+            </div>
+            <div className="setting-item">
+              <label>Break (min)</label>
+              <input 
+                type="number" 
+                min="1" 
+                max="30" 
+                value={breakDuration} 
+                onChange={(e) => { 
+                  const val = parseInt(e.target.value) || 5; 
+                  setBreakDuration(val); 
+                  if (mode === 'break' && !isActive) setTimeLeft(val * 60); 
+                }} 
+                disabled={isActive} 
+              />
+            </div>
           </div>
         </div>
+
         <div className="stats-card">
-          <h2>Today's Progress</h2>
+          <h2>📊 Today's Progress</h2>
           <div className="stats-grid">
-            <div className="stat-item"><span className="stat-label">⏱️ Focus Time</span><span className="stat-value">{Math.floor(totalFocusTime / 60)} min</span><span className="stat-sub">{((totalFocusTime / 60) / dailyGoal * 100).toFixed(0)}% of goal</span></div>
-            <div className="stat-item"><span className="stat-label">✅ Sessions</span><span className="stat-value">{sessionsCompleted}</span><span className="stat-sub">completed</span></div>
-            <div className="stat-item"><span className="stat-label">🎯 Daily Goal</span><span className="stat-value">{dailyGoal} min</span><input type="number" min="1" value={dailyGoal} onChange={(e) => setDailyGoal(parseInt(e.target.value) || 120)} className="goal-input" /></div>
-            <div className="stat-item"><span className="stat-label">🔥 Streak</span><span className="stat-value">7</span><span className="stat-sub">days</span></div>
+            <div className="stat-item">
+              <span className="stat-label">⏱️ Focus Time</span>
+              <span className="stat-value">{Math.floor(totalFocusTime / 60)} min</span>
+              <span className="stat-sub">{((totalFocusTime / 60) / dailyGoal * 100).toFixed(0)}% of goal</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">✅ Sessions</span>
+              <span className="stat-value">{sessionsCompleted}</span>
+              <span className="stat-sub">completed</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">🎯 Daily Goal</span>
+              <span className="stat-value">{dailyGoal} min</span>
+              <input 
+                type="number" 
+                min="1" 
+                value={dailyGoal} 
+                onChange={(e) => setDailyGoal(parseInt(e.target.value) || 120)} 
+                className="goal-input" 
+              />
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">🔥 Streak</span>
+              <span className="stat-value">7</span>
+              <span className="stat-sub">days</span>
+            </div>
           </div>
         </div>
       </div>

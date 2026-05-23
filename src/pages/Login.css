@@ -1,3 +1,8 @@
+/* ========================================
+   LOGIN PAGE - FULLY RESPONSIVE CSS
+   (JSX remains unchanged)
+   ======================================== */
+
 .login-page {
   min-height: 100vh;
   display: flex;
@@ -230,7 +235,218 @@
   text-decoration: underline;
 }
 
-/* Dark Mode Support */
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+  .login-card {
+    max-width: 420px;
+    padding: 2rem;
+  }
+  
+  .login-logo h1 {
+    font-size: 1.8rem;
+  }
+  
+  .login-header h2 {
+    font-size: 1.6rem;
+  }
+  
+  .login-header p {
+    font-size: 0.9rem;
+  }
+  
+  .form-group input {
+    padding: 0.7rem 1rem;
+  }
+  
+  .login-btn {
+    padding: 0.8rem;
+  }
+}
+
+/* Mobile (up to 768px) */
+@media (max-width: 768px) {
+  .login-page {
+    padding: 1.5rem;
+  }
+  
+  .login-card {
+    max-width: 400px;
+    padding: 1.8rem;
+  }
+  
+  .login-logo h1 {
+    font-size: 1.6rem;
+  }
+  
+  .login-header h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .login-header p {
+    font-size: 0.85rem;
+  }
+  
+  .error-alert {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-group input {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.95rem;
+  }
+  
+  .form-options {
+    margin: 1rem 0 1.2rem;
+  }
+  
+  .checkbox-label {
+    font-size: 0.85rem;
+  }
+  
+  .forgot-link {
+    font-size: 0.85rem;
+  }
+  
+  .login-btn {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+  
+  .signup-prompt {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+  }
+  
+  .signup-prompt p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Small Mobile (up to 480px) */
+@media (max-width: 480px) {
+  .login-page {
+    padding: 1rem;
+  }
+  
+  .login-card {
+    padding: 1.5rem;
+    max-width: 100%;
+  }
+  
+  .login-logo h1 {
+    font-size: 1.5rem;
+  }
+  
+  .login-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .login-header h2 {
+    font-size: 1.3rem;
+  }
+  
+  .login-header p {
+    font-size: 0.8rem;
+  }
+  
+  .error-alert {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+  }
+  
+  .form-group {
+    margin-bottom: 0.8rem;
+  }
+  
+  .form-group input {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+    border-radius: 8px;
+  }
+  
+  .password-group input {
+    padding-right: 38px;
+  }
+  
+  .password-toggle {
+    right: 10px;
+    font-size: 1rem;
+  }
+  
+  .form-options {
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: flex-start;
+    margin: 0.8rem 0 1rem;
+  }
+  
+  .checkbox-label {
+    font-size: 0.8rem;
+  }
+  
+  .forgot-link {
+    font-size: 0.8rem;
+  }
+  
+  .login-btn {
+    padding: 0.65rem;
+    font-size: 0.9rem;
+    border-radius: 8px;
+  }
+  
+  .signup-prompt {
+    margin-top: 1.2rem;
+    padding-top: 0.8rem;
+  }
+  
+  .signup-prompt p {
+    font-size: 0.85rem;
+  }
+}
+
+/* Extra Small Mobile (up to 360px) */
+@media (max-width: 360px) {
+  .login-card {
+    padding: 1.2rem;
+  }
+  
+  .login-logo h1 {
+    font-size: 1.3rem;
+  }
+  
+  .login-header h2 {
+    font-size: 1.1rem;
+  }
+  
+  .login-header p {
+    font-size: 0.75rem;
+  }
+  
+  .form-group input {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.85rem;
+  }
+  
+  .login-btn {
+    padding: 0.55rem;
+    font-size: 0.85rem;
+  }
+  
+  .signup-prompt p {
+    font-size: 0.8rem;
+  }
+}
+
+/* ===== DARK MODE SUPPORT ===== */
 .dark-mode .login-card {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
@@ -283,19 +499,15 @@
   color: #f87171;
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-  .login-card {
-    padding: 1.5rem;
-  }
+.dark-mode .error-alert {
+  background: rgba(220, 38, 38, 0.2);
+  color: #f87171;
+}
 
-  .login-header h2 {
-    font-size: 1.5rem;
-  }
+.dark-mode .password-toggle {
+  color: #94a3b8;
+}
 
-  .form-options {
-    flex-direction: column;
-    gap: 0.8rem;
-    align-items: flex-start;
-  }
+.dark-mode .password-toggle:hover {
+  color: #60a5fa;
 }

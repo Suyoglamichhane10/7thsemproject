@@ -24,6 +24,12 @@ function TeacherStudents() {
 
   const filtered = students.filter(s => s.name.toLowerCase().includes(search.toLowerCase()) || s.email?.toLowerCase().includes(search.toLowerCase()));
 
+  const getStudentProgress = (student) => {
+    if (student.progressPercentage != null) return student.progressPercentage;
+    if (student.totalStudyHours != null) return Math.min(100, Math.round((student.totalStudyHours / 200) * 100));
+    return 0;
+  };
+
   const sendFeedback = async () => {
     if (!selectedStudent || !feedback) return;
     try {
@@ -51,7 +57,11 @@ function TeacherStudents() {
                 <p>{s.level}</p>
                 <p>{s.email}</p>
               </div>
-              <div className="student-progress"><div className="progress-circle"><span>{Math.floor(Math.random() * 100)}%</span></div></div>
+              <div className="student-progress">
+                <div className="progress-circle">
+                  <span>{getStudentProgress(s)}%</span>
+                </div>
+              </div>
             </div>
           ))}
         </div>

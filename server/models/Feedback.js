@@ -1,10 +1,21 @@
 const mongoose = require('mongoose');
 
 const FeedbackSchema = new mongoose.Schema({
-  user: {
+  // The student who receives the feedback
+  student: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
+  },
+  // The teacher who sent the feedback
+  teacher: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  // Optional legacy 'user' field kept for compatibility
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   },
   message: {
     type: String,

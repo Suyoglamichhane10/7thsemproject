@@ -1,6 +1,11 @@
+/* ========================================
+   HOME PAGE - FULLY RESPONSIVE CSS
+   (JSX remains unchanged)
+   ======================================== */
+
 /* Hero Section */
 .hero {
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, #7168d0 0%, #237a6c 100%);
   color: white;
   padding: 5rem 2rem;
   text-align: center;
@@ -82,14 +87,13 @@
   transform: translateY(-2px);
 }
 
-/* Hero Stats - NEW */
+/* Hero Stats */
 .hero-stats {
   display: flex;
   justify-content: center;
   gap: 3rem;
   margin-top: 1rem;
   flex-wrap: wrap;
-  /* color: rgb(103, 207, 103); */
 }
 
 .hero-stat {
@@ -104,11 +108,9 @@
   color: #facc15;
 }
 
- .stat-label {
+.stat-label {
   color: rgb(82, 192, 82);
-  font: 0.83 rem;
-
-  
+  font-size: 0.85rem;
 }
 
 /* Features Section */
@@ -175,7 +177,7 @@
   line-height: 1.6;
 }
 
-/* Stats Counter Section - NEW */
+/* Stats Counter Section */
 .stats-counter {
   background: linear-gradient(135deg, #f8fafc, #f1f5f9);
   padding: 4rem 2rem;
@@ -261,7 +263,7 @@
   color: #64748b;
 }
 
-/* Popular Resources Section - NEW */
+/* Popular Resources Section */
 .popular-resources {
   padding: 4rem 2rem;
   max-width: 1200px;
@@ -459,7 +461,342 @@
   opacity: 0.8 !important;
 }
 
-/* Dark Mode Styles */
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero p {
+    font-size: 1.1rem;
+  }
+  
+  .features h2,
+  .how-it-works h2,
+  .testimonials h2,
+  .popular-resources h2 {
+    font-size: 2.2rem;
+  }
+  
+  .feature-card {
+    padding: 1.5rem;
+  }
+  
+  .stats-container {
+    gap: 1.5rem;
+  }
+  
+  .counter-number {
+    font-size: 1.8rem;
+  }
+}
+
+/* Mobile (up to 768px) */
+@media (max-width: 768px) {
+  .hero {
+    padding: 3rem 1.5rem;
+  }
+  
+  .hero h1 {
+    font-size: 2rem;
+  }
+  
+  .hero p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    max-width: 250px;
+    text-align: center;
+  }
+
+  .hero-stats {
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  .stat-number {
+    font-size: 1.2rem;
+  }
+  
+  .stat-label {
+    font-size: 0.7rem;
+  }
+
+  .features {
+    padding: 3rem 1.5rem;
+  }
+  
+  .features h2,
+  .how-it-works h2,
+  .testimonials h2,
+  .popular-resources h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .feature-card {
+    padding: 1.5rem;
+  }
+  
+  .feature-icon {
+    font-size: 2.5rem;
+  }
+  
+  .feature-card h3 {
+    font-size: 1.2rem;
+  }
+  
+  .stats-counter {
+    padding: 3rem 1.5rem;
+  }
+
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .counter-icon {
+    font-size: 2rem;
+  }
+  
+  .counter-number {
+    font-size: 1.5rem;
+  }
+  
+  .stat-counter-item p {
+    font-size: 0.8rem;
+  }
+
+  .how-it-works {
+    padding: 3rem 1.5rem;
+  }
+  
+  .steps {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .step-number {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+  }
+  
+  .step h3 {
+    font-size: 1.1rem;
+  }
+  
+  .step p {
+    font-size: 0.9rem;
+  }
+
+  .popular-resources {
+    padding: 3rem 1.5rem;
+  }
+  
+  .resource-previews {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .resource-preview {
+    padding: 1.5rem;
+  }
+  
+  .resource-icon {
+    font-size: 2rem;
+  }
+  
+  .resource-preview h4 {
+    font-size: 1.1rem;
+  }
+
+  .testimonials {
+    padding: 3rem 1.5rem;
+  }
+  
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .testimonial-card {
+    padding: 1.5rem;
+  }
+  
+  .quote-icon {
+    font-size: 1.5rem;
+  }
+  
+  .testimonial-card p {
+    font-size: 0.9rem;
+  }
+
+  .cta-section {
+    padding: 3rem 1.5rem;
+  }
+  
+  .cta-content h2 {
+    font-size: 2rem;
+  }
+  
+  .cta-content p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .btn-large {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+/* Small Mobile (up to 480px) */
+@media (max-width: 480px) {
+  .hero {
+    padding: 2rem 1rem;
+  }
+  
+  .hero h1 {
+    font-size: 1.5rem;
+  }
+  
+  .hero p {
+    font-size: 0.9rem;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+    max-width: 200px;
+  }
+
+  .hero-stats {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  
+  .stat-number {
+    font-size: 1.1rem;
+  }
+
+  .features h2,
+  .how-it-works h2,
+  .testimonials h2,
+  .popular-resources h2 {
+    font-size: 1.6rem;
+  }
+  
+  .features h2::after {
+    width: 60px;
+    height: 3px;
+  }
+  
+  .stats-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .counter-icon {
+    font-size: 1.8rem;
+  }
+  
+  .counter-number {
+    font-size: 1.3rem;
+  }
+
+  .cta-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .cta-content p {
+    font-size: 0.9rem;
+  }
+  
+  .btn-large {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .resource-badge {
+    font-size: 0.6rem;
+    padding: 0.15rem 0.6rem;
+  }
+  
+  .rating {
+    font-size: 0.75rem;
+  }
+}
+
+/* Extra Small Mobile (up to 360px) */
+@media (max-width: 360px) {
+  .hero h1 {
+    font-size: 1.3rem;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .feature-card h3 {
+    font-size: 1rem;
+  }
+  
+  .feature-card p {
+    font-size: 0.85rem;
+  }
+  
+  .step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .step h3 {
+    font-size: 1rem;
+  }
+  
+  .step p {
+    font-size: 0.85rem;
+  }
+  
+  .resource-preview h4 {
+    font-size: 1rem;
+  }
+  
+  .resource-preview p {
+    font-size: 0.85rem;
+  }
+  
+  .testimonial-card h4 {
+    font-size: 0.9rem;
+  }
+  
+  .cta-content h2 {
+    font-size: 1.3rem;
+  }
+}
+
+/* ===== DARK MODE SUPPORT ===== */
 .dark-mode .hero {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
 }
@@ -519,50 +856,4 @@
 
 .dark-mode .stat-counter-item p {
   color: var(--text-secondary);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .hero h1 {
-    font-size: 2rem;
-  }
-
-  .hero-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .hero-stats {
-    gap: 1.5rem;
-  }
-
-  .features h2,
-  .how-it-works h2,
-  .testimonials h2,
-  .popular-resources h2 {
-    font-size: 2rem;
-  }
-
-  .stats-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .steps {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .stats-container {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-stats {
-    flex-direction: column;
-    gap: 0.8rem;
-  }
-
-  .cta-content h2 {
-    font-size: 1.8rem;
-  }
 }

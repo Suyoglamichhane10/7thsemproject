@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import './Register.css';
 
@@ -13,6 +14,8 @@ function Register() {
   const [level, setLevel] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,25 +38,80 @@ function Register() {
     <div className="register-page">
       <div className="register-card">
         <div className="register-header">
-          <Link to="/" className="register-logo"><h1>Study<span>Nep</span></h1></Link>
+          <Link to="/" className="register-logo">
+            <h1>Study<span>Nep</span></h1>
+          </Link>
           <h2>Create Account</h2>
         </div>
         {error && <div className="error-alert">{error}</div>}
         <form onSubmit={handleSubmit}>
-          <div className="form-group"><input type="text" placeholder="Full Name" value={name} onChange={(e) => setName(e.target.value)} required /></div>
-          <div className="form-group"><input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required /></div>
-          <div className="form-group"><input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required /></div>
-          <div className="form-group"><input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required /></div>
+          <div className="form-group">
+            <input 
+              type="text" 
+              placeholder="Full Name" 
+              value={name} 
+              onChange={(e) => setName(e.target.value)} 
+              required 
+            />
+          </div>
+          <div className="form-group">
+            <input 
+              type="email" 
+              placeholder="Email" 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+              required 
+            />
+          </div>
+          
+          {/* Password Field with Eye Icon */}
+          <div className="form-group password-group">
+            <input 
+              type={showPassword ? 'text' : 'password'} 
+              placeholder="Password" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              required 
+            />
+            <button 
+              type="button" 
+              className="password-toggle"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+          
+          {/* Confirm Password Field with Eye Icon */}
+          <div className="form-group password-group">
+            <input 
+              type={showConfirmPassword ? 'text' : 'password'} 
+              placeholder="Confirm Password" 
+              value={confirmPassword} 
+              onChange={(e) => setConfirmPassword(e.target.value)} 
+              required 
+            />
+            <button 
+              type="button" 
+              className="password-toggle"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            >
+              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+          
           <div className="form-group">
             <select value={level} onChange={(e) => setLevel(e.target.value)} required>
-              <option value="">Select Study Level</option>
+              <option value="">Select  Level</option>
               <option value="+2 Science">+2 Science</option>
               <option value="+2 Management">+2 Management</option>
               <option value="Bachelor CSIT">Bachelor CSIT</option>
               <option value="Bachelor Engineering">Bachelor Engineering</option>
             </select>
           </div>
-          <button type="submit" className="register-btn" disabled={loading}>{loading ? 'Creating account...' : 'Sign Up'}</button>
+          <button type="submit" className="register-btn" disabled={loading}>
+            {loading ? 'Creating account...' : 'Sign Up'}
+          </button>
         </form>
         <p className="login-link">Already have an account? <Link to="/login">Log in</Link></p>
       </div>

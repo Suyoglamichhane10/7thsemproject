@@ -11,6 +11,77 @@ body {
   transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* ========================================
+   GLOBAL RESPONSIVE STYLES
+   ======================================== */
+
+html {
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+}
+
+/* Responsive Text */
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Responsive Spacing */
+section {
+  padding: 4rem 0;
+}
+
+@media (max-width: 768px) {
+  section {
+    padding: 2rem 0;
+  }
+}
+
+/* Loading */
 .loading {
   display: flex;
   justify-content: center;
@@ -46,54 +117,44 @@ body {
   color: var(--text-primary);
 }
 
-.dark-mode .stat-card,
-.dark-mode .feature-card,
-.dark-mode .subject-card,
-.dark-mode .recommendations,
-.dark-mode .planner-controls,
-.dark-mode .achievement-section,
-.dark-mode .stats-card,
-.dark-mode .timer-card,
-.dark-mode .chart-card,
-.dark-mode .recent-activity,
-.dark-mode .quick-actions,
-.dark-mode .performance-table,
-.dark-mode .card {
-  background: var(--card-bg);
-  border-color: var(--border-color);
+/* Utility Classes */
+.text-center {
+  text-align: center;
 }
 
-.dark-mode .stat-value,
-.dark-mode .card-title h3,
-.dark-mode .subject-card h3,
-.dark-mode .dashboard-header h1,
-.dark-mode .welcome-header h2 {
-  color: var(--text-primary);
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-.dark-mode .stat-label,
-.dark-mode .description,
-.dark-mode .detail,
-.dark-mode .activity-desc,
-.dark-mode .meta-item,
-.dark-mode .subject-meta {
-  color: var(--text-secondary);
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
 }
 
-.dark-mode .login-card,
-.dark-mode .register-card {
-  background: var(--card-bg);
+::-webkit-scrollbar-thumb {
+  background: #1e3a8a;
+  border-radius: 4px;
 }
 
-.dark-mode input,
-.dark-mode select,
-.dark-mode textarea {
-  background: var(--input-bg);
-  border-color: var(--input-border);
-  color: var(--text-primary);
+::-webkit-scrollbar-thumb:hover {
+  background: #dc2626;
 }
 
-.dark-mode input::placeholder,
-.dark-mode textarea::placeholder {
-  color: var(--text-secondary);
+.dark-mode ::-webkit-scrollbar-track {
+  background: #334155;
+}
+
+.dark-mode ::-webkit-scrollbar-thumb {
+  background: #60a5fa;
 }

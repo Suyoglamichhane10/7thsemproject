@@ -4,6 +4,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import './Login.css';
 
+
 function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
