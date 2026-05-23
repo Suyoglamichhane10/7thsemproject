@@ -24,6 +24,8 @@ import AdminUsers from './pages/AdminUsers';
 import AdminReports from './pages/AdminReports';
 import Portfolio from './pages/Portfolio';
 import About from './pages/About';
+import FAQ from './pages/FAQ';
+import Contact from './pages/Contact';
 import StudentMaterials from './pages/StudentMaterials';
 import UserProfilePage from './pages/Userprofile';
 
@@ -37,6 +39,8 @@ function App() {
         <Route path="/register" element={<PublicLayout><Register /></PublicLayout>} />
         <Route path="/resources" element={<PublicLayout><Resources /></PublicLayout>} />
         <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
+        <Route path="/faq" element={<PublicLayout><FAQ /></PublicLayout>} />
+        <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
         <Route path="/portfolio" element={<PublicLayout><Portfolio /></PublicLayout>} />
 
         {/* Profile Route - Available for all authenticated users */}
