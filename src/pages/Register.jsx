@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import './Register.css';
+import navIcon from '../assets/l.png';
 
 function Register() {
   const navigate = useNavigate();
@@ -39,7 +40,10 @@ function Register() {
       <div className="register-card">
         <div className="register-header">
           <Link to="/" className="register-logo">
-            <h1>Study<span>Nep</span></h1>
+            <div className="brand-logo-wrap">
+              <h1>Study<span>Nep</span></h1>
+              <img src={navIcon} alt="StudyNep Logo" className="auth-logo" />
+            </div>
           </Link>
           <h2>Create Account</h2>
         </div>

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Footer.css";
-import navIcon from '../assets/n.jpg';
+import navIcon from '../assets/l.png';
 
 function Footer() {
   // Get the current website URL (for development, use window.location.origin)

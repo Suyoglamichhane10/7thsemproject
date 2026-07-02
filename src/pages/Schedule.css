@@ -306,7 +306,7 @@
   width: 40px;
   font-size: 0.75rem;
   font-weight: 500;
-  color: #4b5563;
+  color: #0c0c0d;
 }
 
 .summary-bar-bg {
@@ -698,4 +698,8 @@
 
 .dark-mode .empty-session-cell .dot-placeholder {
   color: #475569;
+}
+
+span{
+  color:#0c0c0d;
 }

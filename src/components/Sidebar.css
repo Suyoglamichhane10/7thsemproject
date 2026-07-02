@@ -38,45 +38,70 @@
     left: 0;
   }
 }
-
+.sidebar-menu span {
+  color: white;
+}
 /* Sidebar Header */
 .sidebar-header {
-  padding: 1.5rem 1rem;
+  padding: 1.2rem 1rem;
   text-align: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   margin-bottom: 1rem;
 }
 
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-direction: row-reverse;
+}
+
+.sidebar-brand-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
 .sidebar-header h2 {
-  font-size: 1.8rem;
+  font-size: 1.65rem;
   margin: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #2563eb;
+  background: none;
+  line-height: 1.1;
 }
 
 .sidebar-header h2 span {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #dc2626;
 }
 
 .sidebar-header p {
   font-size: 0.8rem;
   color: #b8c6db;
-  margin: 0.5rem 0 0 0;
+  margin: 0.25rem 0 0 0;
+}
+
+.sidebar-logo-circle {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  background: white;
+  padding: 2px;
 }
 
 .sidebar-logo-mini {
-  font-size: 1.5rem;
-  font-weight: bold;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0;
+}
+
+.sidebar-logo-mini-img {
+  width: 48px;
+  height: 48px;
 }
 
 /* Sidebar Sections */
@@ -85,7 +110,7 @@
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: #b8c6db;
+  color: white;
   font-weight: 600;
 }
 
@@ -101,7 +126,7 @@
   align-items: center;
   gap: 1rem;
   padding: 0.75rem 1rem;
-  color: #b8c6db;
+  color: #dbd2d2;
   text-decoration: none;
   transition: all 0.3s ease;
   cursor: pointer;
@@ -113,8 +138,8 @@
 }
 
 .sidebar-link:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+  background: rgba(255, 107, 107, 0.1);
+  color: #ff6b6b;
 }
 
 .sidebar-link.active {
@@ -146,6 +171,7 @@
 .logout-btn:hover {
   background: rgba(255, 107, 107, 0.1);
   color: #ff6b6b;
+  border-left: 3px solid #ff6b6b;
 }
 
 /* Divider */
@@ -299,6 +325,7 @@
   
   .sidebar-link {
     padding: 0.5rem 1rem;
+    color:white;
   }
 }
 

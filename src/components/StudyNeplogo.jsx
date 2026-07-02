@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import './StudyNeplogo.css';
 
 // Import your image from assets folder
-import navIcon from '../assets/n.jpg';
+import navIcon from '../assets/l.png';
 
 function StudyNepLogo({ showIcon = true, showText = true, variant = 'default', size = 'md' }) {
   // variant: 'default', 'light', 'dark', 'gradient'

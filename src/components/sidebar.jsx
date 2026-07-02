@@ -9,6 +9,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import './Sidebar.css';
 import { useState, useEffect } from 'react';
+import navIcon from '../assets/l.png';
 
 function Sidebar() {
   const location = useLocation();
@@ -84,13 +85,16 @@ function Sidebar() {
       <div className={`sidebar ${isOpen ? 'mobile-open' : ''} ${isCollapsed ? 'collapsed' : ''}`}>
         <div className="sidebar-header">
           {!isCollapsed ? (
-            <>
-              <h2>Study<span>Nep</span></h2>
-              <p>Smart Study Planner</p>
-            </>
+            <div className="sidebar-brand">
+              <img src={navIcon} alt="StudyNep Logo" className="sidebar-logo-circle" />
+              <div className="sidebar-brand-text">
+                <h2>Study<span>Nep</span></h2>
+                <p>Smart Study Planner</p>
+              </div>
+            </div>
           ) : (
             <div className="sidebar-logo-mini">
-              SN
+              <img src={navIcon} alt="StudyNep Logo" className="sidebar-logo-circle sidebar-logo-mini-img" />
             </div>
           )}
         </div>

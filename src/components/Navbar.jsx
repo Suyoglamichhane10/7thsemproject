@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
-// Import your image from assets folder (small 'n' file)
-import navIcon from '../assets/n.jpg';
+// Import your image from assets folder
+import navIcon from '../assets/l.png';
 
 function Navbar() {
   const { user, logout } = useAuth();
@@ -17,10 +17,10 @@ function Navbar() {
 
   const studentLinks = [
     { label: 'Dashboard', path: '/dashboard' },
-    { label: 'Planner', path: '/planner' },
-    { label: 'Schedule', path: '/schedule' },
-    { label: 'Progress', path: '/progress' },
-    { label: 'Materials', path: '/student/materials' },
+    // { label: 'Planner', path: '/planner' },
+    // { label: 'Schedule', path: '/schedule' },
+    // { label: 'Progress', path: '/progress' },
+    // { label: 'Materials', path: '/student/materials' },
   ];
 
   const teacherLinks = [
