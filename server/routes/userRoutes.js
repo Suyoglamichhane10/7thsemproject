@@ -14,10 +14,11 @@ const {
 
 const router = express.Router();
 
-// Ensure uploads directory exists
-const uploadDir = 'uploads/avatars';
+// Ensure uploads directory exists (use absolute path)
+const uploadDir = path.join(__dirname, '..', 'uploads', 'avatars');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
+  console.log('Created uploads directory:', uploadDir);
 }
 
 // Configure multer for avatar uploads

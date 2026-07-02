@@ -10,12 +10,23 @@ const UserProfilePage = () => {
   const [userData, setUserData] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  // Get API URL - Fix for process.env error
+  // Get API URLs
   const API_URL = import.meta.env?.VITE_API_URL || 'http://localhost:5000/api';
+  const SERVER_URL = import.meta.env?.VITE_SERVER_URL || 'http://localhost:5000';
+
+  // Helper function to construct full image URL
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return null;
+    // If it's already a full URL, return as is
+    if (imagePath.startsWith('http')) return imagePath;
+    // Otherwise, prepend the server URL
+    return `${SERVER_URL}${imagePath}`;
+  };
 
   // Fetch user profile from backend
   useEffect(() => {
@@ -30,9 +41,13 @@ const UserProfilePage = () => {
           return;
         }
         
+        console.log('Fetching user profile from:', `${API_URL}/users/profile`);
+        
         const response = await axios.get(`${API_URL}/users/profile`, {
           headers: { Authorization: `Bearer ${token}` }
         });
+        
+        console.log('Profile fetch response:', response.data);
         
         if (response.data.success) {
           const profileData = response.data.data;
@@ -54,7 +69,12 @@ const UserProfilePage = () => {
           });
         }
       } catch (error) {
-        console.error('Error fetching profile:', error);
+        console.error('Error fetching profile:', {
+          message: error.message,
+          status: error.response?.status,
+          data: error.response?.data,
+          fullError: error
+        });
         setError(error.response?.data?.message || 'Failed to load profile data');
       } finally {
         setLoading(false);
@@ -75,11 +95,13 @@ const UserProfilePage = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      // Validate file size
       if (file.size > 5 * 1024 * 1024) {
         setError('Image size should be less than 5MB');
         return;
       }
       
+      // Validate file type
       const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
       if (!allowedTypes.includes(file.type)) {
         setError('Only JPEG, PNG, GIF, and WEBP images are allowed');
@@ -87,9 +109,15 @@ const UserProfilePage = () => {
       }
       
       setSelectedImage(file);
+      setError('');
+      
+      // Create preview
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
+      };
+      reader.onerror = () => {
+        setError('Failed to read file. Please try again.');
       };
       reader.readAsDataURL(file);
     }
@@ -97,24 +125,52 @@ const UserProfilePage = () => {
 
   const uploadAvatar = async (file) => {
     try {
+      setUploadingImage(true);
       const token = localStorage.getItem('token');
+      
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+
+      console.log('Starting avatar upload:', {
+        fileName: file.name,
+        fileSize: file.size,
+        fileType: file.type,
+        apiUrl: `${API_URL}/users/avatar`
+      });
+
       const formData = new FormData();
       formData.append('avatar', file);
       
+      console.log('FormData created, sending request...');
+      
       const response = await axios.post(`${API_URL}/users/avatar`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`
-        }
+          // Don't set Content-Type header - axios/browser will set it automatically with boundary
+        },
+        timeout: 30000
       });
       
-      if (response.data.success) {
+      console.log('Upload response:', response.data);
+      
+      if (response.data.success && response.data.data.avatar) {
+        console.log('Avatar URL from server:', response.data.data.avatar);
+        setUploadingImage(false);
         return response.data.data.avatar;
+      } else {
+        throw new Error(response.data.message || 'Upload failed - no success flag');
       }
-      return null;
     } catch (error) {
-      console.error('Error uploading avatar:', error);
-      throw error;
+      setUploadingImage(false);
+      const errorMsg = error.response?.data?.message || error.message || 'Failed to upload image';
+      console.error('Error uploading avatar:', {
+        message: errorMsg,
+        status: error.response?.status,
+        data: error.response?.data,
+        fullError: error
+      });
+      throw new Error(errorMsg);
     }
   };
 
@@ -128,17 +184,27 @@ const UserProfilePage = () => {
       const token = localStorage.getItem('token');
       let avatarUrl = userData.avatar;
       
+      console.log('Form submit started, image selected:', !!selectedImage);
+      
+      // Upload image if selected
       if (selectedImage) {
         try {
-          avatarUrl = await uploadAvatar(selectedImage);
+          console.log('Uploading image...');
+          const uploadedAvatarUrl = await uploadAvatar(selectedImage);
+          if (!uploadedAvatarUrl) {
+            throw new Error('No avatar URL returned from server');
+          }
+          avatarUrl = uploadedAvatarUrl;
+          console.log('Avatar uploaded successfully:', avatarUrl);
         } catch (uploadError) {
           console.error('Avatar upload failed:', uploadError);
-          setError('Failed to upload profile picture');
+          setError(`Failed to upload image: ${uploadError.message || 'Unknown error'}`);
           setLoading(false);
           return;
         }
       }
       
+      // Prepare update data
       const updateData = {
         name: userData.name,
         phone: userData.phone,
@@ -159,13 +225,20 @@ const UserProfilePage = () => {
         updateData.department = userData.department;
       }
       
+      console.log('Sending profile update:', updateData);
+      
+      // Update profile
       const response = await axios.put(`${API_URL}/users/profile`, updateData, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
+        timeout: 30000
       });
+      
+      console.log('Profile update response:', response.data);
       
       if (response.data.success) {
         const updatedUser = response.data.data;
         
+        // Update local state
         setUserData(prev => ({
           ...prev,
           ...updatedUser,
@@ -182,16 +255,24 @@ const UserProfilePage = () => {
         const updatedStoredUser = { ...storedUser, ...updatedUser };
         localStorage.setItem('user', JSON.stringify(updatedStoredUser));
         
+        // Reset form state
         setSelectedImage(null);
         setImagePreview(null);
         setIsEditing(false);
         setSuccess('Profile updated successfully!');
         
         setTimeout(() => setSuccess(''), 3000);
+      } else {
+        throw new Error(response.data.message || 'Failed to update profile');
       }
     } catch (error) {
-      console.error('Error updating profile:', error);
-      setError(error.response?.data?.message || 'Failed to update profile');
+      console.error('Error updating profile:', {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data,
+        fullError: error
+      });
+      setError(error.response?.data?.message || error.message || 'Failed to update profile');
     } finally {
       setLoading(false);
     }
@@ -210,8 +291,6 @@ const UserProfilePage = () => {
     }
   };
 
-  const roleInfo = getRoleBadge();
-
   if (loading && !userData.name) {
     return (
       <div className="loading-container">
@@ -228,24 +307,49 @@ const UserProfilePage = () => {
           <div className="profile-cover"></div>
           <div className="profile-avatar-section">
             <div className="profile-avatar-wrapper">
-              {imagePreview || userData.avatar ? (
-                <img src={imagePreview || userData.avatar} alt={userData.name} className="profile-avatar" />
+              {imagePreview ? (
+                <img 
+                  src={imagePreview} 
+                  alt={userData.name} 
+                  className="profile-avatar"
+                  title="New avatar preview"
+                />
+              ) : userData.avatar ? (
+                <img 
+                  src={getImageUrl(userData.avatar)} 
+                  alt={userData.name} 
+                  className="profile-avatar"
+                  onError={(e) => {
+                    console.error('Failed to load avatar:', userData.avatar);
+                    e.target.style.display = 'none';
+                  }}
+                />
               ) : (
                 <div className="profile-avatar-placeholder">
-                  {userData.name?.charAt(0) || 'U'}
+                  {userData.name?.charAt(0)?.toUpperCase() || 'U'}
                 </div>
               )}
               {isEditing && (
-                <label className="avatar-upload-btn">
-                  <FaCamera />
-                  <input type="file" accept="image/*" onChange={handleImageChange} hidden />
+                <label className={`avatar-upload-btn ${uploadingImage ? 'uploading' : ''}`}>
+                  {uploadingImage ? (
+                    <span className="upload-spinner">⏳</span>
+                  ) : (
+                    <FaCamera />
+                  )}
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    onChange={handleImageChange} 
+                    hidden
+                    disabled={uploadingImage}
+                  />
                 </label>
               )}
             </div>
             <div className="profile-info">
               <h1>{userData.name || 'User Name'}</h1>
-              <span className={`role-badge ${roleInfo.class}`}>
-                {roleInfo.icon} {roleInfo.text}
+              <span className={`role-badge ${getRoleBadge().class}`}>
+                {getRoleBadge().icon} {getRoleBadge().text}
               </span>
               <p className="profile-email">{userData.email}</p>
             </div>
@@ -283,8 +387,8 @@ const UserProfilePage = () => {
               {isEditing ? 'Cancel' : 'Edit Profile'}
             </button>
             {isEditing && (
-              <button type="submit" form="profile-form" className="save-btn" disabled={loading}>
-                <FaSave /> {loading ? 'Saving...' : 'Save Changes'}
+              <button type="submit" form="profile-form" className="save-btn" disabled={loading || uploadingImage}>
+                <FaSave /> {loading ? 'Saving...' : uploadingImage ? 'Uploading Image...' : 'Save Changes'}
               </button>
             )}
           </div>

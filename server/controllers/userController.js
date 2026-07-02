@@ -85,15 +85,26 @@ const updateProfile = async (req, res) => {
 // @access  Private
 const uploadAvatar = async (req, res) => {
   try {
+    console.log('Avatar upload request received', {
+      userId: req.user._id,
+      hasFile: !!req.file,
+      fileName: req.file?.filename,
+      fileSize: req.file?.size,
+      fileMimetype: req.file?.mimetype
+    });
+
     if (!req.file) {
+      console.error('No file in request');
       return res.status(400).json({
         success: false,
         message: 'No file uploaded'
       });
     }
 
-    // Construct avatar URL
-    const avatarUrl = `${req.protocol}://${req.get('host')}/uploads/avatars/${req.file.filename}`;
+    // Construct avatar URL - use relative path for better portability
+    const avatarUrl = `/uploads/avatars/${req.file.filename}`;
+    
+    console.log('Updating user avatar:', { userId: req.user._id, avatarUrl });
     
     const user = await User.findByIdAndUpdate(
       req.user._id,
@@ -101,12 +112,23 @@ const uploadAvatar = async (req, res) => {
       { new: true }
     ).select('-password');
 
+    if (!user) {
+      console.error('User not found after update:', req.user._id);
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    console.log('Avatar updated successfully');
+
     res.status(200).json({
       success: true,
       message: 'Avatar uploaded successfully',
       data: user
     });
   } catch (error) {
+    console.error('Avatar upload error:', error);
     res.status(500).json({
       success: false,
       message: 'Server error',
