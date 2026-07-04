@@ -20,6 +20,14 @@
   gap: 2rem;
 }
 
+.nav-drawer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex: 1;
+}
+
 /* Logo Styles */
 .logo {
   flex-shrink: 0;
@@ -148,58 +156,52 @@
 }
 
 /* Mobile Menu Button (Hamburger) */
-.mobile-menu-btn {
+.nav-toggle {
   display: none;
-  background: none;
-  border: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
   cursor: pointer;
-  padding: 0.5rem;
-  z-index: 1001;
+  padding: 0;
+  z-index: 1002;
 }
 
-.hamburger {
-  width: 25px;
-  height: 3px;
-  background: var(--text-color, #333);
-  position: relative;
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 999px;
+  background: #1f2937;
   transition: all 0.3s ease;
 }
 
-.hamburger::before,
-.hamburger::after {
-  content: '';
-  position: absolute;
-  width: 25px;
-  height: 3px;
-  background: var(--text-color, #333);
-  transition: all 0.3s ease;
+.nav-toggle.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
 }
 
-.hamburger::before {
-  transform: translateY(-8px);
+.nav-toggle.open span:nth-child(2) {
+  opacity: 0;
 }
 
-.hamburger::after {
-  transform: translateY(8px);
+.nav-toggle.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
-/* Hamburger Animation for Open State */
-.mobile-menu-btn.open .hamburger {
-  background: transparent;
+.navbar-overlay {
+  display: none;
 }
 
-.mobile-menu-btn.open .hamburger::before {
-  transform: rotate(45deg);
-}
-
-.mobile-menu-btn.open .hamburger::after {
-  transform: rotate(-45deg);
-}
 
 /* Responsive Design */
 @media screen and (max-width: 768px) {
   .nav-container {
-    padding: 1rem;
+    padding: 0.75rem 1rem;
     gap: 1rem;
   }
 
@@ -212,12 +214,11 @@
     height: 54px;
   }
 
-  /* Hide desktop menu, show mobile menu button */
-  .mobile-menu-btn {
-    display: block;
+  .nav-toggle {
+    display: flex;
   }
 
-  .nav-menu {
+  .nav-drawer {
     position: fixed;
     top: 0;
     right: -100%;
@@ -226,36 +227,63 @@
     height: 100vh;
     background: var(--navbar-bg, #ffffff);
     flex-direction: column;
+    align-items: stretch;
     justify-content: flex-start;
     padding: 80px 2rem 2rem;
-    gap: 1.5rem;
+    gap: 1.25rem;
     transition: right 0.3s ease;
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
     z-index: 1000;
+    overflow-y: auto;
   }
 
-  .dark-mode .nav-menu {
+  .dark-mode .nav-drawer {
     background: var(--navbar-dark-bg, #1a1a1a);
   }
 
-  .nav-menu.active {
+  .nav-drawer.active {
     right: 0;
   }
 
-  .nav-menu li a {
-    font-size: 1.2rem;
+  .navbar-overlay.active {
     display: block;
-    padding: 0.5rem 0;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    z-index: 999;
+  }
+
+  .nav-menu {
+    flex: unset;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.35rem;
+  }
+
+  .nav-menu li {
+    width: 100%;
+  }
+
+  .nav-menu li a {
+    display: block;
+    padding: 0.85rem 0.25rem;
+    font-size: 1rem;
   }
 
   .nav-buttons {
+    flex-direction: column;
+    align-items: stretch;
     gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
   }
 
   .btn-login,
   .btn-register {
-    padding: 0.4rem 1rem;
-    font-size: 0.85rem;
+    width: 100%;
+    text-align: center;
+    padding: 0.65rem 1rem;
+    font-size: 0.9rem;
   }
 }
 
@@ -296,16 +324,16 @@
   }
 
   .nav-buttons {
-    gap: 0.5rem;
+    gap: 0.6rem;
   }
 
   .btn-login,
   .btn-register {
-    padding: 0.35rem 0.8rem;
+    padding: 0.6rem 0.8rem;
     font-size: 0.8rem;
   }
 
-  .nav-menu {
+  .nav-drawer {
     width: 85%;
     padding: 70px 1.5rem 1.5rem;
   }
@@ -317,7 +345,7 @@
 
 /* Landscape Mode for Mobile */
 @media screen and (max-width: 768px) and (orientation: landscape) {
-  .nav-menu {
+  .nav-drawer {
     padding: 60px 1.5rem 1.5rem;
     overflow-y: auto;
   }
@@ -327,18 +355,3 @@
   }
 }
 
-/* Overlay for mobile menu */
-.menu-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-}
-
-.menu-overlay.active {
-  display: block;
-}

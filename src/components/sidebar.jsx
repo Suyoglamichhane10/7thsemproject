@@ -4,7 +4,7 @@ import {
   FaSignOutAlt, FaBrain, FaPlus, FaList, FaChalkboardTeacher, 
   FaUsers, FaUpload, FaCog, FaUserCog, 
   FaFolderOpen, FaBars, FaTimes, FaChevronLeft, FaChevronRight,
-  FaUser
+  FaUser, FaTasks
 } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import './Sidebar.css';
@@ -133,6 +133,10 @@ function Sidebar() {
                 <FaFolderOpen />
                 {!isCollapsed && <span>Study Materials</span>}
               </Link>
+              <Link to="/student/assignments" className={`sidebar-link ${isActive('/student/assignments')}`} onClick={closeSidebar}>
+                <FaTasks />
+                {!isCollapsed && <span>Assignments</span>}
+              </Link>
                <Link to="/profile" className={`sidebar-link ${isActive('/profile')}`} onClick={closeSidebar}>
                 <FaUser />
                 {!isCollapsed && <span>My Profile</span>}
@@ -156,6 +160,10 @@ function Sidebar() {
               <Link to="/teacher/students" className={`sidebar-link ${isActive('/teacher/students')}`} onClick={closeSidebar}>
                 <FaUsers />
                 {!isCollapsed && <span>Students</span>}
+              </Link>
+              <Link to="/teacher/assignments" className={`sidebar-link ${isActive('/teacher/assignments')}`} onClick={closeSidebar}>
+                <FaTasks />
+                {!isCollapsed && <span>Assignments</span>}
               </Link>
               {!isCollapsed && <div className="sidebar-section">📝 Quiz Management</div>}
               <Link to="/create-quiz" className={`sidebar-link ${isActive('/create-quiz')}`} onClick={closeSidebar}>

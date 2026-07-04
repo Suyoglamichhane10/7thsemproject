@@ -26,6 +26,7 @@ app.use('/api/admin', require('./routes/adminRoutes'))
 app.use('/api/quiz', require('./routes/quizRoutes'))
 app.use('/api/materials', require('./routes/materialRoutes'))
 app.use('/api/feedback', require('./routes/feedbackRoutes'))
+app.use('/api/assignments', require('./routes/assignmentRoutes'))
 
 app.get('/', (req, res) => {
   res.send('StudyNep API is running...');

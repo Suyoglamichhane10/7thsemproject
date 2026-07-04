@@ -86,8 +86,8 @@
 }
 
 .stat-card.overdue {
-  background: #fee2e2;
-  border-color: #dc2626;
+  background: #f3f4f6;
+  border-color: #0c0c0d;
 }
 
 .stat-icon {
@@ -103,7 +103,7 @@
 .stat-icon.blue { background: #dbeafe; color: #1e3a8a; }
 .stat-icon.green { background: #d1fae5; color: #10b981; }
 .stat-icon.orange { background: #fef3c7; color: #f59e0b; }
-.stat-icon.red { background: #fee2e2; color: #dc2626; }
+.stat-icon.black { background: #e5e7eb; color: #0c0c0d; }
 
 .stat-info {
   display: flex;
@@ -171,7 +171,7 @@
   align-items: center;
   gap: 1rem;
   transition: all 0.3s;
-  border: 1px solid #fed7aa;
+  border: 1px solid #e5e7eb;
 }
 
 .rec-item:hover {
@@ -180,8 +180,8 @@
 }
 
 .rec-item.urgent {
-  background: #fef2f2;
-  border-left: 4px solid #dc2626;
+  background: #f3f4f6;
+  border-left: 4px solid #0c0c0d;
 }
 
 .rec-rank {
@@ -229,7 +229,7 @@
   color: white;
 }
 
-.priority-badge.high { background: #dc2626; }
+.priority-badge.high { background: #e5e7eb; color: #0c0c0d; }
 .priority-badge.medium { background: #f59e0b; }
 .priority-badge.low { background: #10b981; }
 
@@ -242,8 +242,8 @@
 }
 
 .days-badge.urgent {
-  background: #fee2e2;
-  color: #dc2626;
+  background: #e5e7eb;
+  color: #0c0c0d;
 }
 
 .rec-action {
@@ -377,13 +377,13 @@
   transition: width 0.3s;
 }
 
-.subject-card.priority-high::before { background: #dc2626; }
+.subject-card.priority-high::before { background: #0c0c0d; }
 .subject-card.priority-medium::before { background: #f59e0b; }
 .subject-card.priority-low::before { background: #10b981; }
 
 .subject-card.overdue {
-  background: #fef2f2;
-  border-color: #fecaca;
+  background: #f3f4f6;
+  border-color: #d1d5db;
 }
 
 .subject-card.completed {
@@ -442,7 +442,7 @@
   color: white;
 }
 
-.priority-tag.high { background: #dc2626; }
+.priority-tag.high { background: #e5e7eb; color: #0c0c0d; }
 .priority-tag.medium { background: #f59e0b; }
 .priority-tag.low { background: #10b981; }
 
@@ -465,8 +465,8 @@
 }
 
 .detail.days.urgent {
-  background: #fee2e2;
-  color: #dc2626;
+  background: #e5e7eb;
+  color: #0c0c0d;
 }
 
 .progress-section {
@@ -557,12 +557,12 @@
 }
 
 .delete-btn {
-  background: #fee2e2;
-  color: #b91c1c;
+  background: #e5e7eb;
+  color: #0c0c0d;
 }
 
 .delete-btn:hover {
-  background: #b91c1c;
+  background: #0c0c0d;
   color: white;
   transform: translateY(-2px);
 }
@@ -671,7 +671,7 @@
 }
 
 .close-btn:hover {
-  color: #dc2626;
+  color: #0c0c0d;
 }
 
 /* ===== FORM ===== */
@@ -733,7 +733,7 @@
 
 .cancel-btn {
   flex: 1;
-  background: #ef4444;
+  background: #0c0c0d;
   color: white;
   border: none;
   padding: 0.7rem;
@@ -771,7 +771,7 @@
 .error-container {
   text-align: center;
   padding: 3rem;
-  color: #dc2626;
+  color: #0c0c0d;
 }
 
 .error-icon {

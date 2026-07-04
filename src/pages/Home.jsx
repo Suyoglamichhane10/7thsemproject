@@ -12,7 +12,6 @@ function Home() {
           <p>Your complete study companion for +2 and Bachelor students in Nepal</p>
           <div className="hero-buttons">
             <Link to="/register" className="btn-primary">Get Started Free</Link>
-            <Link to="/resources" className="btn-secondary">Browse Resources</Link>
           </div>
 
           {/* Hero Stats - NEW */}
@@ -124,7 +123,7 @@ function Home() {
       </section>
 
       {/* Popular Resources Preview - NEW */}
-      <section className="popular-resources">
+      {/* <section className="popular-resources">
         <h2>Popular Resources</h2>
         <div className="resource-previews">
           <div className="resource-preview">
@@ -139,8 +138,8 @@ function Home() {
             <div className="resource-icon">💻</div>
             <h4>CSIT Materials</h4>
             <p>All semester notes, past questions, projects</p>
-            <Link to="/resources" className="resource-link">Browse →</Link>
-          </div>
+            <Link to="/resources" className="resource-link">Browse →</Link> */}
+          {/* </div>
           <div className="resource-preview">
             <span className="resource-badge">📝 New</span>
             <div className="resource-icon">📖</div>
@@ -149,7 +148,7 @@ function Home() {
             <Link to="/resources" className="resource-link">Browse →</Link>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Testimonials Section */}
       <section className="testimonials">

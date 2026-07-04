@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
 // Import your image from assets folder
@@ -6,11 +7,13 @@ import navIcon from '../assets/l.png';
 
 function Navbar() {
   const { user, logout } = useAuth();
+  const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const commonLinks = [
     { label: 'Home', path: '/' },
     { label: 'About', path: '/about' },
-    { label: 'Resources', path: '/resources' },
+    // { label: 'Resources', path: '/resources' },
     { label: 'FAQ', path: '/faq' },
     { label: 'Contact', path: '/contact' },
   ];
@@ -45,36 +48,75 @@ function Navbar() {
       ]
     : commonLinks;
 
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? 'hidden' : 'unset';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen]);
+
+  const closeMenu = () => setIsMenuOpen(false);
+
+  const handleLogout = () => {
+    logout();
+    closeMenu();
+  };
+
   return (
     <nav className="navbar">
+      <div
+        className={`navbar-overlay ${isMenuOpen ? 'active' : ''}`}
+        onClick={closeMenu}
+        aria-hidden="true"
+      ></div>
       <div className="nav-container">
         <div className="logo">
-          <Link to="/" className="logo-link">
+          <Link to="/" className="logo-link" onClick={closeMenu}>
             <div className="logo-content">
               <h1 className="brand-text">Study<span>Nep</span></h1>
               <img src={navIcon} alt="StudyNep Logo" className="nav-icon" />
             </div>
           </Link>
         </div>
-        <ul className="nav-menu">
-          {navLinks.map((link) => (
-            <li key={link.path}>
-              <Link to={link.path}>{link.label}</Link>
-            </li>
-          ))}
-        </ul>
-        <div className="nav-buttons">
-          {user ? (
-            <>
-              <Link to="/profile" className="btn-login">Profile</Link>
-              <button className="btn-register" onClick={logout}>Logout</button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="btn-login">Login</Link>
-              <Link to="/register" className="btn-register">Sign Up</Link>
-            </>
-          )}
+
+        <button
+          className={`nav-toggle ${isMenuOpen ? 'open' : ''}`}
+          type="button"
+          onClick={() => setIsMenuOpen((open) => !open)}
+          aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={isMenuOpen}
+          aria-controls="primary-navigation"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <div className={`nav-drawer ${isMenuOpen ? 'active' : ''}`} id="primary-navigation">
+          <ul className="nav-menu">
+            {navLinks.map((link) => (
+              <li key={link.path}>
+                <Link to={link.path} onClick={closeMenu}>{link.label}</Link>
+              </li>
+            ))}
+          </ul>
+          <div className="nav-buttons">
+            {user ? (
+              <>
+                <Link to="/profile" className="btn-login" onClick={closeMenu}>Profile</Link>
+                <button className="btn-register" onClick={handleLogout}>Logout</button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="btn-login" onClick={closeMenu}>Login</Link>
+                <Link to="/register" className="btn-register" onClick={closeMenu}>Sign Up</Link>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </nav>

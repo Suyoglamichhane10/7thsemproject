@@ -284,7 +284,7 @@ function Studyplanner() {
         <div className="stat-card"><div className="stat-icon blue"><FaBookOpen /></div><div className="stat-info"><span className="stat-value">{totalSubjects}</span><span className="stat-label">Total Subjects</span></div></div>
         <div className="stat-card"><div className="stat-icon green"><FaCheckCircle /></div><div className="stat-info"><span className="stat-value">{completedCount}</span><span className="stat-label">Completed</span></div></div>
         <div className="stat-card"><div className="stat-icon orange"><FaFire /></div><div className="stat-info"><span className="stat-value">{activeCount}</span><span className="stat-label">Active</span></div></div>
-        <div className="stat-card"><div className="stat-icon red"><FaFlag /></div><div className="stat-info"><span className="stat-value">{highPriorityCount}</span><span className="stat-label">High Priority</span></div></div>
+        <div className="stat-card"><div className="stat-icon black"><FaFlag /></div><div className="stat-info"><span className="stat-value">{highPriorityCount}</span><span className="stat-label">High Priority</span></div></div>
         <div className="stat-card urgent"><div className="stat-icon"><FaBell /></div><div className="stat-info"><span className="stat-value">{urgentCount}</span><span className="stat-label">Urgent</span></div></div>
         {overdueCount > 0 && <div className="stat-card overdue"><div className="stat-icon"><FaHourglassHalf /></div><div className="stat-info"><span className="stat-value">{overdueCount}</span><span className="stat-label">Overdue</span></div></div>}
       </div>
